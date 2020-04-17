@@ -1,6 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+
+import './typography.dart';
 
 class LiquidAlertTextColors {
   final Color primaryColor;
@@ -51,12 +52,14 @@ class LiquidAlertTheme {
   final LiquidAlertBackgroundColors backgroundColors;
   final EdgeInsets padding;
   final EdgeInsets margin;
+  final EdgeInsets headingPadding;
 
   const LiquidAlertTheme({
     this.textColors = const LiquidAlertTextColors(),
     this.backgroundColors = const LiquidAlertBackgroundColors(),
     this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
     this.margin = const EdgeInsets.only(bottom: 12.0),
+    this.headingPadding = const EdgeInsets.only(bottom: 8.0),
   });
 }
 
@@ -188,12 +191,102 @@ class LiquidGradients {
   });
 }
 
+class LiquidTypographyTheme {
+  final LTextStyle h1;
+  final LTextStyle h2;
+  final LTextStyle h3;
+  final LTextStyle h4;
+  final LTextStyle h5;
+  final LTextStyle h6;
+  final LTextStyle p;
+  final LTextStyle small;
+  final LTextStyle display1;
+  final LTextStyle display2;
+  final LTextStyle display3;
+  final LTextStyle display4;
+  final LTextStyle lead;
+  final LTextStyle quote;
+  final LTextStyle quoteFooter;
+
+  const LiquidTypographyTheme({
+    this.h1 = const LTextStyle(
+      fontSize: 40.0,
+      fontWeight: FontWeight.w500,
+      height: 1.2,
+    ),
+    this.h2 = const LTextStyle(
+      fontSize: 32.0,
+      fontWeight: FontWeight.w500,
+      height: 1.2,
+    ),
+    this.h3 = const LTextStyle(
+      fontSize: 28.0,
+      fontWeight: FontWeight.w500,
+      height: 1.2,
+    ),
+    this.h4 = const LTextStyle(
+      fontSize: 24.0,
+      fontWeight: FontWeight.w500,
+      height: 1.2,
+    ),
+    this.h5 = const LTextStyle(
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
+      height: 1.2,
+    ),
+    this.h6 = const LTextStyle(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w500,
+      height: 1.2,
+    ),
+    this.p = const LTextStyle(
+      fontSize: 14.0,
+    ),
+    this.small = const LTextStyle(
+      fontSize: 12.8,
+    ),
+    this.display1 = const LTextStyle(
+      fontSize: 96.0,
+      fontWeight: FontWeight.w300,
+      height: 1.2,
+    ),
+    this.display2 = const LTextStyle(
+      fontSize: 88.0,
+      fontWeight: FontWeight.w300,
+      height: 1.2,
+    ),
+    this.display3 = const LTextStyle(
+      fontSize: 72.0,
+      fontWeight: FontWeight.w300,
+      height: 1.2,
+    ),
+    this.display4 = const LTextStyle(
+      fontSize: 56.0,
+      fontWeight: FontWeight.w300,
+      height: 1.2,
+    ),
+    this.lead = const LTextStyle(
+      fontSize: 20.0,
+      fontWeight: FontWeight.w300,
+      height: 1.2,
+    ),
+    this.quote = const LTextStyle(
+      fontSize: 20.0,
+    ),
+    this.quoteFooter = const LTextStyle(
+      fontSize: 16.0,
+      color: Color(0xFF6c757d),
+    ),
+  });
+}
+
 class LiquidThemeData {
   final LiquidButtonColors buttonColors;
   final LiquidTextColors textColors;
   final LiquidBackgroundColors backgroundColors;
   final LiquidGradients gradients;
   final LiquidAlertTheme alertTheme;
+  final LiquidTypographyTheme typographyTheme;
 
   const LiquidThemeData({
     this.buttonColors = const LiquidButtonColors(),
@@ -201,6 +294,7 @@ class LiquidThemeData {
     this.backgroundColors = const LiquidBackgroundColors(),
     this.gradients = const LiquidGradients(),
     this.alertTheme = const LiquidAlertTheme(),
+    this.typographyTheme = const LiquidTypographyTheme(),
   });
 }
 

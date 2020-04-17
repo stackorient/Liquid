@@ -16,15 +16,25 @@ enum AlertType {
 class LAlert extends StatelessWidget {
   final AlertType type;
   final String text;
+  final String heading;
   final List<Uri> urls;
   final EdgeInsets margin;
+  final EdgeInsets headingPadding;
+  final LTextStyle headingStyle;
+  final LTextStyle style;
+  final List<Widget> bottom;
 
   const LAlert(
     this.text, {
+    this.heading,
     Key key,
     this.type = AlertType.primary,
     this.urls,
     this.margin,
+    this.headingPadding,
+    this.style,
+    this.headingStyle,
+    this.bottom,
   })  : assert(text != null),
         super(key: key);
 
@@ -80,12 +90,40 @@ class LAlert extends StatelessWidget {
           color: colors[1].withOpacity(0.1),
         ),
       ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: colors[1],
-        ),
-      ),
+      child: _buildChild(theme, colors),
     );
+  }
+
+  Widget _buildChild(LiquidThemeData theme, List<Color> colors) {
+    final _text = Text(
+      text,
+      style: style ?? theme.typographyTheme.p.withColor(colors[1]),
+    );
+
+    if (heading != null || bottom != null) {
+      final _heading = heading != null
+          ? Padding(
+              padding: headingPadding ?? theme.alertTheme.headingPadding,
+              child: Text(
+                heading,
+                style: headingStyle ??
+                    theme.typographyTheme.h4.withColor(colors[1]),
+              ),
+            )
+          : Container();
+
+      final _childrens = <Widget>[
+        heading != null ? _heading : Container(),
+        _text,
+      ];
+
+      return LColumn(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: _childrens + (bottom ?? []),
+      );
+    } else {
+      return _text;
+    }
   }
 }
