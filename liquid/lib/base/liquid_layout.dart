@@ -123,7 +123,13 @@ class LColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LColumnRaw(children: _buildChildren(context));
+    return LColumnRaw(
+        mainAxisAlignment: mainAxisAlignment,
+        mainAxisSize: mainAxisSize,
+        crossAxisAlignment: crossAxisAlignment,
+        textDirection: textDirection,
+        textBaseline: textBaseline,
+        children: _buildChildren(context));
   }
 
   List<Widget> _buildChildren(context) {

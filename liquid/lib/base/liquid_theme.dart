@@ -2,6 +2,50 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+class LiquidAlertTextColors {
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
+
+  const LiquidAlertTextColors({
+    this.primaryColor = const Color(0xFF004085),
+    this.secondaryColor = const Color(0xFF383d41),
+    this.success = const Color(0xFF155724),
+    this.danger = const Color(0xFF721c24),
+    this.warning = const Color(0xFF856404),
+    this.info = const Color(0xFF0c5460),
+    this.light = const Color(0xFF818182),
+    this.dark = const Color(0xFF1b1e21),
+  });
+}
+
+class LiquidAlertBackgroundColors {
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
+
+  const LiquidAlertBackgroundColors({
+    this.primaryColor = const Color(0xFFcce5ff),
+    this.secondaryColor = const Color(0xFFe2e3e5),
+    this.success = const Color(0xFFd4edda),
+    this.danger = const Color(0xFFf8d7da),
+    this.warning = const Color(0xFFfff3cd),
+    this.info = const Color(0xFFd1ecf1),
+    this.light = const Color(0xFFfefefe),
+    this.dark = const Color(0xFFd6d8d9),
+  });
+}
+
 class LiquidButtonColors {
   final Color primaryColor;
   final Color secondaryColor;
@@ -135,12 +179,16 @@ class LiquidThemeData {
   final LiquidTextColors textColors;
   final LiquidBackgroundColors backgroundColors;
   final LiquidGradients gradients;
+  final LiquidAlertTextColors alertTextColors;
+  final LiquidAlertBackgroundColors alertBackgroundColors;
 
   const LiquidThemeData({
     this.buttonColors = const LiquidButtonColors(),
     this.textColors = const LiquidTextColors(),
     this.backgroundColors = const LiquidBackgroundColors(),
     this.gradients = const LiquidGradients(),
+    this.alertTextColors = const LiquidAlertTextColors(),
+    this.alertBackgroundColors = const LiquidAlertBackgroundColors(),
   });
 }
 

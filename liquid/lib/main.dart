@@ -2,7 +2,7 @@ import 'package:flutter/rendering.dart';
 import 'package:liquid/liquid.dart';
 
 void main() {
-  debugPaintSizeEnabled = true;
+  // debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 
@@ -40,8 +40,12 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           LRow(children: [
             LColumn(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Hello World1"),
+                LAlert(
+                  "Happy day",
+                  type: AlertType.warning,
+                ),
               ],
             ),
             LColumn(
