@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 
 import './typography.dart';
 
+// class LiquidCorouselTheme {
+//   final EdgeInsets captionPadding;
+//   final EdgeInsets slideMargin;
+
+// }
+
 class LiquidAlertTextColors {
   final Color primaryColor;
   final Color secondaryColor;

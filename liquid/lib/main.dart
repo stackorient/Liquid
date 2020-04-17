@@ -47,30 +47,63 @@ class _MyHomePageState extends State<MyHomePage> {
                   LAlert(
                     "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
                     heading: "Well done!",
-                    type: AlertType.success,
+                    type: LAlertType.success,
                   ),
-                  BreadCrumbs(
+                  LBreadCrumbs(
                     items: [
-                      BreadCrumbItem(
+                      LBreadCrumbItem(
                         "Home",
                         onTap: () {},
                       ),
-                      BreadCrumbItem(
+                      LBreadCrumbItem(
                         "Library",
                         onTap: () {},
                       ),
-                      BreadCrumbItem(
+                      LBreadCrumbItem(
                         "Data",
                         active: true,
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
               LColumn(
                 xs: 7,
                 children: <Widget>[
-                  Text("Hello world"),
+                  LCorousel(
+                    withCaption: false,
+                    autoScroll: true,
+                    withControls: false,
+                    canScroll: true,
+                    showIndicator: false,
+                    items: [
+                      LCorouselItem(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.0),
+                          child: Image.network(
+                            "https://source.unsplash.com/random/?mountain",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        caption: LCorouselCaption(
+                          titleText: "First Slide",
+                          subTitleText: "Cool Work",
+                        ),
+                      ),
+                      LCorouselItem(
+                        child: Image.network(
+                          "https://source.unsplash.com/random/?girl",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      LCorouselItem(
+                        child: Image.network(
+                          "https://source.unsplash.com/random/",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ]),
