@@ -36,56 +36,75 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         elevation: 0,
       ),
-      body: LColumn(
-        children: <Widget>[
-          LRow(children: [
-            LColumn(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                LAlert(
-                  "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
-                  heading: "Well done!",
-                  type: AlertType.success,
-                ),
-              ],
-            ),
-            LColumn(
-              xs: 7,
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-          ]),
-          LRow(children: [
-            LColumn(
-              xl: 4,
-              children: <Widget>[
-                Text("Hello World"),
-              ],
-            ),
-            LColumn(
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-            LColumn(
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-            LColumn(
-              xl: 3,
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-            LColumn(
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-          ]),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: LColumn(
+          children: <Widget>[
+            LRow(children: [
+              LColumn(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  LAlert(
+                    "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
+                    heading: "Well done!",
+                    type: AlertType.success,
+                  ),
+                  BreadCrumbs(
+                    items: [
+                      BreadCrumbItem(
+                        "Home",
+                        onTap: () {},
+                      ),
+                      BreadCrumbItem(
+                        "Library",
+                        onTap: () {},
+                      ),
+                      BreadCrumbItem(
+                        "Data",
+                        active: true,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              LColumn(
+                xs: 7,
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+            ]),
+            LRow(children: [
+              LColumn(
+                xl: 4,
+                children: <Widget>[
+                  Text("Hello World"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                xl: 3,
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+            ]),
+          ],
+        ),
       ),
     );
   }
