@@ -50,9 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             LColumn(
-              xs: 7,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Hello world"),
+                LBadges(
+                  "Hello",
+                  shape: BadgesShape.standard,
+                  type: BadgesType.dark,
+                ),
               ],
             ),
           ]),
