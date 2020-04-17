@@ -42,10 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
             LColumn(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                LAlert(
-                  "Happy day",
-                  type: AlertType.warning,
-                ),
+                LAlert("Happy day"),
               ],
             ),
             LColumn(

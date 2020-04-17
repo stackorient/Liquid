@@ -17,18 +17,20 @@ class LAlert extends StatelessWidget {
   final AlertType type;
   final String text;
   final List<Uri> urls;
+  final EdgeInsets margin;
 
   const LAlert(
     this.text, {
     Key key,
     this.type = AlertType.primary,
     this.urls,
+    this.margin,
   })  : assert(text != null),
         super(key: key);
 
   List<Color> _getColors(LiquidThemeData themeData) {
-    final bg = themeData.alertBackgroundColors;
-    final tc = themeData.alertTextColors;
+    final bg = themeData.alertTheme.backgroundColors;
+    final tc = themeData.alertTheme.textColors;
 
     switch (type) {
       case AlertType.primary:
@@ -67,10 +69,8 @@ class LAlert extends StatelessWidget {
     final theme = LiquidTheme.of(context);
     final colors = _getColors(theme);
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20.0,
-        vertical: 12.0,
-      ),
+      margin: margin ?? theme.alertTheme.margin,
+      padding: theme.alertTheme.padding,
       decoration: BoxDecoration(
         color: colors[0],
         borderRadius: BorderRadius.circular(4.0),

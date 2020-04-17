@@ -46,6 +46,20 @@ class LiquidAlertBackgroundColors {
   });
 }
 
+class LiquidAlertTheme {
+  final LiquidAlertTextColors textColors;
+  final LiquidAlertBackgroundColors backgroundColors;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
+
+  const LiquidAlertTheme({
+    this.textColors = const LiquidAlertTextColors(),
+    this.backgroundColors = const LiquidAlertBackgroundColors(),
+    this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+    this.margin = const EdgeInsets.only(bottom: 12.0),
+  });
+}
+
 class LiquidButtonColors {
   final Color primaryColor;
   final Color secondaryColor;
@@ -179,16 +193,14 @@ class LiquidThemeData {
   final LiquidTextColors textColors;
   final LiquidBackgroundColors backgroundColors;
   final LiquidGradients gradients;
-  final LiquidAlertTextColors alertTextColors;
-  final LiquidAlertBackgroundColors alertBackgroundColors;
+  final LiquidAlertTheme alertTheme;
 
   const LiquidThemeData({
     this.buttonColors = const LiquidButtonColors(),
     this.textColors = const LiquidTextColors(),
     this.backgroundColors = const LiquidBackgroundColors(),
     this.gradients = const LiquidGradients(),
-    this.alertTextColors = const LiquidAlertTextColors(),
-    this.alertBackgroundColors = const LiquidAlertBackgroundColors(),
+    this.alertTheme = const LiquidAlertTheme(),
   });
 }
 
