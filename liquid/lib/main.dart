@@ -201,26 +201,25 @@ class _MyHomePageState extends State<MyHomePage> {
               LColumn(
                 children: <Widget>[
                   LBadges(
-                  "Hello",
-                  shape: BadgesShape.standard,
-                  type: BadgesType.dark,
-                ),
-                  LCard(
-                  color: Colors.white,
-                  elevation: 2.0,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(color: Colors.black26),
-                  body: LCardBody(
-                    title: "Hello",
-                    //
+                    "Hello",
+                    shape: BadgesShape.standard,
+                    type: BadgesType.dark,
                   ),
-                    LButton(
-                  type: ButtonType.success,
-                  shape: ButtonShape.standard,
-                  text: "hello",
-                  onPressed: () {},
-                ),
-                ),
+                  LButton(
+                    type: ButtonType.success,
+                    shape: ButtonShape.standard,
+                    text: "hello",
+                    onPressed: () {},
+                  ),
+                  LCard(
+                    color: Colors.white,
+                    elevation: 2.0,
+                    borderRadius: BorderRadius.circular(5.0),
+                    border: Border.all(color: Colors.black26),
+                    body: LCardBody(
+                      title: "Hello",
+                    ),
+                  ),
                 ],
               ),
               LColumn(
