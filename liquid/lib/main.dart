@@ -1,8 +1,9 @@
 import 'package:flutter/rendering.dart';
+import 'package:liquid/components/buttons.dart';
 import 'package:liquid/liquid.dart';
 
 void main() {
-  // debugPaintSizeEnabled = true;
+  // debugPaintSizeEnabled != true;
   runApp(MyApp());
 }
 
@@ -62,9 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ]),
           LRow(children: [
             LColumn(
-              xl: 4,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Hello World"),
+                LButton(
+                  type: ButtonType.success,
+                  shape: ButtonShape.standard,
+                  text: "hello",
+                  onPressed: () {},
+                ),
               ],
             ),
             LColumn(

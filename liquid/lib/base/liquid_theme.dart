@@ -121,6 +121,23 @@ class LiquidBadgeTheme {
   });
 }
 
+class LiquidButtonTheme {
+  final LiquidButtonColors buttonColors;
+  final LiquidTextColors textColors;
+  final EdgeInsets padding;
+  final EdgeInsets smallPadding;
+  final EdgeInsets margin;
+
+  const LiquidButtonTheme({
+    this.buttonColors = const LiquidButtonColors(),
+    this.textColors = const LiquidTextColors(),
+    this.padding = const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+    this.smallPadding =
+        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+    this.margin = const EdgeInsets.only(bottom: 0.0),
+  });
+}
+
 class LiquidButtonColors {
   final Color primaryColor;
   final Color secondaryColor;
@@ -345,6 +362,7 @@ class LiquidThemeData {
   final LiquidGradients gradients;
   final LiquidAlertTheme alertTheme;
   final LiquidBadgeTheme badgeTheme;
+  final LiquidButtonTheme buttonTheme;
   final LiquidTypographyTheme typographyTheme;
 
   const LiquidThemeData({
@@ -354,6 +372,7 @@ class LiquidThemeData {
     this.gradients = const LiquidGradients(),
     this.alertTheme = const LiquidAlertTheme(),
     this.badgeTheme = const LiquidBadgeTheme(),
+    this.buttonTheme = const LiquidButtonTheme(),
     this.typographyTheme = const LiquidTypographyTheme(),
   });
 }
