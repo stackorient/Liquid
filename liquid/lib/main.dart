@@ -88,6 +88,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         caption: LCorouselCaption(
                           titleText: "First Slide",
                           subTitleText: "Cool Work Cool Work Cool",
+                          actions: <Widget>[
+                            RaisedButton(
+                              child: Text("press me"),
+                              onPressed: () => showLModel(context),
+                            )
+                          ],
                         ),
                       ),
                       LCorouselItem(
@@ -111,7 +117,15 @@ class _MyHomePageState extends State<MyHomePage> {
               LColumn(
                 xl: 4,
                 children: <Widget>[
-                  Text("Hello World"),
+                  LModel(
+                    header: LModelHeader(
+                      title: "Hello World",
+                      onClose: () {},
+                    ),
+                    body: LModelBody(
+                      child: Text("Hello World"),
+                    ),
+                  ),
                 ],
               ),
               LColumn(
