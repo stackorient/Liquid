@@ -132,31 +132,35 @@ class LButton extends StatelessWidget {
     final _color = color ?? getColor(theme);
     final shape = _getShape(theme, _color);
 
-    return Material(
-      color: onPressed == null
-          ? _color.withOpacity(0.6)
-          : _color.withOpacity(0.92),
-      shape: shape,
-      elevation: elevation,
-      child: InkWell(
-        autofocus: autofocus,
-        borderRadius: BorderRadius.circular(_getRadius()),
-        canRequestFocus: canRequestFocus,
-        customBorder: customBorder,
-        enableFeedback: enableFeedback,
-        excludeFromSemantics: excludeFromSemantics,
-        focusColor: focusColor,
-        focusNode: focusNode,
-        highlightColor: _color,
-        onFocusChange: onFocusChange,
-        onHighlightChanged: onHighlightChanged,
-        onHover: onHover,
-        onTap: onPressed,
-        child: Padding(
-            padding: small
-                ? theme.buttonTheme.smallPadding
-                : theme.buttonTheme.padding,
-            child: _buildChild(theme, textColor ?? Colors.white)),
+    return Container(
+      margin: margin,
+      child: Material(
+        color: onPressed == null
+            ? _color.withOpacity(0.6)
+            : _color.withOpacity(0.92),
+        shape: shape,
+        elevation: elevation,
+        child: InkWell(
+          autofocus: autofocus,
+          borderRadius: BorderRadius.circular(_getRadius()),
+          canRequestFocus: canRequestFocus,
+          customBorder: customBorder,
+          enableFeedback: enableFeedback,
+          excludeFromSemantics: excludeFromSemantics,
+          focusColor: focusColor,
+          focusNode: focusNode,
+          highlightColor: _color,
+          onFocusChange: onFocusChange,
+          onHighlightChanged: onHighlightChanged,
+          onHover: onHover,
+          onTap: onPressed,
+          child: Padding(
+              padding: padding ??
+                  (small
+                      ? theme.buttonTheme.smallPadding
+                      : theme.buttonTheme.padding),
+              child: _buildChild(theme, textColor ?? Colors.white)),
+        ),
       ),
     );
   }

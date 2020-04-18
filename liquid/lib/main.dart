@@ -32,40 +32,30 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _showModel() {
-    showLModel(context, builder: (context) {
+    showLModel(context,
+        positionTween: Tween(begin: Offset(0, 10.0), end: Offset.zero),
+        barrierDismissable: false, builder: (context) {
       return LModel(
-        positon: MainAxisAlignment.start,
+        positon: MainAxisAlignment.end,
         margin: EdgeInsets.all(20.0),
         header: LModelHeader(
-          title: "Hello World",
+          title: "Terms & Conditions",
           onClose: () {},
         ),
         body: LModelBody(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
-            child: Text("Modal body text goes here."),
+            child: SelectableText(
+                """Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesencibus dolor auctor.Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla."""),
           ),
         ),
         footer: LModelFooter(
           actions: <Widget>[
-            SizedBox(
-              height: 35.0,
-              child: FlatButton(
-                color: LiquidTheme.of(context).textColors.muted,
-                textColor: Colors.white,
-                child: Text("Close"),
-                onPressed: () {},
-              ),
-            ),
-            SizedBox(width: 10.0),
-            SizedBox(
-              height: 35.0,
-              child: FlatButton(
-                color: LiquidTheme.of(context).buttonColors.primaryColor,
-                textColor: Colors.white,
-                child: Text("Save changes"),
-                onPressed: _showModel,
-              ),
+            LButton(
+              text: "Accept",
+              onPressed: () {},
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             ),
           ],
         ),
@@ -133,8 +123,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           titleText: "First Slide",
                           subTitleText: "Cool Work Cool Work Cool",
                           actions: <Widget>[
-                            RaisedButton(
-                                child: Text("press me"), onPressed: _showModel)
+                            LButton(
+                              text: "Accept",
+                              onPressed: _showModel,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              margin: const EdgeInsets.all(5.0),
+                            ),
                           ],
                         ),
                       ),
@@ -199,18 +194,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               LColumn(
+                sm: 1,
                 children: <Widget>[
                   LBadges(
                     "Hello",
                     shape: BadgesShape.standard,
                     type: BadgesType.dark,
                   ),
+                ],
+              ),
+              LColumn(
+                sm: 1,
+                children: <Widget>[
                   LButton(
                     type: ButtonType.success,
                     shape: ButtonShape.standard,
                     text: "hello",
                     onPressed: () {},
                   ),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
                   LCard(
                     color: Colors.white,
                     elevation: 2.0,
@@ -220,21 +225,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       title: "Hello",
                     ),
                   ),
-                ],
-              ),
-              LColumn(
-                children: <Widget>[
-                  Text("Hello world"),
-                ],
-              ),
-              LColumn(
-                children: <Widget>[
-                  Text("Hello world"),
-                  SizedBox(
-                    height: 60.0,
-                    child: Center(child: Text("hello world")),
-                  ),
-                  Text("hello world"),
                 ],
               ),
             ]),

@@ -151,7 +151,10 @@ class LModel extends StatelessWidget {
   final LModelFooter footer;
   final EdgeInsets margin;
   final MainAxisAlignment positon;
-  final Tween<Offset> offsetTween;
+  final bool expand;
+
+  // expand need to be true to use width
+  final double width;
 
   LModel({
     Key key,
@@ -160,7 +163,8 @@ class LModel extends StatelessWidget {
     this.footer,
     this.margin,
     this.positon,
-    this.offsetTween,
+    this.expand,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -168,9 +172,10 @@ class LModel extends StatelessWidget {
     return SafeArea(
       child: Column(
         mainAxisAlignment: positon ?? MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            width: 498.0,
+            width: (expand ?? false) ? width : 498.0,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(4.0),
@@ -231,31 +236,41 @@ class _LAnimatedModelState extends State<LAnimatedModel>
   @override
   Widget build(BuildContext context) {
     _controller.forward();
-    return GestureDetector(
-      onTap: () async => await closeModel(),
-      child: Material(
-        color: widget.backdropColor ?? Colors.black38,
-        child: SlideTransition(
-          position: (widget.positionTween ??
-                  Tween(begin: Offset(0.0, -10.0), end: Offset.zero))
-              .animate(
-            CurvedAnimation(
-              parent: _controller,
-              curve: Curves.fastLinearToSlowEaseIn,
-            ),
+    final size = MediaQuery.of(context).size;
+    return Material(
+      color: widget.backdropColor ?? Colors.black38,
+      child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: size.height,
           ),
-          child: FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                parent: _controller,
-                curve: Curves.ease,
+          child: GestureDetector(
+            onTap: widget.barrierDismissable
+                ? () async => await closeModel()
+                : null,
+            child: SlideTransition(
+              position: (widget.positionTween ??
+                      Tween(begin: Offset(0.0, -10.0), end: Offset.zero))
+                  .animate(
+                CurvedAnimation(
+                  parent: _controller,
+                  curve: Curves.fastLinearToSlowEaseIn,
+                ),
               ),
-            ),
-            child: Material(
-              color: widget.backdropColor ?? Colors.transparent,
-              child: GestureDetector(
-                onTap: () {}, // to prevent accedental closing
-                child: widget.model,
+              child: FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(
+                  CurvedAnimation(
+                    parent: _controller,
+                    curve: Curves.ease,
+                  ),
+                ),
+                child: Material(
+                  color: widget.backdropColor ?? Colors.transparent,
+                  child: GestureDetector(
+                    onTap: () {}, // to prevent accidental closing
+                    child: widget.model,
+                  ),
+                ),
               ),
             ),
           ),
