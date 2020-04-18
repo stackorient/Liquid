@@ -75,7 +75,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             LColumn(
               children: <Widget>[
-                Text("Hello world"),
+                LCard(
+                  color: Colors.white,
+                  elevation: 2.0,
+                  borderRadius: BorderRadius.circular(5.0),
+                  border: Border.all(color: Colors.black26),
+                  body: LCardBody(
+                    title: "Hello",
+                    //
+                  ),
+                ),
               ],
             ),
             LColumn(
