@@ -137,10 +137,10 @@ class LiquidButtonTheme {
   const LiquidButtonTheme({
     this.buttonColors = const LiquidButtonColors(),
     this.textColors = const LiquidTextColors(),
-    this.padding = const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
     this.smallPadding =
-        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-    this.margin = const EdgeInsets.only(bottom: 0.0),
+        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+    this.margin = const EdgeInsets.all(4.0),
   });
 }
 
