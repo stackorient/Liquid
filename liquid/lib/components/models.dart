@@ -18,6 +18,7 @@ class LModelDialog extends StatelessWidget {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           header ?? Container(),
           body ?? Container(),
@@ -31,20 +32,36 @@ class LModelDialog extends StatelessWidget {
 class LModelFooter extends StatelessWidget {
   final List<Widget> actions;
   final EdgeInsets padding;
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
+  final bool showSeperator;
 
   const LModelFooter({
     Key key,
     this.actions = const [],
     this.padding = const EdgeInsets.all(12.0),
+    this.mainAxisAlignment,
+    this.crossAxisAlignment,
+    this.showSeperator = true,
   })  : assert(actions != null),
         assert(padding != null),
+        assert(showSeperator != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: padding,
+      decoration: BoxDecoration(
+        border: Border(
+          top: showSeperator
+              ? BorderSide(color: Colors.black12)
+              : BorderSide.none,
+        ),
+      ),
       child: Row(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.end,
+        crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
         children: actions,
       ),
     );
@@ -97,7 +114,9 @@ class LModelHeader extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Colors.black12),
+          bottom: showSeperator
+              ? BorderSide(color: Colors.black12)
+              : BorderSide.none,
         ),
       ),
       child: Row(
@@ -111,7 +130,57 @@ class LModelHeader extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(20.0),
               child: Icon(Icons.close),
-              onTap: onClose,
+              onTap: () => _close(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _close(BuildContext context) async {
+    if (onClose != null) onClose();
+
+    await LAnimatedModel.of(context).closeModel();
+  }
+}
+
+class LModel extends StatelessWidget {
+  final LModelHeader header;
+  final LModelBody body;
+  final LModelFooter footer;
+  final EdgeInsets margin;
+  final MainAxisAlignment positon;
+  final Tween<Offset> offsetTween;
+
+  LModel({
+    Key key,
+    this.header,
+    this.body,
+    this.footer,
+    this.margin,
+    this.positon,
+    this.offsetTween,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        mainAxisAlignment: positon ?? MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: 498.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4.0),
+              border: Border.all(color: Colors.black12),
+            ),
+            margin: margin ?? const EdgeInsets.all(10.0),
+            child: LModelDialog(
+              header: header,
+              body: body,
+              footer: footer,
             ),
           ),
         ],
@@ -120,56 +189,112 @@ class LModelHeader extends StatelessWidget {
   }
 }
 
-class LModel extends StatelessWidget {
-  final LModelHeader header;
-  final LModelBody body;
-  final LModelFooter footer;
+class LAnimatedModel extends StatefulWidget {
+  final LModel model;
+  final Tween<Offset> positionTween;
+  final bool barrierDismissable;
+  final Color backdropColor;
 
-  const LModel({Key key, this.header, this.body, this.footer})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4.0),
-        border: Border.all(color: Colors.black12),
-      ),
-      child: LModelDialog(
-        header: header,
-        body: body,
-        footer: footer,
-      ),
-    );
-  }
-}
-
-class LModelManager {
-  const LModelManager();
-}
-
-class _LModelWrapper extends StatelessWidget {
-  final OverlayEntry entry;
-  final LModelManager _manager = const LModelManager();
-
-  const _LModelWrapper({Key key, @required this.entry})
-      : assert(entry != null),
+  const LAnimatedModel({
+    Key key,
+    @required this.model,
+    this.positionTween,
+    this.barrierDismissable,
+    this.backdropColor,
+  })  : assert(model != null),
         super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Container();
+  _LAnimatedModelState createState() => _LAnimatedModelState();
+
+  static _LAnimatedModelState of(BuildContext context) {
+    final _LAnimatedModelState animator =
+        context.findAncestorStateOfType<_LAnimatedModelState>();
+
+    return animator;
   }
 }
 
-void showLModel(BuildContext context) {
+class _LAnimatedModelState extends State<LAnimatedModel>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 250),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _controller.forward();
+    return GestureDetector(
+      onTap: () async => await closeModel(),
+      child: Material(
+        color: widget.backdropColor ?? Colors.black38,
+        child: SlideTransition(
+          position: (widget.positionTween ??
+                  Tween(begin: Offset(0.0, -10.0), end: Offset.zero))
+              .animate(
+            CurvedAnimation(
+              parent: _controller,
+              curve: Curves.fastLinearToSlowEaseIn,
+            ),
+          ),
+          child: FadeTransition(
+            opacity: Tween(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                parent: _controller,
+                curve: Curves.ease,
+              ),
+            ),
+            child: Material(
+              color: widget.backdropColor ?? Colors.transparent,
+              child: GestureDetector(
+                onTap: () {}, // to prevent accedental closing
+                child: widget.model,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _close() async => await _controller.reverse();
+
+  Future<void> closeModel() async {
+    await _close();
+    LiquidStateManager.of(context).popModel();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
+
+void showLModel(
+  BuildContext context, {
+  @required LModel Function(BuildContext context) builder,
+  Tween<Offset> positionTween,
+  Color backdropColor,
+  bool barrierDismissable,
+}) {
   final overlay = Overlay.of(context);
   final model = OverlayEntry(
-      builder: (context) {
-        return LModel();
-      },
-      opaque: true);
-
+    builder: (context) => LAnimatedModel(
+      model: builder(context),
+      positionTween: positionTween,
+      barrierDismissable: barrierDismissable,
+      backdropColor: backdropColor,
+    ),
+  );
   overlay.insert(model);
+  final _manager = LModelManager(model);
+  LiquidStateManager.of(context).pushModel(_manager);
 }

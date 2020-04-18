@@ -122,7 +122,7 @@ class LCorousel extends StatefulWidget {
     Key key,
     this.height,
     this.autoScroll = true,
-    this.interval = const Duration(seconds: 3),
+    this.interval = const Duration(seconds: 6),
     this.withControls = false,
     this.canScroll = true,
     this.showIndicator = false,
@@ -168,11 +168,18 @@ class _LCorouselState extends State<LCorousel> {
         curve: Curves.fastLinearToSlowEaseIn,
       );
     } else {
-      _nextPage();
+      _controller.nextPage(
+        duration: Duration(milliseconds: 500),
+        curve: Curves.fastLinearToSlowEaseIn,
+      );
     }
   }
 
   _previousPage() {
+    _timer.cancel();
+    setState(() {
+      _timer = Timer.periodic(widget.interval, _initAutoRun);
+    });
     _controller.previousPage(
       duration: Duration(milliseconds: 500),
       curve: Curves.fastLinearToSlowEaseIn,
@@ -180,6 +187,10 @@ class _LCorouselState extends State<LCorousel> {
   }
 
   _nextPage() {
+    _timer.cancel();
+    setState(() {
+      _timer = Timer.periodic(widget.interval, _initAutoRun);
+    });
     _controller.nextPage(
       duration: Duration(milliseconds: 500),
       curve: Curves.fastLinearToSlowEaseIn,

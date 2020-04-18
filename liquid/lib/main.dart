@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // builder: (context, child) => child,
     );
   }
 }
@@ -29,6 +30,48 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void _showModel() {
+    showLModel(context, builder: (context) {
+      return LModel(
+        positon: MainAxisAlignment.start,
+        margin: EdgeInsets.all(20.0),
+        header: LModelHeader(
+          title: "Hello World",
+          onClose: () {},
+        ),
+        body: LModelBody(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: Text("Modal body text goes here."),
+          ),
+        ),
+        footer: LModelFooter(
+          actions: <Widget>[
+            SizedBox(
+              height: 35.0,
+              child: FlatButton(
+                color: LiquidTheme.of(context).textColors.muted,
+                textColor: Colors.white,
+                child: Text("Close"),
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(width: 10.0),
+            SizedBox(
+              height: 35.0,
+              child: FlatButton(
+                color: LiquidTheme.of(context).buttonColors.primaryColor,
+                textColor: Colors.white,
+                child: Text("Save changes"),
+                onPressed: _showModel,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
         child: LColumn(
           children: <Widget>[
             LRow(children: [
@@ -50,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     type: LAlertType.success,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
+                    padding: const EdgeInsets.only(bottom: 7.0),
                     child: LBreadCrumbs(
                       items: [
                         LBreadCrumbItem(
@@ -74,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   LCorousel(
                     withCaption: true,
-                    autoScroll: false,
+                    autoScroll: true,
                     withControls: true,
                     canScroll: false,
                     showIndicator: true,
@@ -90,9 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           subTitleText: "Cool Work Cool Work Cool",
                           actions: <Widget>[
                             RaisedButton(
-                              child: Text("press me"),
-                              onPressed: () => showLModel(context),
-                            )
+                                child: Text("press me"), onPressed: _showModel)
                           ],
                         ),
                       ),
@@ -115,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ]),
             LRow(children: [
               LColumn(
-                xl: 4,
+                sm: 6,
                 children: <Widget>[
                   LModel(
                     header: LModelHeader(
@@ -123,7 +164,35 @@ class _MyHomePageState extends State<MyHomePage> {
                       onClose: () {},
                     ),
                     body: LModelBody(
-                      child: Text("Hello World"),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Text("Modal body text goes here."),
+                      ),
+                    ),
+                    footer: LModelFooter(
+                      actions: <Widget>[
+                        SizedBox(
+                          height: 35.0,
+                          child: FlatButton(
+                            color: LiquidTheme.of(context).textColors.muted,
+                            textColor: Colors.white,
+                            child: Text("Close"),
+                            onPressed: () {},
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        SizedBox(
+                          height: 35.0,
+                          child: FlatButton(
+                            color: LiquidTheme.of(context)
+                                .buttonColors
+                                .primaryColor,
+                            textColor: Colors.white,
+                            child: Text("Save changes"),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -139,35 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               LColumn(
-                xl: 3,
                 children: <Widget>[
-                  Text("Hello world"),
-                ],
-              ),
-              LColumn(
-                children: <Widget>[
-                  Text("Hello world"),
-                ],
-              ),
-              LColumn(
-                children: <Widget>[
-                  Text("Hello world"),
-                ],
-              ),
-              LColumn(
-                children: <Widget>[
-                  Text("Hello world"),
-                ],
-              ),
-              LColumn(
-                children: <Widget>[
-                  Text("Hello world"),
-                ],
-              ),
-              LColumn(
-                children: <Widget>[
-                  Text("Hello world"),
-                  Text("Hello world"),
                   Text("Hello world"),
                   SizedBox(
                     height: 60.0,
