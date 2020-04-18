@@ -41,7 +41,7 @@ class LCorouselCaption extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-      child: LColumn(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           title ?? Container(),
@@ -108,6 +108,7 @@ class LCorouselItem extends StatelessWidget {
 }
 
 class LCorousel extends StatefulWidget {
+  final double height;
   final bool autoScroll;
   final Duration interval;
   final bool withControls;
@@ -119,6 +120,7 @@ class LCorousel extends StatefulWidget {
 
   const LCorousel({
     Key key,
+    this.height,
     this.autoScroll = true,
     this.interval = const Duration(seconds: 3),
     this.withControls = false,
@@ -186,76 +188,82 @@ class _LCorouselState extends State<LCorousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.passthrough,
-      children: <Widget>[
-        Positioned.fill(
-          child: PageView.builder(
-            pageSnapping: true,
-            controller: _controller,
-            physics: widget.canScroll
-                ? const AlwaysScrollableScrollPhysics()
-                : const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, position) {
-              return widget.items[position];
-            },
-            itemCount: widget.items.length,
+    return Container(
+      height: widget.height,
+      child: Stack(
+        fit: StackFit.passthrough,
+        children: <Widget>[
+          Positioned.fill(
+            child: PageView.builder(
+              pageSnapping: true,
+              controller: _controller,
+              physics: widget.canScroll
+                  ? const AlwaysScrollableScrollPhysics()
+                  : const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, position) {
+                return widget.items[position];
+              },
+              itemCount: widget.items.length,
+            ),
           ),
-        ),
-        widget.withControls
-            ? Positioned(
-                left: 0,
-                bottom: 0,
-                top: 0,
-                child: Material(
-                  color: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: _currentPageValue.floor() == 0
-                        ? Container()
-                        : IconButton(
-                            icon: Icon(Icons.chevron_left),
-                            onPressed: _previousPage,
-                            iconSize: 26.0,
-                          ),
+          widget.withControls
+              ? Positioned(
+                  left: 0,
+                  bottom: 0,
+                  top: 0,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: _currentPageValue.floor() == 0
+                          ? Container()
+                          : IconButton(
+                              icon: Icon(Icons.chevron_left),
+                              onPressed: _previousPage,
+                              iconSize: 26.0,
+                              color: Colors.white,
+                            ),
+                    ),
                   ),
-                ),
-              )
-            : Container(),
-        widget.withControls
-            ? Positioned(
-                right: 0,
-                bottom: 0,
-                top: 0,
-                child: Material(
-                  color: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: _currentPageValue.floor() == widget.items.length - 1
-                        ? Container()
-                        : IconButton(
-                            icon: Icon(Icons.chevron_right),
-                            onPressed: _nextPage,
-                            iconSize: 26.0,
-                          ),
+                )
+              : Container(),
+          widget.withControls
+              ? Positioned(
+                  right: 0,
+                  bottom: 0,
+                  top: 0,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child:
+                          _currentPageValue.floor() == widget.items.length - 1
+                              ? Container()
+                              : IconButton(
+                                  icon: Icon(Icons.chevron_right),
+                                  onPressed: _nextPage,
+                                  iconSize: 26.0,
+                                  color: Colors.white,
+                                ),
+                    ),
                   ),
-                ),
-              )
-            : Container(),
-        widget.showIndicator
-            ? Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: widget.indicatorBuilder != null
-                    ? widget.indicatorBuilder(
-                        context,
-                        _currentPageValue.floor(),
-                      )
-                    : buildIndicator(),
-              )
-            : Container()
-      ],
+                )
+              : Container(),
+          widget.showIndicator
+              ? Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: widget.indicatorBuilder != null
+                      ? widget.indicatorBuilder(
+                          context,
+                          _currentPageValue.floor(),
+                        )
+                      : buildIndicator(),
+                )
+              : Container()
+        ],
+      ),
     );
   }
 
@@ -264,7 +272,7 @@ class _LCorouselState extends State<LCorousel> {
     for (int i = 0; i < widget.items.length; i++) {
       final indicator = Container(
         height: 3.0,
-        width: 26.0,
+        width: 100 / widget.items.length,
         color: i == _currentPageValue.round() ? Colors.white : Colors.grey,
       );
 

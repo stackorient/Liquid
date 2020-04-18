@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         elevation: 0,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
         child: LColumn(
           children: <Widget>[
@@ -49,45 +49,45 @@ class _MyHomePageState extends State<MyHomePage> {
                     heading: "Well done!",
                     type: LAlertType.success,
                   ),
-                  LBreadCrumbs(
-                    items: [
-                      LBreadCrumbItem(
-                        "Home",
-                        onTap: () {},
-                      ),
-                      LBreadCrumbItem(
-                        "Library",
-                        onTap: () {},
-                      ),
-                      LBreadCrumbItem(
-                        "Data",
-                        active: true,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: LBreadCrumbs(
+                      items: [
+                        LBreadCrumbItem(
+                          "Home",
+                          onTap: () {},
+                        ),
+                        LBreadCrumbItem(
+                          "Library",
+                          onTap: () {},
+                        ),
+                        LBreadCrumbItem(
+                          "Data",
+                          active: true,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
               LColumn(
-                xs: 7,
                 children: <Widget>[
                   LCorousel(
-                    withCaption: false,
-                    autoScroll: true,
-                    withControls: false,
-                    canScroll: true,
-                    showIndicator: false,
+                    withCaption: true,
+                    autoScroll: false,
+                    withControls: true,
+                    canScroll: false,
+                    showIndicator: true,
+                    height: 200.0,
                     items: [
                       LCorouselItem(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: Image.network(
-                            "https://source.unsplash.com/random/?mountain",
-                            fit: BoxFit.cover,
-                          ),
+                        child: Image.network(
+                          "https://source.unsplash.com/random/?mountain",
+                          fit: BoxFit.cover,
                         ),
                         caption: LCorouselCaption(
                           titleText: "First Slide",
-                          subTitleText: "Cool Work",
+                          subTitleText: "Cool Work Cool Work Cool",
                         ),
                       ),
                       LCorouselItem(
@@ -133,6 +133,33 @@ class _MyHomePageState extends State<MyHomePage> {
               LColumn(
                 children: <Widget>[
                   Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                  Text("Hello world"),
+                  Text("Hello world"),
+                  SizedBox(
+                    height: 60.0,
+                    child: Center(child: Text("hello world")),
+                  ),
+                  Text("hello world"),
                 ],
               ),
             ]),

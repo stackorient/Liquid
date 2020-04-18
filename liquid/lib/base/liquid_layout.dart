@@ -93,6 +93,7 @@ class LColumn extends StatelessWidget {
   final int xs, sm, md, lg, xl;
   final List<Widget> children;
   final bool flexible;
+  final bool expanded;
   final MainAxisAlignment mainAxisAlignment;
   final MainAxisSize mainAxisSize;
   final CrossAxisAlignment crossAxisAlignment;
@@ -109,8 +110,9 @@ class LColumn extends StatelessWidget {
     this.xl = 1,
     this.children,
     this.flexible = true,
+    this.expanded = false,
     this.mainAxisAlignment = MainAxisAlignment.start,
-    this.mainAxisSize = MainAxisSize.max,
+    this.mainAxisSize = MainAxisSize.min,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.textDirection,
     this.textBaseline,
@@ -136,7 +138,7 @@ class LColumn extends StatelessWidget {
     if (flexible) {
       return children
           .map((e) => Flexible(
-                fit: FlexFit.loose,
+                fit: expanded ? FlexFit.tight : FlexFit.loose,
                 child: e,
               ))
           .toList();
@@ -164,7 +166,7 @@ class LRow extends StatelessWidget {
     this.cols,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.min,
-    this.crossAxisAlignment = CrossAxisAlignment.stretch,
+    this.crossAxisAlignment,
     this.textDirection,
     this.verticalDirection = VerticalDirection.down,
     this.textBaseline,
@@ -256,7 +258,7 @@ class LRow extends StatelessWidget {
     return LRowRaw(
       mainAxisAlignment: mainAxisAlignment,
       mainAxisSize: mainAxisSize,
-      crossAxisAlignment: crossAxisAlignment,
+      // crossAxisAlignment: crossAxisAlignment,
       textDirection: textDirection,
       verticalDirection: verticalDirection,
       textBaseline: textBaseline,
@@ -268,7 +270,8 @@ class LRow extends StatelessWidget {
           final flex = _flexes[currentIndex];
           currentIndex++;
 
-          return Expanded(
+          return Flexible(
+            fit: FlexFit.loose,
             child: child,
             flex: flex,
           );
