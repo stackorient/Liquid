@@ -69,6 +69,81 @@ class LiquidAlertTheme {
   });
 }
 
+class LiquidBadgeTextColors {
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
+
+  const LiquidBadgeTextColors({
+    this.primaryColor = const Color(0xFF004085),
+    this.secondaryColor = const Color(0xFF383d41),
+    this.success = const Color(0xFF155724),
+    this.danger = const Color(0xFF721c24),
+    this.warning = const Color(0xFF856404),
+    this.info = const Color(0xFF0c5460),
+    this.light = const Color(0xFF818182),
+    this.dark = const Color(0xFF1b1e21),
+  });
+}
+
+class LiquidBadgeBackgroundColors {
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
+
+  const LiquidBadgeBackgroundColors({
+    this.primaryColor = const Color(0xFFcce5ff),
+    this.secondaryColor = const Color(0xFFe2e3e5),
+    this.success = const Color(0xFFd4edda),
+    this.danger = const Color(0xFFf8d7da),
+    this.warning = const Color(0xFFfff3cd),
+    this.info = const Color(0xFFd1ecf1),
+    this.light = const Color(0xFFfefefe),
+    this.dark = const Color(0xFFd6d8d9),
+  });
+}
+
+class LiquidBadgeTheme {
+  final LiquidBadgeBackgroundColors backgroundColors;
+  final LiquidBadgeTextColors textColors;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
+
+  const LiquidBadgeTheme({
+    this.backgroundColors = const LiquidBadgeBackgroundColors(),
+    this.textColors = const LiquidBadgeTextColors(),
+    this.padding = const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+    this.margin = const EdgeInsets.only(bottom: 0.0),
+  });
+}
+
+class LiquidButtonTheme {
+  final LiquidButtonColors buttonColors;
+  final LiquidTextColors textColors;
+  final EdgeInsets padding;
+  final EdgeInsets smallPadding;
+  final EdgeInsets margin;
+
+  const LiquidButtonTheme({
+    this.buttonColors = const LiquidButtonColors(),
+    this.textColors = const LiquidTextColors(),
+    this.padding = const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+    this.smallPadding =
+        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+    this.margin = const EdgeInsets.only(bottom: 0.0),
+  });
+}
+
 class LiquidButtonColors {
   final Color primaryColor;
   final Color secondaryColor;
@@ -292,6 +367,8 @@ class LiquidThemeData {
   final LiquidBackgroundColors backgroundColors;
   final LiquidGradients gradients;
   final LiquidAlertTheme alertTheme;
+  final LiquidBadgeTheme badgeTheme;
+  final LiquidButtonTheme buttonTheme;
   final LiquidTypographyTheme typographyTheme;
 
   const LiquidThemeData({
@@ -300,6 +377,8 @@ class LiquidThemeData {
     this.backgroundColors = const LiquidBackgroundColors(),
     this.gradients = const LiquidGradients(),
     this.alertTheme = const LiquidAlertTheme(),
+    this.badgeTheme = const LiquidBadgeTheme(),
+    this.buttonTheme = const LiquidButtonTheme(),
     this.typographyTheme = const LiquidTypographyTheme(),
   });
 }

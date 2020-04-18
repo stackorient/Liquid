@@ -1,8 +1,9 @@
 import 'package:flutter/rendering.dart';
+import 'package:liquid/components/buttons.dart';
 import 'package:liquid/liquid.dart';
 
 void main() {
-  // debugPaintSizeEnabled = true;
+  // debugPaintSizeEnabled != true;
   runApp(MyApp());
 }
 
@@ -199,7 +200,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               LColumn(
                 children: <Widget>[
-                  Text("Hello world"),
+                  LBadges(
+                  "Hello",
+                  shape: BadgesShape.standard,
+                  type: BadgesType.dark,
+                ),
+                  LCard(
+                  color: Colors.white,
+                  elevation: 2.0,
+                  borderRadius: BorderRadius.circular(5.0),
+                  border: Border.all(color: Colors.black26),
+                  body: LCardBody(
+                    title: "Hello",
+                    //
+                  ),
+                    LButton(
+                  type: ButtonType.success,
+                  shape: ButtonShape.standard,
+                  text: "hello",
+                  onPressed: () {},
+                ),
+                ),
                 ],
               ),
               LColumn(
