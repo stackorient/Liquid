@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // builder: (context, child) => child,
     );
   }
 }
@@ -29,6 +30,48 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void _showModel() {
+    showLModel(context, builder: (context) {
+      return LModel(
+        positon: MainAxisAlignment.start,
+        margin: EdgeInsets.all(20.0),
+        header: LModelHeader(
+          title: "Hello World",
+          onClose: () {},
+        ),
+        body: LModelBody(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: Text("Modal body text goes here."),
+          ),
+        ),
+        footer: LModelFooter(
+          actions: <Widget>[
+            SizedBox(
+              height: 35.0,
+              child: FlatButton(
+                color: LiquidTheme.of(context).textColors.muted,
+                textColor: Colors.white,
+                child: Text("Close"),
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(width: 10.0),
+            SizedBox(
+              height: 35.0,
+              child: FlatButton(
+                color: LiquidTheme.of(context).buttonColors.primaryColor,
+                textColor: Colors.white,
+                child: Text("Save changes"),
+                onPressed: _showModel,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,56 +79,147 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         elevation: 0,
       ),
-      body: LColumn(
-        children: <Widget>[
-          LRow(children: [
-            LColumn(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                LAlert(
-                  "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
-                  heading: "Well done!",
-                  type: AlertType.success,
-                ),
-              ],
-            ),
-            LColumn(
-              xs: 7,
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-          ]),
-          LRow(children: [
-            LColumn(
-              xl: 4,
-              children: <Widget>[
-                Text("Hello World"),
-              ],
-            ),
-            LColumn(
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-            LColumn(
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-            LColumn(
-              xl: 3,
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-            LColumn(
-              children: <Widget>[
-                Text("Hello world"),
-              ],
-            ),
-          ]),
-        ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
+        child: LColumn(
+          children: <Widget>[
+            LRow(children: [
+              LColumn(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  LAlert(
+                    "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
+                    heading: "Well done!",
+                    type: LAlertType.success,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 7.0),
+                    child: LBreadCrumbs(
+                      items: [
+                        LBreadCrumbItem(
+                          "Home",
+                          onTap: () {},
+                        ),
+                        LBreadCrumbItem(
+                          "Library",
+                          onTap: () {},
+                        ),
+                        LBreadCrumbItem(
+                          "Data",
+                          active: true,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  LCorousel(
+                    withCaption: true,
+                    autoScroll: true,
+                    withControls: true,
+                    canScroll: false,
+                    showIndicator: true,
+                    height: 200.0,
+                    items: [
+                      LCorouselItem(
+                        child: Image.network(
+                          "https://source.unsplash.com/random/?mountain",
+                          fit: BoxFit.cover,
+                        ),
+                        caption: LCorouselCaption(
+                          titleText: "First Slide",
+                          subTitleText: "Cool Work Cool Work Cool",
+                          actions: <Widget>[
+                            RaisedButton(
+                                child: Text("press me"), onPressed: _showModel)
+                          ],
+                        ),
+                      ),
+                      LCorouselItem(
+                        child: Image.network(
+                          "https://source.unsplash.com/random/?girl",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      LCorouselItem(
+                        child: Image.network(
+                          "https://source.unsplash.com/random/",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ]),
+            LRow(children: [
+              LColumn(
+                sm: 6,
+                children: <Widget>[
+                  LModel(
+                    header: LModelHeader(
+                      title: "Hello World",
+                      onClose: () {},
+                    ),
+                    body: LModelBody(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Text("Modal body text goes here."),
+                      ),
+                    ),
+                    footer: LModelFooter(
+                      actions: <Widget>[
+                        SizedBox(
+                          height: 35.0,
+                          child: FlatButton(
+                            color: LiquidTheme.of(context).textColors.muted,
+                            textColor: Colors.white,
+                            child: Text("Close"),
+                            onPressed: () {},
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        SizedBox(
+                          height: 35.0,
+                          child: FlatButton(
+                            color: LiquidTheme.of(context)
+                                .buttonColors
+                                .primaryColor,
+                            textColor: Colors.white,
+                            child: Text("Save changes"),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                ],
+              ),
+              LColumn(
+                children: <Widget>[
+                  Text("Hello world"),
+                  SizedBox(
+                    height: 60.0,
+                    child: Center(child: Text("hello world")),
+                  ),
+                  Text("hello world"),
+                ],
+              ),
+            ]),
+          ],
+        ),
       ),
     );
   }

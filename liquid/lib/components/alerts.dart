@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../base/base.dart';
 
-enum AlertType {
+enum LAlertType {
   primary,
   secondary,
   success,
@@ -14,7 +14,7 @@ enum AlertType {
 }
 
 class LAlert extends StatelessWidget {
-  final AlertType type;
+  final LAlertType type;
   final String text;
   final String heading;
   final List<Uri> urls;
@@ -28,7 +28,7 @@ class LAlert extends StatelessWidget {
     this.text, {
     this.heading,
     Key key,
-    this.type = AlertType.primary,
+    this.type = LAlertType.primary,
     this.urls,
     this.margin,
     this.headingPadding,
@@ -43,28 +43,28 @@ class LAlert extends StatelessWidget {
     final tc = themeData.alertTheme.textColors;
 
     switch (type) {
-      case AlertType.primary:
+      case LAlertType.primary:
         return [bg.primaryColor, tc.primaryColor];
         break;
-      case AlertType.secondary:
+      case LAlertType.secondary:
         return [bg.secondaryColor, tc.secondaryColor];
         break;
-      case AlertType.success:
+      case LAlertType.success:
         return [bg.success, tc.success];
         break;
-      case AlertType.danger:
+      case LAlertType.danger:
         return [bg.danger, tc.danger];
         break;
-      case AlertType.info:
+      case LAlertType.info:
         return [bg.info, tc.info];
         break;
-      case AlertType.warning:
+      case LAlertType.warning:
         return [bg.warning, tc.warning];
         break;
-      case AlertType.light:
+      case LAlertType.light:
         return [bg.light, tc.light];
         break;
-      case AlertType.dark:
+      case LAlertType.dark:
         return [bg.dark, tc.dark];
         break;
 

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:liquid/base/base.dart';
 
 import 'liquid_theme.dart';
 
-class LiquidApp extends MaterialApp {
+class LiquidApp extends StatelessWidget {
   const LiquidApp({
     Key key,
     this.navigatorKey,
-    Widget home,
+    this.home,
     this.routes = const <String, WidgetBuilder>{},
     this.initialRoute,
     this.onGenerateRoute,
     this.onGenerateInitialRoutes,
     this.onUnknownRoute,
     this.navigatorObservers = const <NavigatorObserver>[],
-    TransitionBuilder builder,
+    this.builder,
     this.title = '',
     this.onGenerateTitle,
     this.color,
@@ -44,8 +45,6 @@ class LiquidApp extends MaterialApp {
         assert(checkerboardOffscreenLayers != null),
         assert(showSemanticsDebugger != null),
         assert(debugShowCheckedModeBanner != null),
-        _builder = builder,
-        _home = home,
         super(key: key);
 
   final GlobalKey<NavigatorState> navigatorKey;
@@ -54,11 +53,7 @@ class LiquidApp extends MaterialApp {
   final LiquidThemeData liquidDarkTheme;
 
   /// {@macro flutter.widgets.widgetsApp.home}
-  final Widget _home;
-
-  Widget get home {
-    return LiquidTheme(theme: liquidTheme, child: _home);
-  }
+  final Widget home;
 
   /// The application's top-level routing table.
   ///
@@ -90,13 +85,7 @@ class LiquidApp extends MaterialApp {
   /// Material specific features such as [showDialog] and [showMenu], and widgets
   /// such as [Tooltip], [PopupMenuButton], also require a [Navigator] to properly
   /// function.
-  final TransitionBuilder _builder;
-
-  TransitionBuilder get builder {
-    return (BuildContext context, Widget child) {
-      return LiquidTheme(theme: liquidTheme, child: child);
-    };
-  }
+  final TransitionBuilder builder;
 
   /// {@macro flutter.widgets.widgetsApp.title}
   ///
@@ -388,4 +377,43 @@ class LiquidApp extends MaterialApp {
   ///
   ///  * <https://material.io/design/layout/spacing-methods.html>
   final bool debugShowMaterialGrid;
+
+  @override
+  Widget build(BuildContext context) {
+    return LiquidStateManager(
+      child: LiquidTheme(
+        theme: liquidTheme,
+        child: MaterialApp(
+          navigatorKey: navigatorKey,
+          home: home,
+          routes: routes,
+          initialRoute: initialRoute,
+          onGenerateRoute: onGenerateRoute,
+          onGenerateInitialRoutes: onGenerateInitialRoutes,
+          onUnknownRoute: onUnknownRoute,
+          navigatorObservers: navigatorObservers,
+          builder: builder,
+          title: title,
+          onGenerateTitle: onGenerateTitle,
+          color: color,
+          theme: theme,
+          darkTheme: darkTheme,
+          themeMode: themeMode,
+          locale: locale,
+          localizationsDelegates: localizationsDelegates,
+          localeListResolutionCallback: localeListResolutionCallback,
+          localeResolutionCallback: localeResolutionCallback,
+          supportedLocales: supportedLocales,
+          debugShowMaterialGrid: debugShowMaterialGrid,
+          showPerformanceOverlay: showPerformanceOverlay,
+          checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+          checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+          showSemanticsDebugger: showSemanticsDebugger,
+          debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+          shortcuts: shortcuts,
+          actions: actions,
+        ),
+      ),
+    );
+  }
 }
