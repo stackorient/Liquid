@@ -140,8 +140,7 @@ class LModelHeader extends StatelessWidget {
 
   void _close(BuildContext context) async {
     if (onClose != null) onClose();
-
-    await LAnimatedModel.of(context).closeModel();
+    await LiquidStateManager.of(context).popModel();
   }
 }
 
@@ -246,7 +245,7 @@ class _LAnimatedModelState extends State<LAnimatedModel>
           ),
           child: GestureDetector(
             onTap: widget.barrierDismissable
-                ? () async => await closeModel()
+                ? () async => await LiquidStateManager.of(context).popModel()
                 : null,
             child: SlideTransition(
               position: (widget.positionTween ??
@@ -279,17 +278,23 @@ class _LAnimatedModelState extends State<LAnimatedModel>
     );
   }
 
-  Future<void> _close() async => await _controller.reverse();
-
-  Future<void> closeModel() async {
-    await _close();
-    LiquidStateManager.of(context).popModel();
-  }
+  Future<void> close() async => await _controller.reverse();
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+}
+
+class ModelHandler extends LOverlayManager {
+  ModelHandler(OverlayEntry entry, GlobalKey<_LAnimatedModelState> key)
+      : super(entry, key);
+
+  @override
+  Future<void> close() async {
+    await (key as GlobalKey<_LAnimatedModelState>).currentState.close();
+    entry.remove();
   }
 }
 
@@ -301,8 +306,10 @@ void showLModel(
   bool barrierDismissable,
 }) {
   final overlay = Overlay.of(context);
+  final GlobalKey<_LAnimatedModelState> key = GlobalKey<_LAnimatedModelState>();
   final model = OverlayEntry(
     builder: (context) => LAnimatedModel(
+      key: key,
       model: builder(context),
       positionTween: positionTween,
       barrierDismissable: barrierDismissable,
@@ -310,6 +317,9 @@ void showLModel(
     ),
   );
   overlay.insert(model);
-  final _manager = LModelManager(model);
+  final _manager = ModelHandler(
+    model,
+    key,
+  );
   LiquidStateManager.of(context).pushModel(_manager);
 }

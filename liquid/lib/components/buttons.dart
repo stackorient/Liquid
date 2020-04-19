@@ -21,7 +21,7 @@ enum ButtonShape {
 
 class LButton extends StatelessWidget {
   final Color textColor;
-  final Color color;
+  final LiquidColor color;
   final String text;
   final ButtonType type;
   final ButtonShape shape;
@@ -76,7 +76,7 @@ class LButton extends StatelessWidget {
             "Use either child or text"),
         super(key: key);
 
-  Color getColor(LiquidThemeData themeData) {
+  LiquidColor getColor(LiquidThemeData themeData) {
     final bg = themeData.buttonColors;
 
     switch (type) {
@@ -135,9 +135,7 @@ class LButton extends StatelessWidget {
     return Container(
       margin: margin,
       child: Material(
-        color: onPressed == null
-            ? _color.withOpacity(0.6)
-            : _color.withOpacity(0.92),
+        color: onPressed == null ? _color.withOpacity(0.6) : _color,
         shape: shape,
         elevation: elevation,
         child: InkWell(
@@ -149,7 +147,7 @@ class LButton extends StatelessWidget {
           excludeFromSemantics: excludeFromSemantics,
           focusColor: focusColor,
           focusNode: focusNode,
-          highlightColor: _color,
+          highlightColor: _color.darken(0.05),
           onFocusChange: onFocusChange,
           onHighlightChanged: onHighlightChanged,
           onHover: onHover,

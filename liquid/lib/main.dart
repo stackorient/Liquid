@@ -31,18 +31,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String result;
+
   void _showModel() {
     showLModel(context,
         positionTween: Tween(begin: Offset(0, 10.0), end: Offset.zero),
-        barrierDismissable: false, builder: (context) {
-        positionTween: Tween(begin: Offset(0, 10), end: Offset.zero),
-        builder: (context) {
+        barrierDismissable: true, builder: (context) {
       return LModel(
         positon: MainAxisAlignment.end,
         margin: EdgeInsets.all(20.0),
         header: LModelHeader(
           title: "Terms & Conditions",
-          onClose: () {},
+          onClose: () {
+            setState(() {
+              result = "Canceled";
+            });
+          },
         ),
         body: LModelBody(
           child: Padding(
@@ -54,8 +58,28 @@ class _MyHomePageState extends State<MyHomePage> {
         footer: LModelFooter(
           actions: <Widget>[
             LButton(
+              text: "Cancel",
+              onPressed: () async {
+                final _ = await LiquidStateManager.of(context)
+                    .popModel<String>("Helllo world");
+                setState(() {
+                  result = _;
+                });
+              },
+              type: ButtonType.secondary,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              margin: const EdgeInsets.only(right: 5.0),
+            ),
+            LButton(
               text: "Accept",
-              onPressed: () {},
+              onPressed: () async {
+                final _ = await LiquidStateManager.of(context)
+                    .popModel<String>("Terms Accepted");
+                setState(() {
+                  result = _;
+                });
+              },
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             ),
@@ -69,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(result ?? widget.title),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -111,9 +135,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   LCorousel(
                     withCaption: true,
                     autoScroll: true,
-                    withControls: true,
-                    canScroll: false,
+                    withControls: false,
+                    canScroll: true,
                     showIndicator: true,
+                    // enableIndicatorTapControl: true,
                     height: 200.0,
                     items: [
                       LCorouselItem(
@@ -155,6 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
             LRow(
               children: [
                 LColumn(
+                  xs: 6,
                   children: <Widget>[
                     LBadges(
                       "Hello",
@@ -164,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 LColumn(
+                  xs: 6,
                   children: <Widget>[
                     LButton(
                       type: ButtonType.success,
@@ -226,27 +253,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              LColumn(
-                sm: 1,
-                children: <Widget>[
-                  LBadges(
-                    "Hello",
-                    shape: BadgesShape.standard,
-                    type: BadgesType.dark,
-                  ),
-                ],
-              ),
-              LColumn(
-                sm: 1,
-                children: <Widget>[
-                  LButton(
-                    type: ButtonType.success,
-                    shape: ButtonShape.standard,
-                    text: "hello",
-                    onPressed: () {},
                   ),
                 ],
               ),
