@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:liquid/base/base.dart';
-
-import 'liquid_theme.dart';
+part of 'base.dart';
 
 class LiquidApp extends StatelessWidget {
   const LiquidApp({

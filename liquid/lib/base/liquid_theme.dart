@@ -1,8 +1,4 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
-
-import './typography.dart';
-import 'colors.dart';
+part of 'base.dart';
 
 class LiquidAlertTextColors {
   final LiquidColor primaryColor;
@@ -135,7 +131,7 @@ class LiquidButtonTheme {
     this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
     this.smallPadding =
         const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-    this.margin = const EdgeInsets.all(4.0),
+    this.margin = const EdgeInsets.symmetric(horizontal: 4.0),
   });
 }
 

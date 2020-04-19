@@ -1,6 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
+part of 'base.dart';
 
 class LiquidColor extends Color {
   const LiquidColor(int value) : super(value);

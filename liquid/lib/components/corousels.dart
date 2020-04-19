@@ -1,7 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:liquid/base/base.dart';
+part of 'components.dart';
 
 enum LCorouselAnimation { slide, fade }
 

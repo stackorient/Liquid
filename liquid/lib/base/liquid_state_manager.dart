@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'base.dart';
 
 abstract class LOverlayManager<T extends State<StatefulWidget>> {
   final OverlayEntry _entry;

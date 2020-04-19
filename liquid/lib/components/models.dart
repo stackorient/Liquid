@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:liquid/base/base.dart';
+part of 'components.dart';
 
 class LModelDialog extends StatelessWidget {
   final LModelHeader header;

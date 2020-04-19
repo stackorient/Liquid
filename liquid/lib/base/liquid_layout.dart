@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+part of 'base.dart';
 
 class LRowRaw extends Flex {
   final Axis direction;
@@ -58,32 +57,94 @@ class LColumnRaw extends Flex {
 }
 
 class ResponsiveBuilder extends StatelessWidget {
+  final bool useMediaQuery;
   final Widget Function(BuildContext context) onXS;
   final Widget Function(BuildContext context) onSM;
   final Widget Function(BuildContext context) onMD;
   final Widget Function(BuildContext context) onLG;
   final Widget Function(BuildContext context) onXL;
 
-  const ResponsiveBuilder(
-      {Key key,
-      @required this.onXS,
-      this.onSM,
-      this.onMD,
-      this.onLG,
-      this.onXL})
-      : assert(onXS != null),
+  const ResponsiveBuilder({
+    Key key,
+    @required this.onXS,
+    this.onSM,
+    this.onMD,
+    this.onLG,
+    this.onXL,
+    this.useMediaQuery = false,
+  })  : assert(onXS != null),
+        assert(useMediaQuery != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        if (onXL != null && constraints.maxWidth >= 1200) return onXL(context);
-        if (onLG != null && constraints.maxWidth >= 992) return onLG(context);
-        if (onMD != null && constraints.maxWidth >= 768) return onMD(context);
-        if (onSM != null && constraints.maxWidth >= 576) return onSM(context);
-        return onXS(context);
-      },
+    if (useMediaQuery) {
+      final width = MediaQuery.of(context).size.width;
+      print(width);
+      return _build(context, width);
+    } else {
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) =>
+            _build(context, constraints.maxWidth),
+      );
+    }
+  }
+
+  Widget _build(BuildContext context, double width) {
+    if (onXL != null && width >= 1200) return onXL(context);
+    if (onLG != null && width >= 992) return onLG(context);
+    if (onMD != null && width >= 768) return onMD(context);
+    if (onSM != null && width >= 576) return onSM(context);
+    return onXS(context);
+  }
+}
+
+class LBoxDimension {
+  final double xs;
+  final double sm;
+  final double md;
+  final double lg;
+  final double xl;
+
+  const LBoxDimension({
+    this.xs,
+    this.sm,
+    this.md,
+    this.lg,
+    this.xl,
+  });
+}
+
+class LBox extends StatelessWidget {
+  final LBoxDimension height;
+  final LBoxDimension width;
+  final Widget child;
+
+  const LBox(
+      {Key key,
+      this.height = const LBoxDimension(),
+      this.width = const LBoxDimension(),
+      @required this.child})
+      : assert(child != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveBuilder(
+      useMediaQuery: true,
+      onXS: (_) => _buildBox(height.xs, width.xs),
+      onSM: (_) => _buildBox(height.sm, width.sm),
+      onMD: (_) => _buildBox(height.md, width.md),
+      onLG: (_) => _buildBox(height.lg, width.lg),
+      onXL: (_) => _buildBox(height.xl, width.xl),
+    );
+  }
+
+  Widget _buildBox(double height, double width) {
+    return SizedBox(
+      height: height,
+      width: width,
+      child: child,
     );
   }
 }
@@ -109,7 +170,7 @@ class LColumn extends StatelessWidget {
     this.md,
     this.lg,
     this.xl,
-    this.children,
+    this.children = const [],
     this.flexible = true,
     this.expanded = false,
     this.mainAxisAlignment = MainAxisAlignment.start,
@@ -117,7 +178,8 @@ class LColumn extends StatelessWidget {
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.textDirection,
     this.textBaseline,
-  })  : assert(xs == null || (xs <= 12 && xs >= 1)),
+  })  : assert(children != null),
+        assert(xs == null || (xs <= 12 && xs >= 1)),
         assert(sm == null || sm <= 12 && sm >= 1),
         assert(md == null || md <= 12 && md >= 1),
         assert(lg == null || lg <= 12 && lg >= 1),
@@ -148,6 +210,8 @@ class LColumn extends StatelessWidget {
   }
 }
 
+enum LGridMode { ratio, fixedSize }
+
 class LRow extends StatelessWidget {
   final int columnCount = 12;
   final List<LColumn> children;
@@ -161,6 +225,7 @@ class LRow extends StatelessWidget {
   final TextDirection textDirection;
   final VerticalDirection verticalDirection;
   final TextBaseline textBaseline;
+  final LGridMode mode;
 
   const LRow({
     Key key,
@@ -173,7 +238,12 @@ class LRow extends StatelessWidget {
     this.textDirection,
     this.verticalDirection = VerticalDirection.down,
     this.textBaseline,
-  }) : super(key: key);
+    this.mode = LGridMode.fixedSize,
+  })  : assert(mode != null),
+        assert(children != null),
+        assert(children.length > 0,
+            "You need to add atleast one column to the LRow"),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +319,14 @@ class LRow extends StatelessWidget {
         _calBps.add(colFlex.round());
     }
 
-    final _colSum = _calBps.reduce((value, element) => value + element).round();
+    int _colSum = _calBps.reduce((value, element) => value + element).round();
+
+    if (mode == LGridMode.fixedSize && _colSum < columnCount) {
+      _fillRemaining(_colSum);
+      final diff = columnCount - _colSum;
+      _calBps.add(diff);
+      _colSum += diff;
+    }
 
     if (kDebugMode) {
       if (bps.length > columnCount) {
@@ -267,10 +344,17 @@ class LRow extends StatelessWidget {
     return _calBps;
   }
 
+  void _fillRemaining(int totalFlex) {
+    if (totalFlex < columnCount) {
+      children.add(LColumn());
+    }
+  }
+
   Widget _buildChildrens(BuildContext context, BreakPoint breakPoint) {
     int currentIndex = 0;
     final _processed = _preProcess(breakPoint);
     final _flexes = _fillEmpty(_processed[0] as List<int>);
+
     final vertical =
         _processed[1] ? false : (breakPoint == BreakPoint.xs ? true : false);
     final lastchild = children.last.hashCode;

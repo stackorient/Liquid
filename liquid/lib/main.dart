@@ -1,9 +1,6 @@
-import 'package:flutter/rendering.dart';
-import 'package:liquid/components/buttons.dart';
 import 'package:liquid/liquid.dart';
 
 void main() {
-  // debugPaintSizeEnabled != true;
   runApp(MyApp());
 }
 
@@ -132,55 +129,65 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               LColumn(
                 children: <Widget>[
-                  LCorousel(
-                    withCaption: true,
-                    autoScroll: true,
-                    withControls: false,
-                    canScroll: true,
-                    showIndicator: true,
-                    // enableIndicatorTapControl: true,
-                    height: 200.0,
-                    items: [
-                      LCorouselItem(
-                        child: Image.network(
-                          "https://source.unsplash.com/random/?mountain",
-                          fit: BoxFit.cover,
+                  LBox(
+                    height: LBoxDimension(
+                      xl: 450.0,
+                      lg: 350.0,
+                      md: 250.0,
+                      sm: 200.0,
+                      xs: 200.0,
+                    ),
+                    child: LCorousel(
+                      withCaption: true,
+                      autoScroll: true,
+                      withControls: true,
+                      canScroll: true,
+                      showIndicator: true,
+                      enableIndicatorTapControl: true,
+                      items: [
+                        LCorouselItem(
+                          child: Image.network(
+                            "https://source.unsplash.com/random/?mountain",
+                            fit: BoxFit.cover,
+                          ),
+                          caption: LCorouselCaption(
+                            titleText: "First Slide",
+                            subTitleText: "Cool Work Cool Work Cool",
+                            actions: <Widget>[
+                              LButton(
+                                text: "Accept",
+                                onPressed: _showModel,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 10.0),
+                                margin: const EdgeInsets.all(5.0),
+                              ),
+                            ],
+                          ),
                         ),
-                        caption: LCorouselCaption(
-                          titleText: "First Slide",
-                          subTitleText: "Cool Work Cool Work Cool",
-                          actions: <Widget>[
-                            LButton(
-                              text: "Accept",
-                              onPressed: _showModel,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              margin: const EdgeInsets.all(5.0),
-                            ),
-                          ],
+                        LCorouselItem(
+                          child: Image.network(
+                            "https://source.unsplash.com/random/?mountain,sunset",
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      LCorouselItem(
-                        child: Image.network(
-                          "https://source.unsplash.com/random/?girl",
-                          fit: BoxFit.cover,
+                        LCorouselItem(
+                          child: Image.network(
+                            "https://source.unsplash.com/random/?sunrise",
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      LCorouselItem(
-                        child: Image.network(
-                          "https://source.unsplash.com/random/",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
             ]),
             LRow(
+              gutter: 0,
               children: [
                 LColumn(
                   xs: 6,
+                  xl: 1,
                   children: <Widget>[
                     LBadges(
                       "Hello",
@@ -191,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 LColumn(
                   xs: 6,
+                  xl: 3,
                   children: <Widget>[
                     LButton(
                       type: ButtonType.success,
@@ -230,26 +238,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     footer: LModelFooter(
                       actions: <Widget>[
-                        SizedBox(
-                          height: 35.0,
-                          child: FlatButton(
-                            color: LiquidTheme.of(context).textColors.muted,
-                            textColor: Colors.white,
-                            child: Text("Close"),
-                            onPressed: () {},
-                          ),
+                        LOutlineButton(
+                          text: "Cancel",
+                          onPressed: () {},
+                          type: ButtonType.primary,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          margin: const EdgeInsets.only(right: 5.0),
                         ),
-                        SizedBox(width: 10.0),
-                        SizedBox(
-                          height: 35.0,
-                          child: FlatButton(
-                            color: LiquidTheme.of(context)
-                                .buttonColors
-                                .primaryColor,
-                            textColor: Colors.white,
-                            child: Text("Save changes"),
-                            onPressed: () {},
-                          ),
+                        LButton(
+                          text: "Accept",
+                          onPressed: () {},
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
                         ),
                       ],
                     ),
