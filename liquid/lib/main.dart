@@ -210,6 +210,49 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            LRow(
+              gutter: 0,
+              children: [
+                LColumn(
+                  xs: 6,
+                  xl: 1,
+                  children: <Widget>[
+                    LButtonGroup(
+                      small: false,
+                      direction: Axis.horizontal,
+                      children: [
+                        LGroupButton(
+                            text: "primary",
+                            onPressed: () {
+                              print("hello");
+                            }),
+                        LGroupButton(
+                            child: Icon(Icons.arrow_drop_down, size: 16.0),
+                            onPressed: () {
+                              print("dark button");
+                            }),
+                      ],
+                      type: ButtonType.success,
+                      borderThickness: 1.0,
+                      outline: true,
+                    ),
+                  ],
+                ),
+                LColumn(
+                  xs: 6,
+                  xl: 3,
+                  children: <Widget>[
+                    LButton(
+                      type: ButtonType.success,
+                      shape: ButtonShape.standard,
+                      text: "hello",
+                      borderRadius: BorderRadius.circular(10.0),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ],
+            ),
             LRow(gutter: 5.0, children: [
               LColumn(
                 sm: 6,
