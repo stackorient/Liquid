@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '../base/base.dart';
+part of 'components.dart';
 
 enum ButtonType {
   primary,
@@ -21,7 +19,7 @@ enum ButtonShape {
 
 class LButton extends StatelessWidget {
   final Color textColor;
-  final Color color;
+  final LiquidColor color;
   final String text;
   final ButtonType type;
   final ButtonShape shape;
@@ -76,7 +74,7 @@ class LButton extends StatelessWidget {
             "Use either child or text"),
         super(key: key);
 
-  Color getColor(LiquidThemeData themeData) {
+  LiquidColor getColor(LiquidThemeData themeData) {
     final bg = themeData.buttonColors;
 
     switch (type) {
@@ -133,11 +131,9 @@ class LButton extends StatelessWidget {
     final shape = _getShape(theme, _color);
 
     return Container(
-      margin: margin,
+      margin: margin ?? theme.buttonTheme.margin,
       child: Material(
-        color: onPressed == null
-            ? _color.withOpacity(0.6)
-            : _color.withOpacity(0.92),
+        color: onPressed == null ? _color.withOpacity(0.6) : _color,
         shape: shape,
         elevation: elevation,
         child: InkWell(
@@ -149,7 +145,7 @@ class LButton extends StatelessWidget {
           excludeFromSemantics: excludeFromSemantics,
           focusColor: focusColor,
           focusNode: focusNode,
-          highlightColor: _color,
+          highlightColor: _color.darken(0.05),
           onFocusChange: onFocusChange,
           onHighlightChanged: onHighlightChanged,
           onHover: onHover,
@@ -248,30 +244,34 @@ class LOutlineButton extends LButton {
         (color ?? getColor(theme)).withOpacity(onPressed != null ? 1.0 : 0.5);
     final shape = _getShape(theme, _color);
 
-    return Material(
-      borderOnForeground: true,
-      shape: shape,
-      elevation: elevation,
-      child: InkWell(
-        autofocus: autofocus,
-        borderRadius: borderRadius == null
-            ? BorderRadius.circular(_getRadius())
-            : borderRadius,
-        canRequestFocus: canRequestFocus,
-        enableFeedback: enableFeedback,
-        excludeFromSemantics: excludeFromSemantics,
-        focusColor: focusColor,
-        focusNode: focusNode,
-        highlightColor: _color.withOpacity(0.1),
-        onFocusChange: onFocusChange,
-        onHighlightChanged: onHighlightChanged,
-        onHover: onHover,
-        onTap: onPressed,
-        child: Padding(
-            padding: small
-                ? theme.buttonTheme.smallPadding
-                : theme.buttonTheme.padding,
-            child: _buildChild(theme, textColor ?? _color)),
+    return Container(
+      margin: margin ?? theme.buttonTheme.margin,
+      child: Material(
+        borderOnForeground: true,
+        shape: shape,
+        elevation: elevation,
+        child: InkWell(
+          autofocus: autofocus,
+          borderRadius: borderRadius == null
+              ? BorderRadius.circular(_getRadius())
+              : borderRadius,
+          canRequestFocus: canRequestFocus,
+          enableFeedback: enableFeedback,
+          excludeFromSemantics: excludeFromSemantics,
+          focusColor: focusColor,
+          focusNode: focusNode,
+          highlightColor: _color.withOpacity(0.1),
+          onFocusChange: onFocusChange,
+          onHighlightChanged: onHighlightChanged,
+          onHover: onHover,
+          onTap: onPressed,
+          child: Padding(
+              padding: padding ??
+                  (small
+                      ? theme.buttonTheme.smallPadding
+                      : theme.buttonTheme.padding),
+              child: _buildChild(theme, textColor ?? _color)),
+        ),
       ),
     );
   }

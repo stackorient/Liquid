@@ -1,27 +1,29 @@
-import 'package:flutter/material.dart';
+part of 'base.dart';
 
-class LModelManager {
+abstract class LOverlayManager<T extends State<StatefulWidget>> {
   final OverlayEntry _entry;
+  final GlobalKey<T> key;
 
-  const LModelManager(OverlayEntry entry)
+  const LOverlayManager(OverlayEntry entry, this.key)
       : assert(entry != null),
         _entry = entry;
 
-  void close() {
-    _entry.remove();
-  }
+  OverlayEntry get entry => _entry;
+
+  Future<void> close();
 }
 
 class LiquidStates {
-  final List<LModelManager> _modelManagers = [];
+  final List<LOverlayManager> _modelManagers = [];
 
-  void pushModel(LModelManager manager) {
+  void pushModel(LOverlayManager manager) {
     _modelManagers.add(manager);
   }
 
-  void popModel() {
+  Future<T> popModel<T>([T result]) async {
     final _ = _modelManagers.length > 0 ? _modelManagers.removeLast() : null;
-    _?.close();
+    await _?.close();
+    return result;
   }
 }
 

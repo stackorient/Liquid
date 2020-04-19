@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import '../base/base.dart';
+part of 'components.dart';
 
 class LCard extends StatelessWidget {
   final LCardImage image;

@@ -1,7 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:liquid/base/base.dart';
+part of 'components.dart';
 
 enum LCorouselAnimation { slide, fade }
 
@@ -109,23 +106,29 @@ class LCorouselItem extends StatelessWidget {
 
 class LCorousel extends StatefulWidget {
   final double height;
+  final double width;
   final bool autoScroll;
   final Duration interval;
   final bool withControls;
   final bool canScroll;
   final bool showIndicator;
+  final bool enableIndicatorTapControl;
   final bool withCaption;
   final List<LCorouselItem> items;
+  final PageController controller;
   final Widget Function(BuildContext context, int activeIndex) indicatorBuilder;
 
   const LCorousel({
     Key key,
     this.height,
+    this.width,
     this.autoScroll = true,
     this.interval = const Duration(seconds: 6),
     this.withControls = false,
     this.canScroll = true,
     this.showIndicator = false,
+    this.enableIndicatorTapControl = false,
+    this.controller,
     this.withCaption = false,
     this.items = const <LCorouselItem>[],
     this.indicatorBuilder,
@@ -147,7 +150,7 @@ class _LCorouselState extends State<LCorousel> {
   @override
   void initState() {
     super.initState();
-    _controller = PageController()
+    _controller = (widget.controller ?? PageController())
       ..addListener(
         () => setState(() {
           _currentPageValue = _controller.page;
@@ -162,17 +165,28 @@ class _LCorouselState extends State<LCorousel> {
     final _totalPage = widget.items.length;
 
     if (_currentPageValue == _totalPage - 1) {
-      _controller.animateToPage(
-        0,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.fastLinearToSlowEaseIn,
-      );
+      _gotoPage();
     } else {
       _controller.nextPage(
         duration: Duration(milliseconds: 500),
         curve: Curves.fastLinearToSlowEaseIn,
       );
     }
+  }
+
+  _gotoPage({int pageNo, bool reset = false}) {
+    if (reset) {
+      _timer.cancel();
+      setState(() {
+        _timer = Timer.periodic(widget.interval, _initAutoRun);
+      });
+    }
+
+    _controller.animateToPage(
+      pageNo ?? 0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.fastLinearToSlowEaseIn,
+    );
   }
 
   _previousPage() {
@@ -201,6 +215,7 @@ class _LCorouselState extends State<LCorousel> {
   Widget build(BuildContext context) {
     return Container(
       height: widget.height,
+      width: widget.width,
       child: Stack(
         fit: StackFit.passthrough,
         children: <Widget>[
@@ -281,17 +296,26 @@ class _LCorouselState extends State<LCorousel> {
   Widget buildIndicator() {
     final List<Widget> _ = [];
     for (int i = 0; i < widget.items.length; i++) {
-      final indicator = Container(
-        height: 3.0,
-        width: 100 / widget.items.length,
-        color: i == _currentPageValue.round() ? Colors.white : Colors.grey,
+      final indicator = InkWell(
+        onTap: widget.enableIndicatorTapControl
+            ? () => _gotoPage(pageNo: i, reset: true)
+            : null,
+        child: Container(
+          height: 3.0,
+          width: 100 / widget.items.length,
+          margin: EdgeInsets.symmetric(
+              vertical: widget.enableIndicatorTapControl ? 10.0 : 0.0),
+          color: i == _currentPageValue.round() ? Colors.white : Colors.grey,
+        ),
       );
 
       _.add(indicator);
     }
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.symmetric(
+          horizontal: 10.0,
+          vertical: widget.enableIndicatorTapControl ? 0.0 : 10.0),
       child: Wrap(
         children: _,
         spacing: 4.0,

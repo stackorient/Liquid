@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '../base/base.dart';
+part of 'components.dart';
 
 enum BadgesType {
   primary,
