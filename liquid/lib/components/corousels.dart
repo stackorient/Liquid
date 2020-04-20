@@ -5,8 +5,8 @@ enum LCorouselAnimation { slide, fade }
 class LCorouselCaption extends StatelessWidget {
   final String titleText;
   final String subTitleText;
-  final LTextStyle titleTextStyle;
-  final LTextStyle subTitleTextStyle;
+  final TextStyle titleTextStyle;
+  final TextStyle subTitleTextStyle;
   final Widget title;
   final Widget subTitle;
   final List<Widget> actions;

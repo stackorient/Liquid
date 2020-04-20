@@ -2,8 +2,11 @@ library components;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid/base/base.dart';
+import 'package:liquid/liquid.dart';
 
 part "alerts.dart";
 part 'badges.dart';

@@ -18,8 +18,8 @@ class LAlert extends StatelessWidget {
   final List<Uri> urls;
   final EdgeInsets margin;
   final EdgeInsets headingPadding;
-  final LTextStyle headingStyle;
-  final LTextStyle style;
+  final TextStyle headingStyle;
+  final TextStyle style;
   final List<Widget> bottom;
 
   const LAlert(

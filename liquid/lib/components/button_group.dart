@@ -84,7 +84,7 @@ class LButtonGroup extends StatelessWidget {
         super(key: key);
 
   Color _getColor(LiquidThemeData themeData) {
-    final bg = themeData.buttonColors;
+    final bg = themeData.buttonTheme.buttonColors;
 
     switch (type) {
       case ButtonType.secondary:

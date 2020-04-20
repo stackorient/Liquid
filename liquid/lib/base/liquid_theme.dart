@@ -124,6 +124,8 @@ class LiquidButtonTheme {
   final EdgeInsets padding;
   final EdgeInsets smallPadding;
   final EdgeInsets margin;
+  final TextStyle textStyle;
+  final BoxConstraints constraints;
 
   const LiquidButtonTheme({
     this.buttonColors = const LiquidButtonColors(),
@@ -132,6 +134,14 @@ class LiquidButtonTheme {
     this.smallPadding =
         const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
     this.margin = const EdgeInsets.symmetric(horizontal: 4.0),
+    this.textStyle = const TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 14.0,
+    ),
+    this.constraints = const BoxConstraints(
+      minWidth: 88.0,
+      minHeight: 36.0,
+    ),
   });
 }
 
@@ -264,88 +274,88 @@ class LiquidGradients {
 }
 
 class LiquidTypographyTheme {
-  final LTextStyle h1;
-  final LTextStyle h2;
-  final LTextStyle h3;
-  final LTextStyle h4;
-  final LTextStyle h5;
-  final LTextStyle h6;
-  final LTextStyle p;
-  final LTextStyle small;
-  final LTextStyle display1;
-  final LTextStyle display2;
-  final LTextStyle display3;
-  final LTextStyle display4;
-  final LTextStyle lead;
-  final LTextStyle quote;
-  final LTextStyle quoteFooter;
+  final TextStyle h1;
+  final TextStyle h2;
+  final TextStyle h3;
+  final TextStyle h4;
+  final TextStyle h5;
+  final TextStyle h6;
+  final TextStyle p;
+  final TextStyle small;
+  final TextStyle display1;
+  final TextStyle display2;
+  final TextStyle display3;
+  final TextStyle display4;
+  final TextStyle lead;
+  final TextStyle quote;
+  final TextStyle quoteFooter;
 
   const LiquidTypographyTheme({
-    this.h1 = const LTextStyle(
+    this.h1 = const TextStyle(
       fontSize: 40.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
     ),
-    this.h2 = const LTextStyle(
+    this.h2 = const TextStyle(
       fontSize: 32.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
     ),
-    this.h3 = const LTextStyle(
+    this.h3 = const TextStyle(
       fontSize: 28.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
     ),
-    this.h4 = const LTextStyle(
+    this.h4 = const TextStyle(
       fontSize: 24.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
     ),
-    this.h5 = const LTextStyle(
+    this.h5 = const TextStyle(
       fontSize: 20.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
     ),
-    this.h6 = const LTextStyle(
+    this.h6 = const TextStyle(
       fontSize: 16.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
     ),
-    this.p = const LTextStyle(
+    this.p = const TextStyle(
       fontSize: 14.0,
     ),
-    this.small = const LTextStyle(
+    this.small = const TextStyle(
       fontSize: 12.8,
     ),
-    this.display1 = const LTextStyle(
+    this.display1 = const TextStyle(
       fontSize: 96.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
     ),
-    this.display2 = const LTextStyle(
+    this.display2 = const TextStyle(
       fontSize: 88.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
     ),
-    this.display3 = const LTextStyle(
+    this.display3 = const TextStyle(
       fontSize: 72.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
     ),
-    this.display4 = const LTextStyle(
+    this.display4 = const TextStyle(
       fontSize: 56.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
     ),
-    this.lead = const LTextStyle(
+    this.lead = const TextStyle(
       fontSize: 20.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
     ),
-    this.quote = const LTextStyle(
+    this.quote = const TextStyle(
       fontSize: 20.0,
     ),
-    this.quoteFooter = const LTextStyle(
+    this.quoteFooter = const TextStyle(
       fontSize: 16.0,
       color: Color(0xFF6c757d),
     ),
@@ -353,7 +363,6 @@ class LiquidTypographyTheme {
 }
 
 class LiquidThemeData {
-  final LiquidButtonColors buttonColors;
   final LiquidTextColors textColors;
   final LiquidBackgroundColors backgroundColors;
   final LiquidGradients gradients;
@@ -363,7 +372,6 @@ class LiquidThemeData {
   final LiquidTypographyTheme typographyTheme;
 
   const LiquidThemeData({
-    this.buttonColors = const LiquidButtonColors(),
     this.textColors = const LiquidTextColors(),
     this.backgroundColors = const LiquidBackgroundColors(),
     this.gradients = const LiquidGradients(),
