@@ -42,6 +42,7 @@ class LButton extends StatelessWidget {
   final Function onHighlightChanged;
   final Function onHover;
   final bool small;
+  final double borderThickness;
 
   const LButton({
     Key key,
@@ -69,6 +70,7 @@ class LButton extends StatelessWidget {
     this.onFocusChange,
     this.onHighlightChanged,
     this.onHover,
+    this.borderThickness,
   })  : assert(
             (child != null && text == null) || (child == null && text != null),
             "Use either child or text"),
@@ -120,25 +122,25 @@ class LButton extends StatelessWidget {
 
   ShapeBorder _getShape(LiquidThemeData themeData, Color color) {
     return RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_getRadius()),
-        side: BorderSide(width: 1.0, color: color));
+        borderRadius: borderRadius ?? BorderRadius.circular(_getRadius()),
+        side: BorderSide(width: borderThickness ?? 1.0, color: color));
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
     final _color = color ?? getColor(theme);
-    final shape = _getShape(theme, _color);
+    final _shape = _getShape(theme, _color);
 
     return Container(
       margin: margin ?? theme.buttonTheme.margin,
       child: Material(
         color: onPressed == null ? _color.withOpacity(0.6) : _color,
-        shape: shape,
+        shape: _shape,
         elevation: elevation,
         child: InkWell(
           autofocus: autofocus,
-          borderRadius: BorderRadius.circular(_getRadius()),
+          borderRadius: borderRadius ?? BorderRadius.circular(_getRadius()),
           canRequestFocus: canRequestFocus,
           customBorder: customBorder,
           enableFeedback: enableFeedback,
@@ -165,6 +167,7 @@ class LButton extends StatelessWidget {
     if (text != null) {
       return Text(
         text,
+        textAlign: TextAlign.center,
         style: (small
                 ? theme.typographyTheme.small.size(10.0)
                 : theme.typographyTheme.p)
@@ -178,14 +181,12 @@ class LButton extends StatelessWidget {
 
 class LOutlineButton extends LButton {
   final ShapeBorder border;
-  final BorderSide side;
 
   const LOutlineButton({
     Key key,
     this.border,
-    this.side,
     Widget child,
-    Color color,
+    LiquidColor color,
     String text,
     Color textColor,
     double elevation = 0.0,
@@ -207,6 +208,7 @@ class LOutlineButton extends LButton {
     Function onFocusChange,
     Function onHighlightChanged,
     Function onHover,
+    double borderThickness,
   })  : assert(
             (child != null && text == null) || (child == null && text != null),
             "Use either child or text"),
@@ -236,19 +238,29 @@ class LOutlineButton extends LButton {
           onFocusChange: onFocusChange,
           onHighlightChanged: onHighlightChanged,
           onHover: onHover,
+          borderThickness: borderThickness,
         );
 
+  @override
+  ShapeBorder _getShape(LiquidThemeData themeData, Color color) {
+    return RoundedRectangleBorder(
+      borderRadius: borderRadius ?? BorderRadius.circular(_getRadius()),
+      side: BorderSide(width: borderThickness ?? 1.0, color: color),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
     final _color =
-        (color ?? getColor(theme)).withOpacity(onPressed != null ? 1.0 : 0.5);
-    final shape = _getShape(theme, _color);
+        (color ?? getColor(theme)).lighten(onPressed != null ? 0.0 : 0.05);
+    final _shape = _getShape(theme, _color);
 
     return Container(
       margin: margin ?? theme.buttonTheme.margin,
       child: Material(
         borderOnForeground: true,
-        shape: shape,
+        shape: border ?? _shape,
         elevation: elevation,
         child: InkWell(
           autofocus: autofocus,
