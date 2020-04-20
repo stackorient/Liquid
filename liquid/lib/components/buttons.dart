@@ -11,15 +11,112 @@ enum ButtonType {
   dark
 }
 
-enum ButtonShape {
-  standard,
+enum ButtonShape { standard, circular }
 
-  circular
+class LNButton extends StatelessWidget {
+  final void Function() onPressed;
+  final void Function() onLongPress;
+  final void Function(bool) onHighlightChanged;
+  final TextStyle textStyle;
+  final Color fillColor;
+  final Color focusColor;
+  final Color hoverColor;
+  final Color highlightColor;
+  final Color splashColor;
+  final double elevation;
+  final double focusElevation;
+  final double hoverElevation;
+  final double highlightElevation;
+  final double disabledElevation;
+  final EdgeInsetsGeometry padding;
+  final VisualDensity visualDensity;
+  final BoxConstraints constraints;
+  final ShapeBorder shape;
+  final Duration animationDuration;
+  final Clip clipBehavior;
+  final FocusNode focusNode;
+  final bool autofocus;
+  final MaterialTapTargetSize materialTapTargetSize;
+  final Widget child;
+  final bool enableFeedback;
+
+  const LNButton({
+    Key key,
+    this.onLongPress,
+    this.onHighlightChanged,
+    this.textStyle,
+    this.fillColor,
+    this.focusColor,
+    this.hoverColor,
+    this.highlightColor,
+    this.splashColor,
+    this.elevation = 2.0,
+    this.focusElevation = 4.0,
+    this.hoverElevation = 4.0,
+    this.highlightElevation = 8.0,
+    this.disabledElevation = 0.0,
+    this.padding = EdgeInsets.zero,
+    this.visualDensity = const VisualDensity(),
+    this.constraints = const BoxConstraints(minWidth: 77.0, minHeight: 36.0),
+    this.shape = const RoundedRectangleBorder(),
+    this.animationDuration = kThemeChangeDuration,
+    this.clipBehavior = Clip.none,
+    this.focusNode,
+    this.autofocus = false,
+    this.child,
+    this.enableFeedback = true,
+    this.onPressed,
+    this.materialTapTargetSize,
+  })  : assert(shape != null),
+        assert(elevation != null && elevation >= 0.0),
+        assert(focusElevation != null && focusElevation >= 0.0),
+        assert(hoverElevation != null && hoverElevation >= 0.0),
+        assert(highlightElevation != null && highlightElevation >= 0.0),
+        assert(disabledElevation != null && disabledElevation >= 0.0),
+        assert(padding != null),
+        assert(constraints != null),
+        assert(animationDuration != null),
+        assert(clipBehavior != null),
+        assert(autofocus != null),
+        super(
+          key: key,
+        );
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onLongPress: onLongPress,
+      onHighlightChanged: onHighlightChanged,
+      textStyle: textStyle,
+      fillColor: fillColor,
+      focusColor: focusColor,
+      hoverColor: hoverColor,
+      highlightColor: highlightColor,
+      splashColor: splashColor,
+      elevation: elevation,
+      focusElevation: focusElevation,
+      hoverElevation: hoverElevation,
+      highlightElevation: highlightElevation,
+      disabledElevation: disabledElevation,
+      padding: padding,
+      visualDensity: visualDensity,
+      shape: shape,
+      clipBehavior: clipBehavior,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      materialTapTargetSize: materialTapTargetSize,
+      animationDuration: animationDuration,
+      enableFeedback: enableFeedback,
+      child: child,
+      onPressed: onPressed,
+      constraints: constraints,
+    );
+  }
 }
 
 class LButton extends StatelessWidget {
   final Color textColor;
-  final LiquidColor color;
+  final Color color;
   final String text;
   final ButtonType type;
   final ButtonShape shape;
@@ -76,7 +173,7 @@ class LButton extends StatelessWidget {
             "Use either child or text"),
         super(key: key);
 
-  LiquidColor getColor(LiquidThemeData themeData) {
+  Color getColor(LiquidThemeData themeData) {
     final bg = themeData.buttonColors;
 
     switch (type) {
@@ -186,7 +283,7 @@ class LOutlineButton extends LButton {
     Key key,
     this.border,
     Widget child,
-    LiquidColor color,
+    Color color,
     String text,
     Color textColor,
     double elevation = 0.0,

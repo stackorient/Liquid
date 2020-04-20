@@ -242,12 +242,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   xs: 6,
                   xl: 3,
                   children: <Widget>[
-                    LButton(
-                      type: ButtonType.success,
-                      shape: ButtonShape.standard,
-                      text: "hello",
-                      borderRadius: BorderRadius.circular(10.0),
-                      onPressed: () {},
+                    LNButton(
+                      child: Text("Hello"),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(2.0),
+                        side: BorderSide(width: 1, color: Colors.purple),
+                      ),
+                      animationDuration: Duration(milliseconds: 400),
                     ),
                   ],
                 ),

@@ -1,8 +1,6 @@
 part of 'base.dart';
 
-class LiquidColor extends Color {
-  const LiquidColor(int value) : super(value);
-
+extension ColorExtension on Color {
   Color darken([double amount = .1]) {
     assert(amount >= 0 && amount <= 1);
 

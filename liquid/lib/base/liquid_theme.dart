@@ -1,46 +1,46 @@
 part of 'base.dart';
 
 class LiquidAlertTextColors {
-  final LiquidColor primaryColor;
-  final LiquidColor secondaryColor;
-  final LiquidColor success;
-  final LiquidColor danger;
-  final LiquidColor warning;
-  final LiquidColor info;
-  final LiquidColor light;
-  final LiquidColor dark;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
 
   const LiquidAlertTextColors({
-    this.primaryColor = const LiquidColor(0xFF004085),
-    this.secondaryColor = const LiquidColor(0xFF383d41),
-    this.success = const LiquidColor(0xFF155724),
-    this.danger = const LiquidColor(0xFF721c24),
-    this.warning = const LiquidColor(0xFF856404),
-    this.info = const LiquidColor(0xFF0c5460),
-    this.light = const LiquidColor(0xFF818182),
-    this.dark = const LiquidColor(0xFF1b1e21),
+    this.primaryColor = const Color(0xFF004085),
+    this.secondaryColor = const Color(0xFF383d41),
+    this.success = const Color(0xFF155724),
+    this.danger = const Color(0xFF721c24),
+    this.warning = const Color(0xFF856404),
+    this.info = const Color(0xFF0c5460),
+    this.light = const Color(0xFF818182),
+    this.dark = const Color(0xFF1b1e21),
   });
 }
 
 class LiquidAlertBackgroundColors {
-  final LiquidColor primaryColor;
-  final LiquidColor secondaryColor;
-  final LiquidColor success;
-  final LiquidColor danger;
-  final LiquidColor warning;
-  final LiquidColor info;
-  final LiquidColor light;
-  final LiquidColor dark;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
 
   const LiquidAlertBackgroundColors({
-    this.primaryColor = const LiquidColor(0xFFcce5ff),
-    this.secondaryColor = const LiquidColor(0xFFe2e3e5),
-    this.success = const LiquidColor(0xFFd4edda),
-    this.danger = const LiquidColor(0xFFf8d7da),
-    this.warning = const LiquidColor(0xFFfff3cd),
-    this.info = const LiquidColor(0xFFd1ecf1),
-    this.light = const LiquidColor(0xFFfefefe),
-    this.dark = const LiquidColor(0xFFd6d8d9),
+    this.primaryColor = const Color(0xFFcce5ff),
+    this.secondaryColor = const Color(0xFFe2e3e5),
+    this.success = const Color(0xFFd4edda),
+    this.danger = const Color(0xFFf8d7da),
+    this.warning = const Color(0xFFfff3cd),
+    this.info = const Color(0xFFd1ecf1),
+    this.light = const Color(0xFFfefefe),
+    this.dark = const Color(0xFFd6d8d9),
   });
 }
 
@@ -61,46 +61,46 @@ class LiquidAlertTheme {
 }
 
 class LiquidBadgeTextColors {
-  final LiquidColor primaryColor;
-  final LiquidColor secondaryColor;
-  final LiquidColor success;
-  final LiquidColor danger;
-  final LiquidColor warning;
-  final LiquidColor info;
-  final LiquidColor light;
-  final LiquidColor dark;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
 
   const LiquidBadgeTextColors({
-    this.primaryColor = const LiquidColor(0xFF004085),
-    this.secondaryColor = const LiquidColor(0xFF383d41),
-    this.success = const LiquidColor(0xFF155724),
-    this.danger = const LiquidColor(0xFF721c24),
-    this.warning = const LiquidColor(0xFF856404),
-    this.info = const LiquidColor(0xFF0c5460),
-    this.light = const LiquidColor(0xFF818182),
-    this.dark = const LiquidColor(0xFF1b1e21),
+    this.primaryColor = const Color(0xFF004085),
+    this.secondaryColor = const Color(0xFF383d41),
+    this.success = const Color(0xFF155724),
+    this.danger = const Color(0xFF721c24),
+    this.warning = const Color(0xFF856404),
+    this.info = const Color(0xFF0c5460),
+    this.light = const Color(0xFF818182),
+    this.dark = const Color(0xFF1b1e21),
   });
 }
 
 class LiquidBadgeBackgroundColors {
-  final LiquidColor primaryColor;
-  final LiquidColor secondaryColor;
-  final LiquidColor success;
-  final LiquidColor danger;
-  final LiquidColor warning;
-  final LiquidColor info;
-  final LiquidColor light;
-  final LiquidColor dark;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
 
   const LiquidBadgeBackgroundColors({
-    this.primaryColor = const LiquidColor(0xFFcce5ff),
-    this.secondaryColor = const LiquidColor(0xFFe2e3e5),
-    this.success = const LiquidColor(0xFFd4edda),
-    this.danger = const LiquidColor(0xFFf8d7da),
-    this.warning = const LiquidColor(0xFFfff3cd),
-    this.info = const LiquidColor(0xFFd1ecf1),
-    this.light = const LiquidColor(0xFFfefefe),
-    this.dark = const LiquidColor(0xFFd6d8d9),
+    this.primaryColor = const Color(0xFFcce5ff),
+    this.secondaryColor = const Color(0xFFe2e3e5),
+    this.success = const Color(0xFFd4edda),
+    this.danger = const Color(0xFFf8d7da),
+    this.warning = const Color(0xFFfff3cd),
+    this.info = const Color(0xFFd1ecf1),
+    this.light = const Color(0xFFfefefe),
+    this.dark = const Color(0xFFd6d8d9),
   });
 }
 
@@ -136,84 +136,84 @@ class LiquidButtonTheme {
 }
 
 class LiquidButtonColors {
-  final LiquidColor primaryColor;
-  final LiquidColor secondaryColor;
-  final LiquidColor success;
-  final LiquidColor danger;
-  final LiquidColor warning;
-  final LiquidColor info;
-  final LiquidColor light;
-  final LiquidColor dark;
-  final LiquidColor white;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
+  final Color white;
 
   const LiquidButtonColors({
-    this.primaryColor = const LiquidColor(0xFF007bff),
-    this.secondaryColor = const LiquidColor(0xFF6c757d),
-    this.success = const LiquidColor(0xFF28a745),
-    this.danger = const LiquidColor(0xFFdc3545),
-    this.warning = const LiquidColor(0xFFffc107),
-    this.info = const LiquidColor(0xFF17a2b8),
-    this.light = const LiquidColor(0xFFf8f9fa),
-    this.dark = const LiquidColor(0xFF343a40),
-    this.white = const LiquidColor(0xFFFFFFFF),
+    this.primaryColor = const Color(0xFF007bff),
+    this.secondaryColor = const Color(0xFF6c757d),
+    this.success = const Color(0xFF28a745),
+    this.danger = const Color(0xFFdc3545),
+    this.warning = const Color(0xFFffc107),
+    this.info = const Color(0xFF17a2b8),
+    this.light = const Color(0xFFf8f9fa),
+    this.dark = const Color(0xFF343a40),
+    this.white = const Color(0xFFFFFFFF),
   });
 }
 
 class LiquidTextColors {
-  final LiquidColor primaryColor;
-  final LiquidColor secondaryColor;
-  final LiquidColor success;
-  final LiquidColor danger;
-  final LiquidColor warning;
-  final LiquidColor info;
-  final LiquidColor light;
-  final LiquidColor dark;
-  final LiquidColor body;
-  final LiquidColor white;
-  final LiquidColor muted;
-  final LiquidColor black50;
-  final LiquidColor white50;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
+  final Color body;
+  final Color white;
+  final Color muted;
+  final Color black50;
+  final Color white50;
 
   const LiquidTextColors({
-    this.primaryColor = const LiquidColor(0xFF007bff),
-    this.secondaryColor = const LiquidColor(0xFF6c757d),
-    this.success = const LiquidColor(0xFF28a745),
-    this.danger = const LiquidColor(0xFFdc3545),
-    this.warning = const LiquidColor(0xFFffc107),
-    this.info = const LiquidColor(0xFF17a2b8),
-    this.light = const LiquidColor(0xFFf8f9fa),
-    this.dark = const LiquidColor(0xFF343a40),
-    this.body = const LiquidColor(0xFF515457),
-    this.white = const LiquidColor(0xFFFFFFFF),
-    this.muted = const LiquidColor(0xFFb6bbbf),
-    this.black50 = const LiquidColor(0x80000000),
-    this.white50 = const LiquidColor(0x80FFFFFF),
+    this.primaryColor = const Color(0xFF007bff),
+    this.secondaryColor = const Color(0xFF6c757d),
+    this.success = const Color(0xFF28a745),
+    this.danger = const Color(0xFFdc3545),
+    this.warning = const Color(0xFFffc107),
+    this.info = const Color(0xFF17a2b8),
+    this.light = const Color(0xFFf8f9fa),
+    this.dark = const Color(0xFF343a40),
+    this.body = const Color(0xFF515457),
+    this.white = const Color(0xFFFFFFFF),
+    this.muted = const Color(0xFFb6bbbf),
+    this.black50 = const Color(0x80000000),
+    this.white50 = const Color(0x80FFFFFF),
   });
 }
 
 class LiquidBackgroundColors {
-  final LiquidColor primaryColor;
-  final LiquidColor secondaryColor;
-  final LiquidColor success;
-  final LiquidColor danger;
-  final LiquidColor warning;
-  final LiquidColor info;
-  final LiquidColor light;
-  final LiquidColor dark;
-  final LiquidColor white;
-  final LiquidColor transparent;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color success;
+  final Color danger;
+  final Color warning;
+  final Color info;
+  final Color light;
+  final Color dark;
+  final Color white;
+  final Color transparent;
 
   const LiquidBackgroundColors({
-    this.primaryColor = const LiquidColor(0xFF007bff),
-    this.secondaryColor = const LiquidColor(0xFF6c757d),
-    this.success = const LiquidColor(0xFF28a745),
-    this.danger = const LiquidColor(0xFFdc3545),
-    this.warning = const LiquidColor(0xFFffc107),
-    this.info = const LiquidColor(0xFF17a2b8),
-    this.light = const LiquidColor(0xFFf8f9fa),
-    this.dark = const LiquidColor(0xFF343a40),
-    this.white = const LiquidColor(0xFFFFFFFF),
-    this.transparent = const LiquidColor(0xffffff00),
+    this.primaryColor = const Color(0xFF007bff),
+    this.secondaryColor = const Color(0xFF6c757d),
+    this.success = const Color(0xFF28a745),
+    this.danger = const Color(0xFFdc3545),
+    this.warning = const Color(0xFFffc107),
+    this.info = const Color(0xFF17a2b8),
+    this.light = const Color(0xFFf8f9fa),
+    this.dark = const Color(0xFF343a40),
+    this.white = const Color(0xFFFFFFFF),
+    this.transparent = const Color(0xffffff00),
   });
 }
 
@@ -229,36 +229,36 @@ class LiquidGradients {
 
   const LiquidGradients({
     this.primaryColor = const LinearGradient(colors: [
-      LiquidColor(0xFF268fff),
-      LiquidColor(0xFF007bff),
+      Color(0xFF268fff),
+      Color(0xFF007bff),
     ]),
     this.secondaryColor = const LinearGradient(colors: [
-      LiquidColor(0xFF828a91),
-      LiquidColor(0xFF6c757d),
+      Color(0xFF828a91),
+      Color(0xFF6c757d),
     ]),
     this.success = const LinearGradient(colors: [
-      LiquidColor(0xFF48b461),
-      LiquidColor(0xFF28a745),
+      Color(0xFF48b461),
+      Color(0xFF28a745),
     ]),
     this.danger = const LinearGradient(colors: [
-      LiquidColor(0xFFe15361),
-      LiquidColor(0xFFdc3545),
+      Color(0xFFe15361),
+      Color(0xFFdc3545),
     ]),
     this.warning = const LinearGradient(colors: [
-      LiquidColor(0xFFffca2c),
-      LiquidColor(0xFFffc107),
+      Color(0xFFffca2c),
+      Color(0xFFffc107),
     ]),
     this.info = const LinearGradient(colors: [
-      LiquidColor(0xFF3ab0c3),
-      LiquidColor(0xFF17a2b8),
+      Color(0xFF3ab0c3),
+      Color(0xFF17a2b8),
     ]),
     this.light = const LinearGradient(colors: [
-      LiquidColor(0xFFf9fafb),
-      LiquidColor(0xFFf8f9fa),
+      Color(0xFFf9fafb),
+      Color(0xFFf8f9fa),
     ]),
     this.dark = const LinearGradient(colors: [
-      LiquidColor(0xFF52585d),
-      LiquidColor(0xFF343a40),
+      Color(0xFF52585d),
+      Color(0xFF343a40),
     ]),
   });
 }
@@ -347,7 +347,7 @@ class LiquidTypographyTheme {
     ),
     this.quoteFooter = const LTextStyle(
       fontSize: 16.0,
-      color: LiquidColor(0xFF6c757d),
+      color: Color(0xFF6c757d),
     ),
   });
 }

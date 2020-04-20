@@ -2,7 +2,7 @@ part of 'components.dart';
 
 class LGroupButton {
   final Color textColor;
-  final LiquidColor color;
+  final Color color;
   final String text;
   final ButtonType type;
   final Widget child;
@@ -42,7 +42,7 @@ class LGroupButton {
 
 class LButtonGroup extends StatelessWidget {
   final Color textColor;
-  final LiquidColor color;
+  final Color color;
   final ButtonType type;
   final ButtonShape shape;
   final double elevation;
@@ -83,7 +83,7 @@ class LButtonGroup extends StatelessWidget {
   })  : assert(children != null && children.length >= 2),
         super(key: key);
 
-  LiquidColor _getColor(LiquidThemeData themeData) {
+  Color _getColor(LiquidThemeData themeData) {
     final bg = themeData.buttonColors;
 
     switch (type) {
