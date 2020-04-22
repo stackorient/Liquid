@@ -373,6 +373,38 @@ class LiquidTypographyTheme {
   });
 }
 
+class LiquidDropdownItemTheme {
+  final EdgeInsets padding;
+  final Color splashColor;
+  final Color focusColor;
+  final Color highlightColor;
+  final Color hoverColor;
+
+  const LiquidDropdownItemTheme({
+    this.padding = const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
+    this.splashColor,
+    this.focusColor,
+    this.highlightColor,
+    this.hoverColor,
+  });
+}
+
+class LiquidDropdownTheme {
+  final LiquidDropdownItemTheme itemTheme;
+  final EdgeInsets padding;
+  final Color background;
+  final double elevation;
+  final ShapeBorder shape;
+
+  const LiquidDropdownTheme({
+    this.itemTheme = const LiquidDropdownItemTheme(),
+    this.padding = const EdgeInsets.symmetric(vertical: 6.0),
+    this.background = Colors.white,
+    this.elevation = 1.0,
+    this.shape,
+  });
+}
+
 class LiquidThemeData {
   final LiquidTextColors textColors;
   final LiquidBackgroundColors backgroundColors;
@@ -381,6 +413,7 @@ class LiquidThemeData {
   final LiquidBadgeTheme badgeTheme;
   final LiquidButtonTheme buttonTheme;
   final LiquidTypographyTheme typographyTheme;
+  final LiquidDropdownTheme dropdownTheme;
 
   const LiquidThemeData({
     this.textColors = const LiquidTextColors(),
@@ -390,6 +423,7 @@ class LiquidThemeData {
     this.badgeTheme = const LiquidBadgeTheme(),
     this.buttonTheme = const LiquidButtonTheme(),
     this.typographyTheme = const LiquidTypographyTheme(),
+    this.dropdownTheme = const LiquidDropdownTheme(),
   });
 }
 

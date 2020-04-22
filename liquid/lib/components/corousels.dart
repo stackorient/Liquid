@@ -145,7 +145,7 @@ class LCorousel extends StatefulWidget {
 class _LCorouselState extends State<LCorousel> {
   Timer _timer;
   PageController _controller;
-  double _currentPageValue = 0.0;
+  int _currentPageValue = 0;
 
   @override
   void initState() {
@@ -153,7 +153,7 @@ class _LCorouselState extends State<LCorousel> {
     _controller = (widget.controller ?? PageController())
       ..addListener(
         () => setState(() {
-          _currentPageValue = _controller.page;
+          _currentPageValue = _controller.page.round();
         }),
       );
     if (widget.autoScroll) {
@@ -220,16 +220,13 @@ class _LCorouselState extends State<LCorousel> {
         fit: StackFit.passthrough,
         children: <Widget>[
           Positioned.fill(
-            child: PageView.builder(
+            child: PageView(
               pageSnapping: true,
               controller: _controller,
               physics: widget.canScroll
                   ? const AlwaysScrollableScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, position) {
-                return widget.items[position];
-              },
-              itemCount: widget.items.length,
+              children: widget.items,
             ),
           ),
           widget.withControls

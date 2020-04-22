@@ -273,10 +273,31 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
-                            LFlatButton(
-                              child: Text("hello"),
-                              onPressed: () {},
-                              type: ButtonType.success,
+                            LDropdown(
+                              trigger: LFlatButton(
+                                child: Text("hello"),
+                                type: ButtonType.success,
+                              ),
+                              itemBuilder: (context) => [
+                                LDropdownItem(
+                                  text: "First Item",
+                                  onTap: () {},
+                                ),
+                                LDropdownItem(
+                                  text: "Second Item",
+                                  onTap: () {},
+                                ),
+                                LDropdownItem(
+                                  text: "Third Item",
+                                  onTap: () {},
+                                ),
+                                LDropdownItem.withChild(
+                                  child: LFlatButton.text(
+                                    text: "Happy day",
+                                    onPressed: () {},
+                                  ),
+                                ),
+                              ],
                             ),
                             LFlatButton(
                               child: Text("hello"),
