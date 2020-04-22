@@ -27,17 +27,17 @@ class LCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return Material(
+      elevation: elevation ?? 0.0,
       borderRadius: BorderRadius.circular(radius ?? 5.0),
-      child: Material(
-        elevation: elevation ?? 0.0,
+      child: ClipRRect(
         borderRadius: BorderRadius.circular(radius ?? 5.0),
         child: Container(
           height: height,
           width: width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(radius ?? 5.0),
-            border: border ?? Border.all(color: Colors.black12, width: 1.0),
+            border: border,
             color: color,
           ),
           child: Column(
@@ -159,19 +159,22 @@ class LCardImage extends StatelessWidget {
         super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      child: child ?? Container(),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: image,
-          colorFilter: colorFilter,
-          fit: fit ?? BoxFit.fill,
-          alignment: alignment ?? Alignment.topCenter,
-          centerSlice: centerSlice,
-          repeat: repeat ?? ImageRepeat.noRepeat,
-          matchTextDirection: matchTextDirection ?? true,
+    return AspectRatio(
+      aspectRatio: 1280 / 960,
+      child: Container(
+        height: height,
+        width: width,
+        child: child ?? Container(),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: image,
+            colorFilter: colorFilter,
+            fit: fit ?? BoxFit.fill,
+            alignment: alignment ?? Alignment.topCenter,
+            centerSlice: centerSlice,
+            repeat: repeat ?? ImageRepeat.noRepeat,
+            matchTextDirection: matchTextDirection ?? true,
+          ),
         ),
       ),
     );
