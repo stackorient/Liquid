@@ -214,7 +214,7 @@ enum LGridMode { ratio, fixedSize }
 
 class LRow extends StatelessWidget {
   final int columnCount = 12;
-  final List<LColumn> children;
+  final List<LColumn> columns;
   final double gutter;
 
   // TODO: work on this
@@ -229,7 +229,7 @@ class LRow extends StatelessWidget {
 
   const LRow({
     Key key,
-    this.children = const <LColumn>[],
+    this.columns = const <LColumn>[],
     this.cols,
     this.gutter,
     this.mainAxisAlignment = MainAxisAlignment.start,
@@ -240,8 +240,8 @@ class LRow extends StatelessWidget {
     this.textBaseline,
     this.mode = LGridMode.fixedSize,
   })  : assert(mode != null),
-        assert(children != null),
-        assert(children.length > 0,
+        assert(columns != null),
+        assert(columns.length > 0,
             "You need to add atleast one column to the LRow"),
         super(key: key);
 
@@ -290,7 +290,7 @@ class LRow extends StatelessWidget {
   List<dynamic> _preProcess(BreakPoint breakPoint) {
     final List<int> bp = [];
     bool _ = false;
-    children.forEach((element) {
+    columns.forEach((element) {
       bp.add(_getFlex(element, breakPoint));
       if (!_) _ = element.xs != null;
     });
@@ -346,7 +346,7 @@ class LRow extends StatelessWidget {
 
   void _fillRemaining(int totalFlex) {
     if (totalFlex < columnCount) {
-      children.add(LColumn());
+      columns.add(LColumn());
     }
   }
 
@@ -357,17 +357,17 @@ class LRow extends StatelessWidget {
 
     final vertical =
         _processed[1] ? false : (breakPoint == BreakPoint.xs ? true : false);
-    final lastchild = children.last.hashCode;
+    final lastchild = columns.last.hashCode;
     return LRowRaw(
       mainAxisAlignment: mainAxisAlignment,
       mainAxisSize:
           mainAxisSize ?? (vertical ? MainAxisSize.min : MainAxisSize.max),
-      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
       textDirection: textDirection,
       verticalDirection: verticalDirection,
       textBaseline: textBaseline,
       direction: vertical ? Axis.vertical : Axis.horizontal,
-      children: children.map(
+      children: columns.map(
         (child) {
           final flex = _flexes[currentIndex];
           currentIndex++;

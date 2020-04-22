@@ -3,7 +3,7 @@ part of 'base.dart';
 class LText extends StatelessWidget {
   final String text;
 
-  final LTextStyle style;
+  final TextStyle style;
   final StrutStyle strutStyle;
   final TextAlign textAlign;
   final TextDirection textDirection;
@@ -19,7 +19,7 @@ class LText extends StatelessWidget {
   const LText(
     this.text, {
     Key key,
-    this.style = const LTextStyle(),
+    this.style = const TextStyle(),
     this.strutStyle,
     this.textAlign,
     this.textDirection,

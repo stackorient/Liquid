@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         margin: EdgeInsets.all(20.0),
         header: LModelHeader(
           title: "Terms & Conditions",
-          onClose: () {
+          onClose: () async {
             setState(() {
               result = "Canceled";
             });
@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
         child: LColumn(
           children: <Widget>[
-            LRow(children: [
+            LRow(columns: [
               LColumn(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -154,12 +154,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             titleText: "First Slide",
                             subTitleText: "Cool Work Cool Work Cool",
                             actions: <Widget>[
-                              LButton(
+                              LFlatButton.text(
                                 text: "Accept",
                                 onPressed: _showModel,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                margin: const EdgeInsets.all(5.0),
+                                margin: const EdgeInsets.only(top: 10.0),
+                                small: true,
                               ),
                             ],
                           ),
@@ -184,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ]),
             LRow(
               gutter: 0,
-              children: [
+              columns: [
                 LColumn(
                   xs: 6,
                   xl: 1,
@@ -200,19 +199,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   xs: 6,
                   xl: 3,
                   children: <Widget>[
-                    LButton(
-                      type: ButtonType.success,
-                      shape: ButtonShape.standard,
-                      text: "hello",
+                    LIconButton(
+                      icon: Icon(Icons.ac_unit),
+                      color: Colors.green,
                       onPressed: () {},
                     ),
+                    SizedBox(height: 20.0),
+                    IconButton(
+                      icon: Icon(Icons.ac_unit),
+                      color: Colors.red,
+                      splashColor: Colors.red.withOpacity(0.2),
+                      onPressed: () {},
+                    )
                   ],
                 ),
               ],
             ),
             LRow(
               gutter: 0,
-              children: [
+              columns: [
                 LColumn(
                   xs: 6,
                   xl: 1,
@@ -238,22 +243,253 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
+              ],
+            ),
+            LRow(
+              columns: [
                 LColumn(
-                  xs: 6,
-                  xl: 3,
                   children: <Widget>[
-                    LButton(
-                      type: ButtonType.success,
-                      shape: ButtonShape.standard,
-                      text: "hello",
-                      borderRadius: BorderRadius.circular(10.0),
-                      onPressed: () {},
+                    // flat buttons
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Flat Buttons"),
+                    ),
+                    LRow(
+                      columns: [
+                        LColumn(
+                          xs: 3,
+                          children: <Widget>[
+                            LFlatButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.primary,
+                            ),
+                            LFlatButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.secondary,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LFlatButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.success,
+                            ),
+                            LFlatButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.danger,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LFlatButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.warning,
+                              small: true,
+                            ),
+                            LFlatButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.info,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LFlatButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.dark,
+                              small: true,
+                            ),
+                            LFlatButton(
+                              child: Icon(Icons.ac_unit),
+                              onPressed: () {},
+                              type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
+                LColumn(
+                  children: <Widget>[
+                    // outline button
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Outline Buttons"),
+                    ),
+                    LRow(
+                      columns: [
+                        LColumn(
+                          xs: 3,
+                          children: <Widget>[
+                            LNOutlineButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.primary,
+                            ),
+                            LNOutlineButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.secondary,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LNOutlineButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.success,
+                            ),
+                            LNOutlineButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.danger,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LNOutlineButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.warning,
+                              buttonShape: ButtonShape.pill,
+                            ),
+                            LNOutlineButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.info,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LNOutlineButton(
+                              child: Text("Hello World"),
+                              onPressed: () {},
+                              type: ButtonType.dark,
+                              fillMode: FillMode.translucent,
+                              buttonShape: ButtonShape.pill,
+                            ),
+                            LNOutlineButton.icon(
+                              icon: Icon(Icons.ac_unit),
+                              label: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                              direction: Axis.vertical,
+                              small: true,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                LColumn(
+                  children: <Widget>[
+                    // Raised button
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Raised Buttons"),
+                    ),
+                    LRow(
+                      columns: [
+                        LColumn(
+                          xs: 3,
+                          children: <Widget>[
+                            LRaisedButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.primary,
+                            ),
+                            LRaisedButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.secondary,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LRaisedButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.success,
+                            ),
+                            LRaisedButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.danger,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LRaisedButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.warning,
+                            ),
+                            LRaisedButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: ButtonType.info,
+                              buttonShape: ButtonShape.pill,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LRaisedButton.text(
+                              text: "Hello",
+                              onPressed: () {},
+                              type: ButtonType.dark,
+                            ),
+                            LRaisedButton.icon(
+                              icon: Icon(Icons.ac_unit),
+                              label: Text("Hello"),
+                              onPressed: () {},
+                              type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                              small: true,
+                            ),
+                            LRaisedButton.icon(
+                              icon: Icon(Icons.ac_unit),
+                              label: Text("Hello"),
+                              onPressed: () {},
+                              type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                              small: true,
+                            ),
+                            LRaisedButton.icon(
+                              icon: Icon(Icons.ac_unit),
+                              label: Text("Hello"),
+                              onPressed: () {},
+                              type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                              small: true,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                )
               ],
             ),
-            LRow(gutter: 5.0, children: [
+            LRow(gutter: 5.0, columns: [
               LColumn(
                 sm: 6,
                 children: <Widget>[

@@ -185,7 +185,7 @@ class LCardBody extends StatelessWidget {
   final String title;
   final Widget child;
   final String subTitle;
-  final LTextStyle titleStyle;
+  final TextStyle titleStyle;
   final EdgeInsets padding;
   final EdgeInsets titleMargin;
   const LCardBody(

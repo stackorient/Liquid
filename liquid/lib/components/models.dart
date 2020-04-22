@@ -138,8 +138,8 @@ class LModelHeader extends StatelessWidget {
   }
 
   void _close(BuildContext context) async {
-    if (onClose != null) onClose();
     await LiquidStateManager.of(context).popModel();
+    if (onClose != null) onClose();
   }
 }
 
@@ -235,35 +235,35 @@ class _LAnimatedModelState extends State<LAnimatedModel>
   Widget build(BuildContext context) {
     _controller.forward();
     final size = MediaQuery.of(context).size;
-    return Material(
-      color: widget.backdropColor ?? Colors.black38,
-      child: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: size.height,
-          ),
-          child: GestureDetector(
-            onTap: widget.barrierDismissable
-                ? () async => await LiquidStateManager.of(context).popModel()
-                : null,
-            child: SlideTransition(
-              position: (widget.positionTween ??
-                      Tween(begin: Offset(0.0, -10.0), end: Offset.zero))
-                  .animate(
-                CurvedAnimation(
-                  parent: _controller,
-                  curve: Curves.fastLinearToSlowEaseIn,
-                ),
-              ),
-              child: FadeTransition(
-                opacity: Tween(begin: 0.0, end: 1.0).animate(
+    return FadeTransition(
+      opacity: Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Curves.ease,
+        ),
+      ),
+      child: Material(
+        color: widget.backdropColor ?? Colors.black54,
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: size.height,
+            ),
+            child: GestureDetector(
+              onTap: widget.barrierDismissable
+                  ? () async => await LiquidStateManager.of(context).popModel()
+                  : null,
+              child: SlideTransition(
+                position: (widget.positionTween ??
+                        Tween(begin: Offset(0.0, -10.0), end: Offset.zero))
+                    .animate(
                   CurvedAnimation(
                     parent: _controller,
-                    curve: Curves.ease,
+                    curve: Curves.fastLinearToSlowEaseIn,
                   ),
                 ),
                 child: Material(
-                  color: widget.backdropColor ?? Colors.transparent,
+                  type: MaterialType.transparency,
                   child: GestureDetector(
                     onTap: () {}, // to prevent accidental closing
                     child: widget.model,

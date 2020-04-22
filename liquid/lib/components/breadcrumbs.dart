@@ -34,9 +34,8 @@ class LBreadCrumbItem extends StatelessWidget {
     final _text = Text(
       text,
       style: active
-          ? LTextStyle().withColor(color ?? theme.textColors.secondaryColor)
-          : LTextStyle()
-              .withColor(activeColor ?? theme.textColors.primaryColor),
+          ? TextStyle().withColor(color ?? theme.textColors.secondaryColor)
+          : TextStyle().withColor(activeColor ?? theme.textColors.primaryColor),
     );
 
     if (leading != null) {
