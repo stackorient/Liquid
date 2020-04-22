@@ -237,12 +237,12 @@ class _MyHomePageState extends State<MyHomePage> {
               LColumn(
                 children: <Widget>[
                   LCard(
+                    elevation: 10.0,
                     header: LCardHeader(title: "title"),
                     footer: LCardFooter(
                       actions: <Widget>[Text('Footer')],
                     ),
                     color: Colors.white,
-                    border: Border.all(color: Colors.black26),
                     image: LCardImage(
                       image: NetworkImage(
                         'https://source.unsplash.com/random/?cars',
