@@ -393,7 +393,9 @@ class LiquidApp extends StatelessWidget {
           title: title,
           onGenerateTitle: onGenerateTitle,
           color: color,
-          theme: theme,
+          theme: Theme.of(context).copyWith(
+            splashFactory: LFastSplashFactory(),
+          ),
           darkTheme: darkTheme,
           themeMode: themeMode,
           locale: locale,

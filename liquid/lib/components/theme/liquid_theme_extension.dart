@@ -32,7 +32,7 @@ extension on LiquidButtonTheme {
   }
 
   Color getFillColor(LNButton button) {
-    if (button is LNOutlineButton) return Colors.white;
+    if (button is LNOutlineButton) return Colors.transparent;
     return getButtonColor(button);
   }
 
@@ -77,7 +77,10 @@ extension on LiquidButtonTheme {
   Color getHighlightColor(LNButton button) {
     if (button is LNOutlineButton) {
       if (button.fillMode == FillMode.transparent) {
-        return getButtonColor(button).lighten(0.45);
+        return getButtonColor(button).withOpacity(0.2);
+      }
+      if (button.fillMode == FillMode.translucent) {
+        return getButtonColor(button).withOpacity(0.5);
       }
     }
     return getButtonColor(button).darken(0.1);
@@ -118,10 +121,12 @@ extension on LiquidButtonTheme {
   ShapeBorder getButtonShape(LNButton button) {
     if (button is LRaisedButton)
       return RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(3.0),
+        borderRadius: BorderRadius.circular(
+            button.buttonShape == ButtonShape.pill ? 1000 : 3.0),
       );
     return RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(3.0),
+      borderRadius: BorderRadius.circular(
+          button.buttonShape == ButtonShape.pill ? 1000 : 3.0),
       side: BorderSide(
         width: 1,
         color: getButtonColor(button).darken(0.05),
@@ -130,8 +135,10 @@ extension on LiquidButtonTheme {
   }
 
   TextStyle getTextStyle(LNButton button, bool hover) {
+    final _ts = (button.small ?? false) ? smallTextStyle : textStyle;
+
     if (button is LNOutlineButton && !hover) {
-      return textStyle.withColor(
+      return _ts.withColor(
         button.type == ButtonType.light
             ? getButtonColor(button).darken(0.3)
             : getButtonColor(button),
@@ -139,8 +146,8 @@ extension on LiquidButtonTheme {
     }
 
     if (button.type == ButtonType.warning || button.type == ButtonType.light) {
-      return textStyle.withColor(Colors.black);
+      return _ts.withColor(Colors.black);
     }
-    return textStyle.withColor(Colors.white);
+    return _ts.withColor(Colors.white);
   }
 }

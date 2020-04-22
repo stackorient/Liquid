@@ -362,7 +362,7 @@ class LRow extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment,
       mainAxisSize:
           mainAxisSize ?? (vertical ? MainAxisSize.min : MainAxisSize.max),
-      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
       textDirection: textDirection,
       verticalDirection: verticalDirection,
       textBaseline: textBaseline,

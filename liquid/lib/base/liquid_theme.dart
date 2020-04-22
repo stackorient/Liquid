@@ -124,24 +124,35 @@ class LiquidButtonTheme {
   final EdgeInsets padding;
   final EdgeInsets smallPadding;
   final EdgeInsets margin;
+  final EdgeInsets smallMargin;
+  final MaterialTapTargetSize materialTapTargetSize;
+  final MaterialTapTargetSize smallMaterialTapTargetSize;
   final TextStyle textStyle;
+  final TextStyle smallTextStyle;
   final BoxConstraints constraints;
 
   const LiquidButtonTheme({
     this.buttonColors = const LiquidButtonColors(),
     this.textColors = const LiquidTextColors(),
-    this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
     this.smallPadding =
-        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-    this.margin = const EdgeInsets.symmetric(horizontal: 4.0),
+        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+    this.margin = const EdgeInsets.all(1.0),
+    this.smallMargin = const EdgeInsets.all(3.0),
     this.textStyle = const TextStyle(
       fontWeight: FontWeight.w500,
       fontSize: 14.0,
+    ),
+    this.smallTextStyle = const TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 12.0,
     ),
     this.constraints = const BoxConstraints(
       minWidth: 88.0,
       minHeight: 36.0,
     ),
+    this.materialTapTargetSize = MaterialTapTargetSize.padded,
+    this.smallMaterialTapTargetSize = MaterialTapTargetSize.shrinkWrap,
   });
 }
 

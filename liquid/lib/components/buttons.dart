@@ -11,10 +11,12 @@ enum ButtonType {
   dark
 }
 
-enum ButtonShape { standard, circular }
+enum ButtonShape { standard, circular, pill }
 
 class LNButton extends StatefulWidget {
   final ButtonType type;
+  final ButtonShape buttonShape;
+  final bool small;
   final void Function(PointerEnterEvent) onMouseEnter;
   final void Function(PointerExitEvent) onMouseExit;
   final void Function(PointerHoverEvent) onMouseHover;
@@ -33,6 +35,7 @@ class LNButton extends StatefulWidget {
   final double highlightElevation;
   final double disabledElevation;
   final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
   final VisualDensity visualDensity;
   final BoxConstraints constraints;
   final ShapeBorder shape;
@@ -47,6 +50,7 @@ class LNButton extends StatefulWidget {
   const LNButton({
     Key key,
     this.type = ButtonType.primary,
+    this.small,
     this.onLongPress,
     this.onHighlightChanged,
     this.onMouseEnter,
@@ -63,7 +67,8 @@ class LNButton extends StatefulWidget {
     this.hoverElevation,
     this.highlightElevation,
     this.disabledElevation,
-    this.padding = EdgeInsets.zero,
+    this.padding,
+    this.margin,
     this.visualDensity = const VisualDensity(),
     this.constraints,
     this.shape,
@@ -75,10 +80,15 @@ class LNButton extends StatefulWidget {
     this.enableFeedback = true,
     this.onPressed,
     this.materialTapTargetSize,
-  })  : assert(padding != null),
-        assert(animationDuration != null),
+    this.buttonShape = ButtonShape.standard,
+  })  : assert(animationDuration != null),
         assert(clipBehavior != null),
         assert(autofocus != null),
+        assert(buttonShape != null),
+        assert(
+            (buttonShape == ButtonShape.pill && shape == null) ||
+                (buttonShape != ButtonShape.pill),
+            "shape is not allowed in Pill Buttons"),
         super(
           key: key,
         );
@@ -105,37 +115,57 @@ class _LNButtonState extends State<LNButton> {
       onEnter: _onMouseEnter,
       onExit: _onMouseExit,
       onHover: _onMouseHover,
-      child: RawMaterialButton(
-        onLongPress: widget.onLongPress,
-        onHighlightChanged: _onHighlightChanged,
-        textStyle: widget.textStyle ?? buttonTheme.getTextStyle(widget, hover),
-        fillColor: widget.fillColor ?? buttonTheme.getFillColor(widget),
-        focusColor: widget.focusColor ?? buttonTheme.getFocusColor(widget),
-        hoverColor: widget.hoverColor ?? buttonTheme.getHoverColor(widget),
-        highlightColor:
-            widget.highlightColor ?? buttonTheme.getHighlightColor(widget),
-        splashColor: widget.splashColor ?? buttonTheme.getSplashColor(widget),
-        elevation: widget.elevation ?? buttonTheme.getElevation(widget),
-        focusElevation:
-            widget.focusElevation ?? buttonTheme.getFocusElevation(widget),
-        hoverElevation:
-            widget.hoverElevation ?? buttonTheme.getHoverElevation(widget),
-        highlightElevation: widget.highlightElevation ??
-            buttonTheme.getHighlightElevation(widget),
-        disabledElevation: widget.disabledElevation ??
-            buttonTheme.getDisabledElevation(widget),
-        padding: widget.padding ?? buttonTheme.padding,
-        visualDensity: widget.visualDensity,
-        shape: widget.shape ?? buttonTheme.getButtonShape(widget),
-        clipBehavior: widget.clipBehavior,
-        focusNode: widget.focusNode,
-        autofocus: widget.autofocus,
-        materialTapTargetSize: widget.materialTapTargetSize,
-        animationDuration: widget.animationDuration,
-        enableFeedback: widget.enableFeedback,
-        child: widget.child,
-        onPressed: widget.onPressed,
-        constraints: widget.constraints ?? buttonTheme.constraints,
+      child: IconTheme(
+        data: IconThemeData(
+          size: (widget.small ?? false) ? 16.0 : 24.0,
+        ),
+        child: Container(
+          margin: widget.margin ??
+              ((widget.small ?? false)
+                  ? buttonTheme.smallMargin
+                  : buttonTheme.margin),
+          child: RawMaterialButton(
+            onLongPress: widget.onLongPress,
+            onHighlightChanged: _onHighlightChanged,
+            textStyle:
+                widget.textStyle ?? buttonTheme.getTextStyle(widget, hover),
+            fillColor: widget.fillColor ?? buttonTheme.getFillColor(widget),
+            focusColor: widget.focusColor ?? buttonTheme.getFocusColor(widget),
+            hoverColor: widget.hoverColor ?? buttonTheme.getHoverColor(widget),
+            highlightColor:
+                widget.highlightColor ?? buttonTheme.getHighlightColor(widget),
+            splashColor:
+                widget.splashColor ?? buttonTheme.getSplashColor(widget),
+            elevation: widget.elevation ?? buttonTheme.getElevation(widget),
+            focusElevation:
+                widget.focusElevation ?? buttonTheme.getFocusElevation(widget),
+            hoverElevation:
+                widget.hoverElevation ?? buttonTheme.getHoverElevation(widget),
+            highlightElevation: widget.highlightElevation ??
+                buttonTheme.getHighlightElevation(widget),
+            disabledElevation: widget.disabledElevation ??
+                buttonTheme.getDisabledElevation(widget),
+            padding: (widget.small ?? false)
+                ? buttonTheme.smallPadding
+                : buttonTheme.padding,
+            visualDensity: widget.visualDensity,
+            shape: widget.shape ?? buttonTheme.getButtonShape(widget),
+            clipBehavior: Clip.antiAlias,
+            focusNode: widget.focusNode,
+            autofocus: widget.autofocus,
+            materialTapTargetSize: widget.materialTapTargetSize ??
+                ((widget.small ?? false)
+                    ? buttonTheme.smallMaterialTapTargetSize
+                    : buttonTheme.materialTapTargetSize),
+            animationDuration: Duration(milliseconds: 0),
+            enableFeedback: widget.enableFeedback ?? true,
+            child: widget.child,
+            onPressed: widget.onPressed,
+            constraints: widget.constraints ??
+                buttonTheme.constraints *
+                    ((widget.small ?? false) ? 0.75 : 1.0),
+          ),
+        ),
       ),
     );
   }
@@ -172,7 +202,9 @@ class _LNButtonState extends State<LNButton> {
 class LFlatButton extends LNButton {
   const LFlatButton({
     Key key,
+    bool small,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
     void Function(PointerHoverEvent) onMouseHover,
@@ -189,7 +221,8 @@ class LFlatButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -201,13 +234,14 @@ class LFlatButton extends LNButton {
     bool enableFeedback = true,
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
-  })  : assert(padding != null),
-        assert(animationDuration != null),
+  })  : assert(animationDuration != null),
         assert(clipBehavior != null),
         assert(autofocus != null),
         super(
           key: key,
           type: type,
+          buttonShape: buttonShape,
+          small: small,
           onMouseEnter: onMouseEnter,
           onMouseExit: onMouseExit,
           onMouseHover: onMouseHover,
@@ -225,6 +259,7 @@ class LFlatButton extends LNButton {
           highlightElevation: highlightElevation,
           disabledElevation: disabledElevation,
           padding: padding,
+          margin: margin,
           visualDensity: visualDensity,
           shape: shape,
           clipBehavior: clipBehavior,
@@ -241,6 +276,8 @@ class LFlatButton extends LNButton {
   factory LFlatButton.icon({
     Key key,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
+    bool small,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
     void Function(PointerHoverEvent) onMouseHover,
@@ -256,7 +293,8 @@ class LFlatButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -269,9 +307,12 @@ class LFlatButton extends LNButton {
     bool enableFeedback = true,
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
+    Axis direction,
   }) =>
       LFlatButton(
         type: type,
+        buttonShape: buttonShape,
+        small: small,
         onMouseEnter: onMouseEnter,
         onMouseExit: onMouseExit,
         onMouseHover: onMouseHover,
@@ -288,6 +329,7 @@ class LFlatButton extends LNButton {
         highlightElevation: highlightElevation,
         disabledElevation: disabledElevation,
         padding: padding,
+        margin: margin,
         visualDensity: visualDensity,
         shape: shape,
         clipBehavior: clipBehavior,
@@ -296,11 +338,15 @@ class LFlatButton extends LNButton {
         materialTapTargetSize: materialTapTargetSize,
         animationDuration: animationDuration,
         enableFeedback: enableFeedback,
-        child: Row(
+        child: Flex(
+          direction: direction ?? Axis.horizontal,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            icon,
-            const SizedBox(width: 8.0),
+            Transform.scale(
+              scale: (small ?? false) ? 0.7 : 1.0,
+              child: icon,
+            ),
+            SizedBox(width: (small ?? false) ? 4.0 : 8.0),
             label,
           ],
         ),
@@ -311,6 +357,8 @@ class LFlatButton extends LNButton {
   factory LFlatButton.text({
     Key key,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
+    bool small,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
     void Function(PointerHoverEvent) onMouseHover,
@@ -326,7 +374,8 @@ class LFlatButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -341,6 +390,8 @@ class LFlatButton extends LNButton {
   }) =>
       LFlatButton(
         type: type,
+        buttonShape: buttonShape,
+        small: small,
         onMouseEnter: onMouseEnter,
         onMouseExit: onMouseExit,
         onMouseHover: onMouseHover,
@@ -357,6 +408,7 @@ class LFlatButton extends LNButton {
         highlightElevation: highlightElevation,
         disabledElevation: disabledElevation,
         padding: padding,
+        margin: margin,
         visualDensity: visualDensity,
         shape: shape,
         clipBehavior: clipBehavior,
@@ -365,19 +417,24 @@ class LFlatButton extends LNButton {
         materialTapTargetSize: materialTapTargetSize,
         animationDuration: animationDuration,
         enableFeedback: enableFeedback,
-        child: Text(text),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+        ),
         onPressed: onPressed,
         constraints: constraints,
       );
 }
 
-enum FillMode { transparent, solid }
+enum FillMode { transparent, translucent, solid }
 
 class LNOutlineButton extends LNButton {
   final FillMode fillMode;
   const LNOutlineButton({
     Key key,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
+    bool small,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
     void Function(PointerHoverEvent) onMouseHover,
@@ -394,7 +451,8 @@ class LNOutlineButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -406,13 +464,14 @@ class LNOutlineButton extends LNButton {
     bool enableFeedback = true,
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
-  })  : assert(padding != null),
-        assert(animationDuration != null),
+  })  : assert(animationDuration != null),
         assert(clipBehavior != null),
         assert(autofocus != null),
         super(
           key: key,
           type: type,
+          buttonShape: buttonShape,
+          small: small,
           onMouseEnter: onMouseEnter,
           onMouseExit: onMouseExit,
           onMouseHover: onMouseHover,
@@ -429,6 +488,7 @@ class LNOutlineButton extends LNButton {
           highlightElevation: highlightElevation,
           disabledElevation: disabledElevation,
           padding: padding,
+          margin: margin,
           visualDensity: visualDensity,
           shape: shape,
           clipBehavior: clipBehavior,
@@ -445,6 +505,8 @@ class LNOutlineButton extends LNButton {
   factory LNOutlineButton.icon({
     Key key,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
+    bool small,
     FillMode fillMode = FillMode.solid,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
@@ -461,7 +523,8 @@ class LNOutlineButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -474,9 +537,13 @@ class LNOutlineButton extends LNButton {
     bool enableFeedback = true,
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
+    Axis direction,
   }) =>
       LNOutlineButton(
         type: type,
+        buttonShape: buttonShape,
+        small: small,
+        fillMode: fillMode,
         onMouseEnter: onMouseEnter,
         onMouseExit: onMouseExit,
         onMouseHover: onMouseHover,
@@ -493,6 +560,7 @@ class LNOutlineButton extends LNButton {
         highlightElevation: highlightElevation,
         disabledElevation: disabledElevation,
         padding: padding,
+        margin: margin,
         visualDensity: visualDensity,
         shape: shape,
         clipBehavior: clipBehavior,
@@ -501,11 +569,12 @@ class LNOutlineButton extends LNButton {
         materialTapTargetSize: materialTapTargetSize,
         animationDuration: animationDuration,
         enableFeedback: enableFeedback,
-        child: Row(
+        child: Flex(
+          direction: direction ?? Axis.horizontal,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             icon,
-            const SizedBox(width: 8.0),
+            SizedBox(width: (small ?? false) ? 4.0 : 8.0),
             label,
           ],
         ),
@@ -516,6 +585,8 @@ class LNOutlineButton extends LNButton {
   factory LNOutlineButton.text({
     Key key,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
+    bool small,
     FillMode fillMode = FillMode.solid,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
@@ -532,7 +603,8 @@ class LNOutlineButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -547,6 +619,9 @@ class LNOutlineButton extends LNButton {
   }) =>
       LNOutlineButton(
         type: type,
+        buttonShape: buttonShape,
+        small: small,
+        fillMode: fillMode,
         onMouseEnter: onMouseEnter,
         onMouseExit: onMouseExit,
         onMouseHover: onMouseHover,
@@ -563,6 +638,7 @@ class LNOutlineButton extends LNButton {
         highlightElevation: highlightElevation,
         disabledElevation: disabledElevation,
         padding: padding,
+        margin: margin,
         visualDensity: visualDensity,
         shape: shape,
         clipBehavior: clipBehavior,
@@ -571,7 +647,10 @@ class LNOutlineButton extends LNButton {
         materialTapTargetSize: materialTapTargetSize,
         animationDuration: animationDuration,
         enableFeedback: enableFeedback,
-        child: Text(text),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+        ),
         onPressed: onPressed,
         constraints: constraints,
       );
@@ -581,6 +660,8 @@ class LRaisedButton extends LNButton {
   const LRaisedButton({
     Key key,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
+    bool small,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
     void Function(PointerHoverEvent) onMouseHover,
@@ -596,7 +677,8 @@ class LRaisedButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -608,13 +690,14 @@ class LRaisedButton extends LNButton {
     bool enableFeedback = true,
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
-  })  : assert(padding != null),
-        assert(animationDuration != null),
+  })  : assert(animationDuration != null),
         assert(clipBehavior != null),
         assert(autofocus != null),
         super(
           key: key,
           type: type,
+          buttonShape: buttonShape,
+          small: small,
           onMouseEnter: onMouseEnter,
           onMouseExit: onMouseExit,
           onMouseHover: onMouseHover,
@@ -631,6 +714,7 @@ class LRaisedButton extends LNButton {
           highlightElevation: highlightElevation,
           disabledElevation: disabledElevation,
           padding: padding,
+          margin: margin,
           visualDensity: visualDensity,
           shape: shape,
           clipBehavior: clipBehavior,
@@ -647,6 +731,8 @@ class LRaisedButton extends LNButton {
   factory LRaisedButton.icon({
     Key key,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
+    bool small,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
     void Function(PointerHoverEvent) onMouseHover,
@@ -662,7 +748,8 @@ class LRaisedButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -675,9 +762,12 @@ class LRaisedButton extends LNButton {
     bool enableFeedback = true,
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
+    Axis direction,
   }) =>
       LRaisedButton(
         type: type,
+        buttonShape: buttonShape,
+        small: small,
         onMouseEnter: onMouseEnter,
         onMouseExit: onMouseExit,
         onMouseHover: onMouseHover,
@@ -694,6 +784,7 @@ class LRaisedButton extends LNButton {
         highlightElevation: highlightElevation,
         disabledElevation: disabledElevation,
         padding: padding,
+        margin: margin,
         visualDensity: visualDensity,
         shape: shape,
         clipBehavior: clipBehavior,
@@ -702,11 +793,12 @@ class LRaisedButton extends LNButton {
         materialTapTargetSize: materialTapTargetSize,
         animationDuration: animationDuration,
         enableFeedback: enableFeedback,
-        child: Row(
+        child: Flex(
+          direction: direction ?? Axis.horizontal,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             icon,
-            const SizedBox(width: 8.0),
+            SizedBox(width: (small ?? false) ? 4.0 : 8.0),
             label,
           ],
         ),
@@ -717,6 +809,8 @@ class LRaisedButton extends LNButton {
   factory LRaisedButton.text({
     Key key,
     ButtonType type,
+    ButtonShape buttonShape = ButtonShape.standard,
+    bool small,
     void Function(PointerEnterEvent) onMouseEnter,
     void Function(PointerExitEvent) onMouseExit,
     void Function(PointerHoverEvent) onMouseHover,
@@ -732,7 +826,8 @@ class LRaisedButton extends LNButton {
     double hoverElevation,
     double highlightElevation,
     double disabledElevation,
-    EdgeInsets padding = EdgeInsets.zero,
+    EdgeInsets padding,
+    EdgeInsetsGeometry margin,
     VisualDensity visualDensity = const VisualDensity(),
     BoxConstraints constraints,
     ShapeBorder shape,
@@ -747,6 +842,8 @@ class LRaisedButton extends LNButton {
   }) =>
       LRaisedButton(
         type: type,
+        buttonShape: buttonShape,
+        small: small,
         onMouseEnter: onMouseEnter,
         onMouseExit: onMouseExit,
         onMouseHover: onMouseHover,
@@ -763,6 +860,7 @@ class LRaisedButton extends LNButton {
         highlightElevation: highlightElevation,
         disabledElevation: disabledElevation,
         padding: padding,
+        margin: margin,
         visualDensity: visualDensity,
         shape: shape,
         clipBehavior: clipBehavior,
@@ -771,10 +869,72 @@ class LRaisedButton extends LNButton {
         materialTapTargetSize: materialTapTargetSize,
         animationDuration: animationDuration,
         enableFeedback: enableFeedback,
-        child: Text(text),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+        ),
         onPressed: onPressed,
         constraints: constraints,
       );
+}
+
+class LIconButton extends StatelessWidget {
+  final Icon icon;
+  final double iconSize;
+  final double splashThickness;
+  final Color splashColor;
+  final Color color;
+  final Color focusColor;
+  final Color hoverColor;
+  final Color highlightColor;
+  final EdgeInsetsGeometry margin;
+  final void Function() onPressed;
+  final void Function() onLongPress;
+  final void Function() onDoubleTap;
+
+  const LIconButton({
+    Key key,
+    @required this.icon,
+    this.onPressed,
+    this.iconSize = 24.0,
+    this.splashThickness = 10.0,
+    this.onLongPress,
+    this.onDoubleTap,
+    this.splashColor,
+    this.color,
+    this.focusColor,
+    this.hoverColor,
+    this.highlightColor,
+    this.margin = EdgeInsets.zero,
+  })  : assert(splashThickness != null),
+        assert(margin != null),
+        assert(iconSize != null),
+        assert(icon != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      child: IconTheme(
+        data: IconThemeData.fallback().copyWith(size: iconSize, color: color),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(iconSize + splashThickness),
+          onTap: onPressed,
+          onLongPress: onLongPress,
+          onDoubleTap: onDoubleTap,
+          splashColor: splashColor ?? (color ?? Colors.black).withOpacity(0.2),
+          focusColor: focusColor,
+          hoverColor: hoverColor,
+          highlightColor: highlightColor,
+          child: Padding(
+            padding: EdgeInsets.all(splashThickness),
+            child: icon,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class LButton extends StatelessWidget {

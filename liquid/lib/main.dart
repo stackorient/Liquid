@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         margin: EdgeInsets.all(20.0),
         header: LModelHeader(
           title: "Terms & Conditions",
-          onClose: () {
+          onClose: () async {
             setState(() {
               result = "Canceled";
             });
@@ -154,12 +154,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             titleText: "First Slide",
                             subTitleText: "Cool Work Cool Work Cool",
                             actions: <Widget>[
-                              LButton(
+                              LFlatButton.text(
                                 text: "Accept",
                                 onPressed: _showModel,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                margin: const EdgeInsets.all(5.0),
+                                margin: const EdgeInsets.only(top: 10.0),
+                                small: true,
                               ),
                             ],
                           ),
@@ -200,12 +199,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   xs: 6,
                   xl: 3,
                   children: <Widget>[
-                    LButton(
-                      type: ButtonType.success,
-                      shape: ButtonShape.standard,
-                      text: "hello",
+                    LIconButton(
+                      icon: Icon(Icons.ac_unit),
+                      color: Colors.green,
                       onPressed: () {},
                     ),
+                    SizedBox(height: 20.0),
+                    IconButton(
+                      icon: Icon(Icons.ac_unit),
+                      color: Colors.red,
+                      splashColor: Colors.red.withOpacity(0.2),
+                      onPressed: () {},
+                    )
                   ],
                 ),
               ],
@@ -286,6 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.warning,
+                              small: true,
                             ),
                             LFlatButton(
                               child: Text("hello"),
@@ -300,11 +306,13 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.dark,
+                              small: true,
                             ),
                             LFlatButton(
-                              child: Text("hello"),
+                              child: Icon(Icons.ac_unit),
                               onPressed: () {},
                               type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
                             ),
                           ],
                         ),
@@ -356,6 +364,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.warning,
+                              buttonShape: ButtonShape.pill,
                             ),
                             LNOutlineButton(
                               child: Text("hello"),
@@ -366,18 +375,21 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
-                            LNOutlineButton.text(
-                              padding: const EdgeInsets.all(3.0),
-                              text: "Hello World sdfasdfa asdfa ds",
+                            LNOutlineButton(
+                              child: Text("Hello World"),
                               onPressed: () {},
                               type: ButtonType.dark,
-                              fillMode: FillMode.transparent,
+                              fillMode: FillMode.translucent,
+                              buttonShape: ButtonShape.pill,
                             ),
                             LNOutlineButton.icon(
                               icon: Icon(Icons.ac_unit),
                               label: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                              direction: Axis.vertical,
+                              small: true,
                             ),
                           ],
                         ),
@@ -434,6 +446,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.info,
+                              buttonShape: ButtonShape.pill,
                             ),
                           ],
                         ),
@@ -449,6 +462,24 @@ class _MyHomePageState extends State<MyHomePage> {
                               label: Text("Hello"),
                               onPressed: () {},
                               type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                              small: true,
+                            ),
+                            LRaisedButton.icon(
+                              icon: Icon(Icons.ac_unit),
+                              label: Text("Hello"),
+                              onPressed: () {},
+                              type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                              small: true,
+                            ),
+                            LRaisedButton.icon(
+                              icon: Icon(Icons.ac_unit),
+                              label: Text("Hello"),
+                              onPressed: () {},
+                              type: ButtonType.light,
+                              buttonShape: ButtonShape.pill,
+                              small: true,
                             ),
                           ],
                         ),
