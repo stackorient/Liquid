@@ -379,13 +379,19 @@ class LiquidDropdownItemTheme {
   final Color focusColor;
   final Color highlightColor;
   final Color hoverColor;
+  final TextStyle textStyle;
 
   const LiquidDropdownItemTheme({
-    this.padding = const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
     this.splashColor,
     this.focusColor,
     this.highlightColor,
     this.hoverColor,
+    this.textStyle = const TextStyle(
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+      fontSize: 14.8,
+    ),
   });
 }
 
@@ -400,7 +406,7 @@ class LiquidDropdownTheme {
     this.itemTheme = const LiquidDropdownItemTheme(),
     this.padding = const EdgeInsets.symmetric(vertical: 6.0),
     this.background = Colors.white,
-    this.elevation = 1.0,
+    this.elevation = 0.0,
     this.shape,
   });
 }
