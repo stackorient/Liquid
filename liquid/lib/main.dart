@@ -274,8 +274,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         LColumn(
                           children: <Widget>[
                             LDropdown(
-                              scrollable: false,
-                              scrollToClose: false,
+                              scrollable: true,
+                              scrollToClose: true,
                               predictiveHeight: 200.0,
                               trigger: LFlatButton(
                                 child: Text("hello"),

@@ -18,5 +18,5 @@ part 'cards.dart';
 part 'corousels.dart';
 part 'models.dart';
 part 'theme/liquid_theme_extension.dart';
-part 'navs.dart';
+part 'navbar.dart';
 part 'dropdown.dart';
