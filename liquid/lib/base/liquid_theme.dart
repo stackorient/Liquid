@@ -380,9 +380,14 @@ class LiquidDropdownItemTheme {
   final Color highlightColor;
   final Color hoverColor;
   final TextStyle textStyle;
+  final TextStyle disabledTextStyle;
+  final TextStyle headerTextStyle;
+  final EdgeInsets headerPadding;
 
   const LiquidDropdownItemTheme({
     this.padding = const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+    this.headerPadding =
+        const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
     this.splashColor,
     this.focusColor,
     this.highlightColor,
@@ -390,6 +395,16 @@ class LiquidDropdownItemTheme {
     this.textStyle = const TextStyle(
       fontWeight: FontWeight.w400,
       color: Colors.black,
+      fontSize: 14.8,
+    ),
+    this.headerTextStyle = const TextStyle(
+      fontWeight: FontWeight.w500,
+      color: Colors.black45,
+      fontSize: 12.0,
+    ),
+    this.disabledTextStyle = const TextStyle(
+      fontWeight: FontWeight.w400,
+      color: Colors.black26,
       fontSize: 14.8,
     ),
   });

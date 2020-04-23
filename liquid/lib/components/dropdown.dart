@@ -5,12 +5,15 @@ class _LDropdownItemRaw extends StatelessWidget {
   final Function onTap;
   final Function onLongPress;
   final bool forText;
+  final bool header;
   final EdgeInsets padding;
   final Color splashColor;
   final Color focusColor;
   final Color hoverColor;
   final Color highlightColor;
   final Color background;
+  final TextStyle textStyle;
+  final TextStyle disabledTextStyle;
 
   const _LDropdownItemRaw({
     Key key,
@@ -24,6 +27,9 @@ class _LDropdownItemRaw extends StatelessWidget {
     this.hoverColor,
     this.highlightColor,
     this.background,
+    this.header,
+    this.textStyle,
+    this.disabledTextStyle,
   })  : assert(child != null),
         assert(forText != null),
         super(key: key);
@@ -36,6 +42,19 @@ class _LDropdownItemRaw extends StatelessWidget {
   }
 
   Widget _buildForText(LiquidDropdownItemTheme theme) {
+    if (header ?? false) {
+      return AbsorbPointer(
+        child: Material(
+          color: background ?? Colors.transparent,
+          textStyle: textStyle ?? theme.headerTextStyle,
+          child: Padding(
+            padding: padding ?? theme.headerPadding,
+            child: child,
+          ),
+        ),
+      );
+    }
+
     return InkWell(
       canRequestFocus: true,
       splashColor: splashColor ?? theme.splashColor,
@@ -46,7 +65,9 @@ class _LDropdownItemRaw extends StatelessWidget {
       onLongPress: onLongPress,
       child: Material(
         color: background ?? Colors.transparent,
-        textStyle: theme.textStyle,
+        textStyle: (onTap != null || onLongPress != null)
+            ? textStyle ?? theme.textStyle
+            : disabledTextStyle ?? theme.disabledTextStyle,
         child: Padding(
           padding: padding ?? theme.padding,
           child: child,
@@ -72,6 +93,7 @@ class LDropdownItem extends _LDropdownItemRaw {
     Function onTap,
     @required String text,
     TextStyle style,
+    TextStyle disabledStyle,
     Function onLongPress,
     EdgeInsets padding,
     Color splashColor,
@@ -81,7 +103,9 @@ class LDropdownItem extends _LDropdownItemRaw {
     Color background,
   }) : super(
           key: key,
-          child: Text(text, style: style),
+          child: Text(text),
+          textStyle: style,
+          disabledTextStyle: disabledStyle,
           onTap: onTap,
           onLongPress: onLongPress,
           forText: true,
@@ -105,6 +129,47 @@ class LDropdownItem extends _LDropdownItemRaw {
           padding: padding,
           background: background,
         );
+
+  LDropdownItem.header({
+    Key key,
+    @required String text,
+    TextStyle style,
+    TextStyle disabledStyle,
+    EdgeInsets padding,
+    Color color = Colors.black45,
+    Color background,
+  }) : super(
+          key: key,
+          child: Text(text),
+          textStyle: style,
+          disabledTextStyle: disabledStyle,
+          forText: true,
+          header: true,
+          padding: padding,
+          background: background,
+        );
+
+  LDropdownItem.divider({
+    Key key,
+    double height,
+    double thickness,
+    double indent,
+    double endIndent,
+    Color color,
+    Color background,
+  }) : super(
+          key: key,
+          child: Divider(
+            height: height,
+            thickness: thickness,
+            indent: indent,
+            endIndent: endIndent,
+            color: color,
+          ),
+          forText: false,
+          padding: EdgeInsets.zero,
+          background: background,
+        );
 }
 
 class LDropdown extends StatefulWidget {
@@ -124,6 +189,7 @@ class LDropdown extends StatefulWidget {
   final ShapeBorder triggerShape;
   final bool scrollable;
   final bool scrollToClose;
+  final Color backdrop;
 
   LDropdown({
     Key key,
@@ -143,7 +209,11 @@ class LDropdown extends StatefulWidget {
     this.triggerShape,
     this.scrollable = false,
     this.scrollToClose = false,
-  })  : assert(trigger != null),
+    this.backdrop = Colors.black26,
+  })  : assert(backdrop != null),
+        assert(scrollable != null),
+        assert(scrollToClose != null),
+        assert(trigger != null),
         assert((scrollToClose && scrollable) || !scrollToClose,
             "for scrollToClose you need scrollable to be true"),
         assert(
@@ -174,25 +244,28 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
   _setupDropdownItems() {
     final theme = LiquidTheme.of(context).dropdownTheme;
 
-    _dropdownContent = Container(
-      child: Material(
-        color: widget.background ?? theme.background,
-        elevation: widget.elevation ?? theme.elevation,
-        shape: widget.shape ??
-            (theme.shape ??
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                  side: BorderSide(
-                    color: Colors.black.withOpacity(0.15),
-                  ),
-                )),
-        child: Padding(
-          padding: widget.padding ?? theme.padding,
-          child: IntrinsicWidth(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: widget.items ?? widget.itemBuilder(context),
+    _dropdownContent = GestureDetector(
+      onTap: () {},
+      child: Container(
+        child: Material(
+          color: widget.background ?? theme.background,
+          elevation: widget.elevation ?? theme.elevation,
+          shape: widget.shape ??
+              (theme.shape ??
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    side: BorderSide(
+                      color: Colors.black.withOpacity(0.15),
+                    ),
+                  )),
+          child: Padding(
+            padding: widget.padding ?? theme.padding,
+            child: IntrinsicWidth(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: widget.items ?? widget.itemBuilder(context),
+              ),
             ),
           ),
         ),
@@ -223,7 +296,7 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
   @override
   void didChangeMetrics() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _rebuildDropdown();
+      _rebuildDropdown(force: true);
     });
   }
 
@@ -251,8 +324,8 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     });
   }
 
-  void _rebuildDropdown() {
-    if (widget.scrollable) {
+  void _rebuildDropdown({bool force = false}) {
+    if (widget.scrollable || force) {
       if (_opened) {
         setState(() {
           _dropdown.remove();
@@ -298,7 +371,7 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
             : GestureDetector(
                 onTap: _closeDropdown,
                 child: Material(
-                    color: Colors.black38,
+                    color: widget.backdrop,
                     child: Stack(
                       children: <Widget>[_buildPositioned(_pos, size)],
                     )),

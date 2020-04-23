@@ -188,6 +188,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   xs: 6,
                   xl: 1,
                   children: <Widget>[
+                    LBox(
+                      visibility: LBoxVisibility(
+                        xs: false,
+                      ),
+                      child: LBadges(
+                        "Will hide in xs",
+                        shape: BadgesShape.standard,
+                        type: BadgesType.dark,
+                      ),
+                    ),
                     LBadges(
                       "Hello",
                       shape: BadgesShape.standard,
@@ -248,6 +258,18 @@ class _MyHomePageState extends State<MyHomePage> {
             LRow(
               columns: [
                 LColumn(
+                  xs: 4,
+                  sm: 4,
+                  md: 4,
+                  lg: 4,
+                  xl: 3,
+                  children: <Widget>[],
+                )
+              ],
+            ),
+            LRow(
+              columns: [
+                LColumn(
                   children: <Widget>[
                     // flat buttons
                     Padding(
@@ -276,34 +298,63 @@ class _MyHomePageState extends State<MyHomePage> {
                             LDropdown(
                               scrollable: false,
                               scrollToClose: false,
-                              predictiveHeight: 200.0,
+                              backdrop: Colors.red.withOpacity(0.4),
+                              predictiveHeight: 250.0,
+                              elevation: 10.0,
                               trigger: LFlatButton(
                                 child: Text("hello"),
                                 type: ButtonType.success,
                               ),
                               itemBuilder: (context) => [
+                                LDropdownItem.header(text: "Option 1"),
                                 LDropdownItem(
                                   text: "First Item",
                                   onTap: () {},
                                 ),
                                 LDropdownItem(
                                   text: "Second Item",
-                                  onTap: () {},
+                                  onTap: () {
+                                    print("pressed");
+                                  },
+                                  onLongPress: () {
+                                    print("long pressed");
+                                  },
                                 ),
                                 LDropdownItem(
                                   text: "Third Item",
                                   onTap: () {},
                                 ),
-                                LDropdownItem.withChild(
-                                  child: LFlatButton.text(
-                                    text: "Happy day",
-                                    onPressed: () {},
-                                  ),
+                                LDropdownItem.divider(
+                                  thickness: 2,
                                 ),
+                                LDropdownItem.header(text: "Options"),
+                                LDropdownItem.withChild(
+                                    child: Row(
+                                  // mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    LIconButton(
+                                      icon: Icon(Icons.ac_unit),
+                                      onPressed: () {},
+                                    ),
+                                    LIconButton(
+                                      icon: Icon(Icons.ac_unit),
+                                      onPressed: () {},
+                                    ),
+                                    LIconButton(
+                                      icon: Icon(Icons.ac_unit),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                )),
                               ],
                             ),
-                            LFlatButton(
-                              child: Text("hello"),
+                            LFlatButton.icon(
+                              label: Text("hello"),
+                              icon: LBadges(
+                                "3",
+                                type: BadgesType.danger,
+                                shape: BadgesShape.pills,
+                              ),
                               onPressed: () {},
                               type: ButtonType.danger,
                             ),
@@ -345,6 +396,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 LColumn(
+                  visibility: LBoxVisibility(
+                    xs: false,
+                    lg: false,
+                  ),
                   children: <Widget>[
                     // outline button
                     Padding(
@@ -388,6 +443,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.warning,
+                              fillMode: FillMode.transparent,
                               buttonShape: ButtonShape.pill,
                             ),
                             LNOutlineButton(
@@ -412,7 +468,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               onPressed: () {},
                               type: ButtonType.light,
                               direction: Axis.vertical,
-                              small: true,
+                              // small: true,
+                              fillMode: FillMode.transparent,
                             ),
                           ],
                         ),
