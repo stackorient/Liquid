@@ -175,6 +175,7 @@ class LDropdownItem extends _LDropdownItemRaw {
 class LDropdown extends StatefulWidget {
   final double hideOnTopOffset;
   final double predictiveHeight;
+  final double predictiveWidth;
   final Widget trigger;
   final ShapeBorder shape;
   final EdgeInsets padding;
@@ -195,6 +196,7 @@ class LDropdown extends StatefulWidget {
     this.background,
     this.hideOnTopOffset = 50.0,
     this.predictiveHeight = 10.0,
+    this.predictiveWidth = 100.0,
     this.elevation,
     this.items,
     this.itemBuilder,
@@ -207,6 +209,8 @@ class LDropdown extends StatefulWidget {
         assert(scrollable != null),
         assert(scrollToClose != null),
         assert(trigger != null),
+        assert(predictiveHeight != null && predictiveWidth != null),
+        assert(predictiveHeight >= 0 && predictiveWidth >= 0),
         assert((scrollToClose && scrollable) || !scrollToClose,
             "for scrollToClose you need scrollable to be true"),
         assert(
@@ -287,7 +291,7 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     });
   }
 
-  void openDropdown() => _showDropdown();
+  void toggleDropdown() => _showDropdown();
 
   void _showDropdown() {
     if (!_opened && _dropdown == null) {
@@ -362,6 +366,7 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
                 child: Material(
                     color: widget.backdrop,
                     child: Stack(
+                      alignment: Alignment.centerLeft,
                       children: <Widget>[_buildPositioned(_pos, size)],
                     )),
               ))
@@ -369,22 +374,30 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
   }
 
   Positioned _buildPositioned(Offset _offset, Size size) {
-    final mq = MediaQuery.of(context).size.height;
-    final offset = mq - (_offset.dy + size.height);
-    print(offset);
-    if (offset < widget.predictiveHeight) {
-      return Positioned(
-        bottom: offset + size.height,
-        left: _offset.dx,
-        child: _dropdownContent,
-      );
+    final _mqSize = MediaQuery.of(context).size;
+    final _verticalOffset = _mqSize.height - (_offset.dy + size.height);
+    final _horizontalOffset = _mqSize.width - (_offset.dx + size.width);
+
+    double _top, _right, _bottom, _left;
+    if (_verticalOffset < widget.predictiveHeight) {
+      _bottom = _verticalOffset + size.height;
     } else {
-      return Positioned(
-        top: _offset.dy + size.height,
-        left: _offset.dx,
-        child: _dropdownContent,
-      );
+      _top = _offset.dy + size.height;
     }
+
+    if (_horizontalOffset < widget.predictiveWidth) {
+      _right = _horizontalOffset;
+    } else {
+      _left = _offset.dx;
+    }
+
+    return Positioned(
+      right: _right,
+      bottom: _bottom,
+      top: _top,
+      left: _left,
+      child: _dropdownContent,
+    );
   }
 
   @override

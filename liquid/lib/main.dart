@@ -321,16 +321,17 @@ class _MyHomePageState extends State<MyHomePage> {
                             LDropdown(
                               key: _dropdown,
                               scrollToClose: false,
-                              scrollable: true,
+                              scrollable: false,
                               backdrop: Colors.red.withOpacity(0.4),
                               predictiveHeight: 250.0,
+                              predictiveWidth: 150.0,
                               elevation: 10.0,
-                              trigger: LFlatButton(
-                                child: Text("hello"),
-                                type: ButtonType.success,
+                              trigger: LFlatButton.text(
+                                text: "Hello",
                                 onPressed: () {
-                                  _dropdown.currentState.openDropdown();
+                                  _dropdown.currentState.toggleDropdown();
                                 },
+                                type: ButtonType.dark,
                               ),
                               itemBuilder: (context) => [
                                 LDropdownItem.header(text: "Option 1"),
@@ -375,6 +376,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ],
                                 )),
                               ],
+                            ),
+                            LFlatButton(
+                              child: Text("hello"),
+                              type: ButtonType.success,
+                              onPressed: () {},
                             ),
                             LFlatButton.icon(
                               icon: Text("hello"),
@@ -560,6 +566,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
+                            LRaisedButton.text(
+                              text: "Hello",
+                              onPressed: () {},
+                              type: ButtonType.dark,
+                            ),
                             LRaisedButton.text(
                               text: "Hello",
                               onPressed: () {},
