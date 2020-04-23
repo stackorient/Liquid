@@ -54,7 +54,7 @@ extension on LiquidButtonTheme {
         return buttonColors.warning.darken(0.1);
         break;
       case ButtonType.light:
-        return buttonColors.light.darken(0.1);
+        return buttonColors.light.darken(0.4);
         break;
       case ButtonType.dark:
         return buttonColors.dark.darken(0.1);
@@ -71,6 +71,9 @@ extension on LiquidButtonTheme {
   }
 
   Color getHoverColor(LNButton button) {
+    if (button is LNOutlineButton && button.fillMode == FillMode.transparent) {
+      return getButtonColor(button).withOpacity(0.2);
+    }
     return getButtonColor(button).darken(0.05);
   }
 
@@ -91,7 +94,7 @@ extension on LiquidButtonTheme {
   }
 
   double getElevation(LNButton button) {
-    if (button is LRaisedButton) return 2.0;
+    if (button is LRaisedButton) return 3.0;
     return 0.0;
   }
 
@@ -124,7 +127,9 @@ extension on LiquidButtonTheme {
           button.buttonShape == ButtonShape.pill ? 1000 : 3.0),
       side: BorderSide(
         width: 1,
-        color: getButtonColor(button).darken(0.05),
+        color: button.type == ButtonType.light
+            ? getButtonColor(button).darken(0.2)
+            : getButtonColor(button).darken(0.05),
       ),
     );
   }
@@ -136,7 +141,7 @@ extension on LiquidButtonTheme {
         (button.fillMode == FillMode.transparent || !hover)) {
       return _ts.withColor(
         button.type == ButtonType.light
-            ? getButtonColor(button).darken(0.1)
+            ? getButtonColor(button).darken(0.4)
             : getButtonColor(button),
       );
     }

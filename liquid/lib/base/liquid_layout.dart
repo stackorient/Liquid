@@ -56,7 +56,7 @@ class LColumnRaw extends Flex {
   final int xs, sm, md, lg, xl;
 }
 
-class ResponsiveBuilder extends StatelessWidget {
+class LResponsiveBuilder extends StatelessWidget {
   final bool useMediaQuery;
   final Widget Function(BuildContext context) onXS;
   final Widget Function(BuildContext context) onSM;
@@ -64,7 +64,7 @@ class ResponsiveBuilder extends StatelessWidget {
   final Widget Function(BuildContext context) onLG;
   final Widget Function(BuildContext context) onXL;
 
-  const ResponsiveBuilder({
+  const LResponsiveBuilder({
     Key key,
     @required this.onXS,
     this.onSM,
@@ -80,7 +80,6 @@ class ResponsiveBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     if (useMediaQuery) {
       final width = MediaQuery.of(context).size.width;
-      print(width);
       return _build(context, width);
     } else {
       return LayoutBuilder(
@@ -115,28 +114,50 @@ class LBoxDimension {
   });
 }
 
+class LBoxVisibility {
+  final bool xs;
+  final bool sm;
+  final bool md;
+  final bool lg;
+  final bool xl;
+
+  const LBoxVisibility({
+    this.xs = true,
+    this.sm = true,
+    this.md = true,
+    this.lg = true,
+    this.xl = true,
+  });
+}
+
 class LBox extends StatelessWidget {
   final LBoxDimension height;
   final LBoxDimension width;
+  final LBoxVisibility visibility;
+
   final Widget child;
 
-  const LBox(
-      {Key key,
-      this.height = const LBoxDimension(),
-      this.width = const LBoxDimension(),
-      @required this.child})
-      : assert(child != null),
+  const LBox({
+    Key key,
+    this.height = const LBoxDimension(),
+    this.width = const LBoxDimension(),
+    this.visibility = const LBoxVisibility(),
+    @required this.child,
+  })  : assert(child != null),
+        assert(height != null),
+        assert(width != null),
+        assert(visibility != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(
+    return LResponsiveBuilder(
       useMediaQuery: true,
-      onXS: (_) => _buildBox(height.xs, width.xs),
-      onSM: (_) => _buildBox(height.sm, width.sm),
-      onMD: (_) => _buildBox(height.md, width.md),
-      onLG: (_) => _buildBox(height.lg, width.lg),
-      onXL: (_) => _buildBox(height.xl, width.xl),
+      onXS: (_) => visibility.xs ? _buildBox(height.xs, width.xs) : Container(),
+      onSM: (_) => visibility.sm ? _buildBox(height.sm, width.sm) : Container(),
+      onMD: (_) => visibility.md ? _buildBox(height.md, width.md) : Container(),
+      onLG: (_) => visibility.lg ? _buildBox(height.lg, width.lg) : Container(),
+      onXL: (_) => visibility.xl ? _buildBox(height.xl, width.xl) : Container(),
     );
   }
 
@@ -152,6 +173,7 @@ class LBox extends StatelessWidget {
 enum BreakPoint { xs, sm, md, lg, xl }
 
 class LColumn extends StatelessWidget {
+  final LBoxVisibility visibility;
   final int xs, sm, md, lg, xl;
   final List<Widget> children;
   final bool flexible;
@@ -165,6 +187,7 @@ class LColumn extends StatelessWidget {
 
   const LColumn({
     Key key,
+    this.visibility = const LBoxVisibility(),
     this.xs,
     this.sm,
     this.md,
@@ -249,7 +272,7 @@ class LRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: gutter ?? 5.0),
-      child: ResponsiveBuilder(
+      child: LResponsiveBuilder(
         onXS: (context) => _buildChildrens(context, BreakPoint.xs),
         onSM: (context) => _buildChildrens(context, BreakPoint.sm),
         onMD: (context) => _buildChildrens(context, BreakPoint.md),
@@ -350,6 +373,34 @@ class LRow extends StatelessWidget {
     }
   }
 
+  bool _isVisible(LColumn column, BreakPoint breakPoint) {
+    switch (breakPoint) {
+      case BreakPoint.xs:
+        return column.visibility.xs;
+        break;
+
+      case BreakPoint.sm:
+        return column.visibility.sm;
+        break;
+
+      case BreakPoint.md:
+        return column.visibility.md;
+        break;
+
+      case BreakPoint.lg:
+        return column.visibility.lg;
+        break;
+
+      case BreakPoint.xl:
+        return column.visibility.xl;
+        break;
+
+      default:
+        return column.visibility.xs;
+        break;
+    }
+  }
+
   Widget _buildChildrens(BuildContext context, BreakPoint breakPoint) {
     int currentIndex = 0;
     final _processed = _preProcess(breakPoint);
@@ -372,19 +423,22 @@ class LRow extends StatelessWidget {
           final flex = _flexes[currentIndex];
           currentIndex++;
 
-          return Flexible(
-            fit: vertical ? FlexFit.loose : FlexFit.tight,
-            child: Padding(
-              padding: EdgeInsets.only(
-                right: (child.hashCode == lastchild || vertical)
-                    ? 0.0
-                    : (gutter ?? 5.0),
-                bottom: !vertical ? 0.0 : (gutter ?? 5.0),
+          if (_isVisible(child, breakPoint)) {
+            return Flexible(
+              fit: vertical ? FlexFit.loose : FlexFit.tight,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  right: (child.hashCode == lastchild || vertical)
+                      ? 0.0
+                      : (gutter ?? 5.0),
+                  bottom: !vertical ? 0.0 : (gutter ?? 5.0),
+                ),
+                child: child,
               ),
-              child: child,
-            ),
-            flex: flex,
-          );
+              flex: flex,
+            );
+          }
+          return Container();
         },
       ).toList(),
     );
