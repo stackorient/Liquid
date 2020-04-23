@@ -318,20 +318,40 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
+                            LFlatButton(
+                              child: Text("hello"),
+                              type: ButtonType.success,
+                              onPressed: () {},
+                            ),
+                            LFlatButton.icon(
+                              icon: Text("hello"),
+                              label: LBadge.text(
+                                "3",
+                                type: BadgesType.danger,
+                                shape: BadgesShape.pills,
+                              ),
+                              onPressed: () {},
+                              type: ButtonType.danger,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
                             LDropdown(
                               key: _dropdown,
                               scrollToClose: false,
-                              scrollable: false,
-                              backdrop: Colors.red.withOpacity(0.4),
+                              scrollable: true,
+                              // backdrop: Colors.red.withOpacity(0.4),
                               predictiveHeight: 250.0,
                               predictiveWidth: 150.0,
                               elevation: 10.0,
-                              trigger: LFlatButton.text(
-                                text: "Hello",
+                              trigger: LFlatButton.icon(
+                                icon: Text("Dropdown"),
+                                label: Icon(Icons.arrow_drop_down),
                                 onPressed: () {
                                   _dropdown.currentState.toggleDropdown();
                                 },
-                                type: ButtonType.dark,
+                                type: ButtonType.warning,
                               ),
                               itemBuilder: (context) => [
                                 LDropdownItem.header(text: "Option 1"),
@@ -376,31 +396,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ],
                                 )),
                               ],
-                            ),
-                            LFlatButton(
-                              child: Text("hello"),
-                              type: ButtonType.success,
-                              onPressed: () {},
-                            ),
-                            LFlatButton.icon(
-                              icon: Text("hello"),
-                              label: LBadge.text(
-                                "3",
-                                type: BadgesType.danger,
-                                shape: BadgesShape.pills,
-                              ),
-                              onPressed: () {},
-                              type: ButtonType.danger,
-                            ),
-                          ],
-                        ),
-                        LColumn(
-                          children: <Widget>[
-                            LFlatButton(
-                              child: Text("hello"),
-                              onPressed: () {},
-                              type: ButtonType.warning,
-                              small: true,
                             ),
                             LFlatButton(
                               child: Text("hello"),

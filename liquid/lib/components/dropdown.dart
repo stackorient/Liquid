@@ -238,6 +238,8 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     _opened = false;
   }
 
+  bool get isOpened => _opened;
+
   _setupDropdownItems() {
     final theme = LiquidTheme.of(context).dropdownTheme;
 
