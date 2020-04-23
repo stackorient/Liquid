@@ -182,17 +182,13 @@ class LDropdown extends StatefulWidget {
   final double elevation;
   final List<LDropdownItem> items;
   final List<LDropdownItem> Function(BuildContext context) itemBuilder;
-  final Color triggerSplashColor;
-  final Color triggerFocusColor;
-  final Color triggerHoverColor;
-  final Color triggerHighlightColor;
   final ShapeBorder triggerShape;
   final bool scrollable;
   final bool scrollToClose;
   final Color backdrop;
 
   LDropdown({
-    Key key,
+    @required Key key,
     @required this.trigger,
     this.shape,
     this.padding,
@@ -202,15 +198,12 @@ class LDropdown extends StatefulWidget {
     this.elevation,
     this.items,
     this.itemBuilder,
-    this.triggerSplashColor,
-    this.triggerFocusColor,
-    this.triggerHoverColor,
-    this.triggerHighlightColor,
     this.triggerShape,
-    this.scrollable = false,
-    this.scrollToClose = false,
+    this.scrollable = true,
+    this.scrollToClose = true,
     this.backdrop = Colors.black26,
-  })  : assert(backdrop != null),
+  })  : assert(key != null),
+        assert(backdrop != null),
         assert(scrollable != null),
         assert(scrollToClose != null),
         assert(trigger != null),
@@ -223,10 +216,10 @@ class LDropdown extends StatefulWidget {
         super(key: key);
 
   @override
-  _LDropdownState createState() => _LDropdownState();
+  LDropdownState createState() => LDropdownState();
 }
 
-class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
+class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
   GlobalKey _triggerKey;
   OverlayEntry _dropdown;
   bool _opened;
@@ -279,26 +272,22 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     _setupDropdownItems();
     return Material(
+      key: _triggerKey,
       shape: widget.triggerShape,
       type: MaterialType.transparency,
-      child: InkWell(
-        key: _triggerKey,
-        onTap: _showDropdown,
-        splashColor: widget.triggerSplashColor,
-        focusColor: widget.triggerFocusColor,
-        hoverColor: widget.triggerHoverColor,
-        highlightColor: widget.triggerHighlightColor,
-        child: widget.trigger,
-      ),
+      child: widget.trigger,
     );
   }
 
   @override
   void didChangeMetrics() {
+    print("change");
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _rebuildDropdown(force: true);
     });
   }
+
+  void openDropdown() => _showDropdown();
 
   void _showDropdown() {
     if (!_opened && _dropdown == null) {
@@ -312,11 +301,11 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
       });
       Overlay.of(context).insert(_dropdown);
     } else {
-      _closeDropdown();
+      closeDropdown();
     }
   }
 
-  void _closeDropdown() {
+  void closeDropdown() {
     _dropdown.remove();
     setState(() {
       _opened = false;
@@ -339,7 +328,7 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     }
     if (widget.scrollToClose) {
       _position?.removeListener(_rebuildDropdown);
-      _closeDropdown();
+      closeDropdown();
     }
   }
 
@@ -369,7 +358,7 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
         ? (widget.scrollable
             ? _buildPositioned(_pos, size)
             : GestureDetector(
-                onTap: _closeDropdown,
+                onTap: closeDropdown,
                 child: Material(
                     color: widget.backdrop,
                     child: Stack(

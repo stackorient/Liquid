@@ -86,6 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  final GlobalKey<LDropdownState> _dropdown = GlobalKey<LDropdownState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,6 +187,27 @@ class _MyHomePageState extends State<MyHomePage> {
               gutter: 0,
               columns: [
                 LColumn(
+                  children: <Widget>[
+                    LBadge(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(
+                            Icons.warning,
+                            size: 15.0,
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            "No Update",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                LColumn(
                   xs: 6,
                   xl: 1,
                   children: <Widget>[
@@ -192,13 +215,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       visibility: LBoxVisibility(
                         xs: false,
                       ),
-                      child: LBadges(
+                      child: LBadge.text(
                         "Will hide in xs",
                         shape: BadgesShape.standard,
                         type: BadgesType.dark,
                       ),
                     ),
-                    LBadges(
+                    LBadge.text(
                       "Hello",
                       shape: BadgesShape.standard,
                       type: BadgesType.dark,
@@ -296,14 +319,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         LColumn(
                           children: <Widget>[
                             LDropdown(
-                              scrollable: false,
+                              key: _dropdown,
                               scrollToClose: false,
+                              scrollable: true,
                               backdrop: Colors.red.withOpacity(0.4),
                               predictiveHeight: 250.0,
                               elevation: 10.0,
                               trigger: LFlatButton(
                                 child: Text("hello"),
                                 type: ButtonType.success,
+                                onPressed: () {
+                                  _dropdown.currentState.openDropdown();
+                                },
                               ),
                               itemBuilder: (context) => [
                                 LDropdownItem.header(text: "Option 1"),
@@ -318,6 +345,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   onLongPress: () {
                                     print("long pressed");
+                                    _dropdown.currentState.closeDropdown();
                                   },
                                 ),
                                 LDropdownItem(
@@ -349,8 +377,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             ),
                             LFlatButton.icon(
-                              label: Text("hello"),
-                              icon: LBadges(
+                              icon: Text("hello"),
+                              label: LBadge.text(
                                 "3",
                                 type: BadgesType.danger,
                                 shape: BadgesShape.pills,

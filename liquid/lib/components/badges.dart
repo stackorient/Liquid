@@ -17,22 +17,23 @@ enum BadgesShape {
   pills
 }
 
-class LBadges extends StatelessWidget {
+class LBadge extends StatelessWidget {
   final BadgesType type;
   final BadgesShape shape;
-  final String text;
-
+  final Widget child;
   final EdgeInsets margin;
   final EdgeInsets padding;
+  final Color background;
 
-  const LBadges(
-    this.text, {
+  const LBadge({
     Key key,
     this.type = BadgesType.primary,
     this.shape = BadgesShape.standard,
     this.margin,
     this.padding,
-  })  : assert(text != null),
+    this.child,
+    this.background,
+  })  : assert(child != null),
         super(key: key);
 
   List<Color> _getColors(LiquidThemeData themeData) {
@@ -73,32 +74,50 @@ class LBadges extends StatelessWidget {
 
   BorderRadius _getShape(LiquidThemeData themeData) {
     switch (shape) {
-      case BadgesShape.standard:
-        return BorderRadius.circular(5.0);
-
-        break;
       case BadgesShape.pills:
         return BorderRadius.circular(15.0);
         break;
+      case BadgesShape.standard:
       default:
         return BorderRadius.circular(5.0);
     }
+  }
+
+  factory LBadge.text(
+    String text, {
+    TextStyle style,
+    BadgesType type,
+    BadgesShape shape,
+    EdgeInsets margin,
+    EdgeInsets padding,
+    Color background,
+  }) {
+    assert(text != null);
+    return LBadge(
+      type: type,
+      shape: shape,
+      margin: margin,
+      padding: padding,
+      background: background,
+      child: Text(
+        text,
+        style: style,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
     final colors = _getColors(theme);
-    final shape = _getShape(theme);
-    return Container(
-      padding: theme.badgeTheme.padding,
-      decoration: BoxDecoration(
-        color: colors[0],
-        borderRadius: shape,
-      ),
-      child: Text(
-        text,
-        style: theme.typographyTheme.small.withColor(colors[1]).size(10.0),
+    final _shape = _getShape(theme);
+    return Material(
+      color: background ?? colors[0],
+      borderRadius: _shape,
+      child: Container(
+        margin: margin ?? theme.badgeTheme.margin,
+        padding: padding ?? theme.badgeTheme.padding,
+        child: child,
       ),
     );
   }
