@@ -46,6 +46,7 @@ class _LDropdownItemRaw extends StatelessWidget {
       onLongPress: onLongPress,
       child: Material(
         color: background ?? Colors.transparent,
+        textStyle: theme.textStyle,
         child: Padding(
           padding: padding ?? theme.padding,
           child: child,
@@ -107,7 +108,8 @@ class LDropdownItem extends _LDropdownItemRaw {
 }
 
 class LDropdown extends StatefulWidget {
-  final double top;
+  final double hideOnTopOffset;
+  final double predictiveHeight;
   final Widget trigger;
   final ShapeBorder shape;
   final EdgeInsets padding;
@@ -120,6 +122,8 @@ class LDropdown extends StatefulWidget {
   final Color triggerHoverColor;
   final Color triggerHighlightColor;
   final ShapeBorder triggerShape;
+  final bool scrollable;
+  final bool scrollToClose;
 
   LDropdown({
     Key key,
@@ -127,7 +131,8 @@ class LDropdown extends StatefulWidget {
     this.shape,
     this.padding,
     this.background,
-    this.top = 50.0,
+    this.hideOnTopOffset = 50.0,
+    this.predictiveHeight = 10.0,
     this.elevation,
     this.items,
     this.itemBuilder,
@@ -136,7 +141,11 @@ class LDropdown extends StatefulWidget {
     this.triggerHoverColor,
     this.triggerHighlightColor,
     this.triggerShape,
+    this.scrollable = false,
+    this.scrollToClose = false,
   })  : assert(trigger != null),
+        assert((scrollToClose && scrollable) || !scrollToClose,
+            "for scrollToClose you need scrollable to be true"),
         assert(
             (items != null && itemBuilder == null) ||
                 (items == null && itemBuilder != null),
@@ -230,24 +239,34 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
       });
       Overlay.of(context).insert(_dropdown);
     } else {
-      _dropdown.remove();
-      setState(() {
-        _opened = false;
-        _dropdown = null;
-      });
+      _closeDropdown();
     }
   }
 
-  void _rebuildDropdown() {
-    if (_opened) {
-      setState(() {
-        _dropdown.remove();
-        _dropdown = OverlayEntry(
-          builder: (context) => _buildDropdown(context),
-        );
-      });
+  void _closeDropdown() {
+    _dropdown.remove();
+    setState(() {
+      _opened = false;
+      _dropdown = null;
+    });
+  }
 
-      Overlay.of(context).insert(_dropdown);
+  void _rebuildDropdown() {
+    if (widget.scrollable) {
+      if (_opened) {
+        setState(() {
+          _dropdown.remove();
+          _dropdown = OverlayEntry(
+            builder: (context) => _buildDropdown(context),
+          );
+        });
+
+        Overlay.of(context).insert(_dropdown);
+      }
+    }
+    if (widget.scrollToClose) {
+      _position?.removeListener(_rebuildDropdown);
+      _closeDropdown();
     }
   }
 
@@ -258,10 +277,12 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
   }
 
   bool _canPrint(RenderBox box) {
-    if (box.localToGlobal(Offset.zero).dy < widget.top) {
+    final pos = box.localToGlobal(Offset.zero);
+    if (pos.dy < widget.hideOnTopOffset) {
       return false;
     }
-    // print(box.localToGlobal(Offset.zero));
+
+    print(pos);
     return true;
   }
 
@@ -272,12 +293,36 @@ class _LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     final can = _canPrint(_box);
 
     return can
-        ? Positioned(
-            top: _pos.dy + size.height,
-            left: _pos.dx,
-            child: _dropdownContent,
-          )
+        ? (widget.scrollable
+            ? _buildPositioned(_pos, size)
+            : GestureDetector(
+                onTap: _closeDropdown,
+                child: Material(
+                    color: Colors.black38,
+                    child: Stack(
+                      children: <Widget>[_buildPositioned(_pos, size)],
+                    )),
+              ))
         : Container();
+  }
+
+  Positioned _buildPositioned(Offset _offset, Size size) {
+    final mq = MediaQuery.of(context).size.height;
+    final offset = mq - (_offset.dy + size.height);
+    print(offset);
+    if (offset < widget.predictiveHeight) {
+      return Positioned(
+        bottom: offset + size.height,
+        left: _offset.dx,
+        child: _dropdownContent,
+      );
+    } else {
+      return Positioned(
+        top: _offset.dy + size.height,
+        left: _offset.dx,
+        child: _dropdownContent,
+      );
+    }
   }
 
   @override

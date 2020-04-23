@@ -274,6 +274,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         LColumn(
                           children: <Widget>[
                             LDropdown(
+                              scrollable: false,
+                              scrollToClose: false,
+                              predictiveHeight: 200.0,
                               trigger: LFlatButton(
                                 child: Text("hello"),
                                 type: ButtonType.success,
@@ -397,10 +400,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         LColumn(
                           children: <Widget>[
                             LNOutlineButton(
-                              child: Text("Hello World"),
+                              child: Text("Hello"),
                               onPressed: () {},
                               type: ButtonType.dark,
-                              fillMode: FillMode.translucent,
+                              fillMode: FillMode.transparent,
                               buttonShape: ButtonShape.pill,
                             ),
                             LNOutlineButton.icon(
@@ -408,7 +411,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               label: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.light,
-                              buttonShape: ButtonShape.pill,
                               direction: Axis.vertical,
                               small: true,
                             ),

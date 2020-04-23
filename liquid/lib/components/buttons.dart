@@ -426,7 +426,7 @@ class LFlatButton extends LNButton {
       );
 }
 
-enum FillMode { transparent, translucent, solid }
+enum FillMode { transparent, solid }
 
 class LNOutlineButton extends LNButton {
   final FillMode fillMode;

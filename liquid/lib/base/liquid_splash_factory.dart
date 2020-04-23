@@ -1,10 +1,10 @@
 part of 'base.dart';
 
-const Duration _kUnconfirmedSplashDuration = const Duration(milliseconds: 150);
-const Duration _kSplashFadeDuration = const Duration(milliseconds: 800);
+const Duration _kUnconfirmedSplashDuration = const Duration(milliseconds: 450);
+const Duration _kSplashFadeDuration = const Duration(milliseconds: 650);
 
 const double _kSplashInitialSize = 0.0; // logical pixels
-const double _kSplashConfirmedVelocity = 0.26;
+const double _kSplashConfirmedVelocity = 0.28;
 
 class LFastSplashFactory extends InteractiveInkFeatureFactory {
   const LFastSplashFactory();

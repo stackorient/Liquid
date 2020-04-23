@@ -75,21 +75,16 @@ extension on LiquidButtonTheme {
   }
 
   Color getHighlightColor(LNButton button) {
-    if (button is LNOutlineButton) {
-      if (button.fillMode == FillMode.transparent) {
-        return getButtonColor(button).withOpacity(0.2);
-      }
-      if (button.fillMode == FillMode.translucent) {
-        return getButtonColor(button).withOpacity(0.5);
-      }
+    if (button is LNOutlineButton && button.fillMode == FillMode.transparent) {
+      return null;
     }
-    return getButtonColor(button).darken(0.1);
+    return getButtonColor(button).withOpacity(0.8);
   }
 
   Color getSplashColor(LNButton button) {
     if (button is LNOutlineButton) {
       if (button.fillMode == FillMode.transparent) {
-        return getButtonColor(button).lighten(0.2);
+        return getButtonColor(button).withOpacity(0.3);
       }
     }
     return getButtonColor(button).lighten(0.4);
@@ -137,10 +132,11 @@ extension on LiquidButtonTheme {
   TextStyle getTextStyle(LNButton button, bool hover) {
     final _ts = (button.small ?? false) ? smallTextStyle : textStyle;
 
-    if (button is LNOutlineButton && !hover) {
+    if (button is LNOutlineButton &&
+        (button.fillMode == FillMode.transparent || !hover)) {
       return _ts.withColor(
         button.type == ButtonType.light
-            ? getButtonColor(button).darken(0.3)
+            ? getButtonColor(button).darken(0.1)
             : getButtonColor(button),
       );
     }
