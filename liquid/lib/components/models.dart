@@ -120,16 +120,16 @@ class LModelHeader extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(title, style: theme.h5),
           Material(
             borderRadius: BorderRadius.circular(20.0),
             color: Colors.white,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20.0),
-              child: Icon(Icons.close),
-              onTap: () => _close(context),
+            child: LIconButton(
+              icon: Icon(Icons.close),
+              onPressed: () => _close(context),
+              splashThickness: 0,
             ),
           ),
         ],

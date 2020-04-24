@@ -87,6 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  final GlobalKey<LDropdownState> _dropdown = GlobalKey<LDropdownState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,6 +204,27 @@ class _MyHomePageState extends State<MyHomePage> {
               gutter: 0,
               columns: [
                 LColumn(
+                  children: <Widget>[
+                    LBadge(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(
+                            Icons.warning,
+                            size: 15.0,
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            "No Update",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                LColumn(
                   xs: 6,
                   xl: 1,
                   children: <Widget>[
@@ -209,13 +232,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       visibility: LBoxVisibility(
                         xs: false,
                       ),
-                      child: LBadges(
+                      child: LBadge.text(
                         "Will hide in xs",
                         shape: BadgesShape.standard,
                         type: BadgesType.dark,
                       ),
                     ),
-                    LBadges(
+                    LBadge.text(
                       "Hello",
                       shape: BadgesShape.standard,
                       type: BadgesType.dark,
@@ -312,15 +335,40 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
+                            LFlatButton(
+                              child: Text("hello"),
+                              type: ButtonType.success,
+                              onPressed: () {},
+                            ),
+                            LFlatButton.icon(
+                              icon: Text("hello"),
+                              label: LBadge.text(
+                                "3",
+                                type: BadgesType.danger,
+                                shape: BadgesShape.pills,
+                              ),
+                              onPressed: () {},
+                              type: ButtonType.danger,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
                             LDropdown(
-                              scrollable: false,
+                              key: _dropdown,
                               scrollToClose: false,
-                              backdrop: Colors.red.withOpacity(0.4),
+                              scrollable: true,
+                              // backdrop: Colors.red.withOpacity(0.4),
                               predictiveHeight: 250.0,
+                              predictiveWidth: 150.0,
                               elevation: 10.0,
-                              trigger: LFlatButton(
-                                child: Text("hello"),
-                                type: ButtonType.success,
+                              trigger: LFlatButton.icon(
+                                icon: Text("Dropdown"),
+                                label: Icon(Icons.arrow_drop_down),
+                                onPressed: () {
+                                  _dropdown.currentState.toggleDropdown();
+                                },
+                                type: ButtonType.warning,
                               ),
                               itemBuilder: (context) => [
                                 LDropdownItem.header(text: "Option 1"),
@@ -335,6 +383,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   onLongPress: () {
                                     print("long pressed");
+                                    _dropdown.currentState.closeDropdown();
                                   },
                                 ),
                                 LDropdownItem(
@@ -364,26 +413,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ],
                                 )),
                               ],
-                            ),
-                            LFlatButton.icon(
-                              label: Text("hello"),
-                              icon: LBadges(
-                                "3",
-                                type: BadgesType.danger,
-                                shape: BadgesShape.pills,
-                              ),
-                              onPressed: () {},
-                              type: ButtonType.danger,
-                            ),
-                          ],
-                        ),
-                        LColumn(
-                          children: <Widget>[
-                            LFlatButton(
-                              child: Text("hello"),
-                              onPressed: () {},
-                              type: ButtonType.warning,
-                              small: true,
                             ),
                             LFlatButton(
                               child: Text("hello"),
@@ -549,6 +578,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
+                            LRaisedButton.text(
+                              text: "Hello",
+                              onPressed: () {},
+                              type: ButtonType.dark,
+                            ),
                             LRaisedButton.text(
                               text: "Hello",
                               onPressed: () {},
