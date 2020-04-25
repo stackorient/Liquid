@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+
       home: MyHomePage(title: 'Flutter Demo Home Page'),
       // builder: (context, child) => child,
     );
@@ -92,8 +93,24 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(result ?? widget.title),
-        elevation: 0,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.ac_unit),
+            LBox(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('StackOrient Library'),
+              ),
+              visibility: LBoxVisibility(
+                xs: false,
+                sm: false,
+              ),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
@@ -126,6 +143,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
+                  ),
+                  LHeaderTag(
+                    text: 'Today',
+                    subText: 'April 25',
+                    tagColor:
+                        LiquidTheme.of(context).backgroundColors.secondaryColor,
                   ),
                 ],
               ),

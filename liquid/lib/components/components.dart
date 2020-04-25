@@ -1,6 +1,7 @@
 library components;
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -19,3 +20,4 @@ part 'corousels.dart';
 part 'models.dart';
 part 'theme/liquid_theme_extension.dart';
 part 'dropdown.dart';
+part 'header_tag.dart';
