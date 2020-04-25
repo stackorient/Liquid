@@ -144,6 +144,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   ),
+                  LHeaderTag(
+                    text: 'Today',
+                    subText: 'April 25',
+                    tagColor:
+                        LiquidTheme.of(context).backgroundColors.secondaryColor,
+                  ),
                 ],
               ),
               LColumn(
