@@ -21,3 +21,4 @@ part 'models.dart';
 part 'theme/liquid_theme_extension.dart';
 part 'dropdown.dart';
 part 'header_tag.dart';
+part 'collapse.dart';

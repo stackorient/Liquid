@@ -79,7 +79,7 @@ class LBadge extends StatelessWidget {
         break;
       case BadgesShape.standard:
       default:
-        return BorderRadius.circular(5.0);
+        return BorderRadius.circular(4.0);
     }
   }
 
@@ -102,6 +102,46 @@ class LBadge extends StatelessWidget {
       child: Text(
         text,
         style: style,
+      ),
+    );
+  }
+
+  factory LBadge.icon({
+    @required Widget icon,
+    @required Widget label,
+    TextStyle style,
+    double iconSize,
+    Color color = Colors.white,
+    double spacing,
+    BadgesType type,
+    BadgesShape shape,
+    EdgeInsets margin,
+    EdgeInsets padding,
+    Color background,
+  }) {
+    assert(icon != null, label != null);
+    return LBadge(
+      type: type,
+      shape: shape,
+      margin: margin,
+      padding: padding,
+      background: background,
+      child: DefaultTextStyle(
+        style: (TextStyle(fontSize: 12.0) ?? style).withColor(color),
+        child: IconTheme(
+          data: IconThemeData.fallback()
+              .copyWith(color: color, size: iconSize ?? 16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              icon,
+              SizedBox(width: spacing ?? 5.0),
+              label,
+            ],
+          ),
+        ),
       ),
     );
   }

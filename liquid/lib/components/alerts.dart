@@ -96,6 +96,7 @@ class LAlert extends StatelessWidget {
     final _text = Text(
       text,
       style: style ?? theme.typographyTheme.p.withColor(colors[1]),
+      softWrap: true,
     );
 
     if (heading != null || bottom != null) {
@@ -111,11 +112,11 @@ class LAlert extends StatelessWidget {
           : Container();
 
       final _childrens = <Widget>[
-        heading != null ? _heading : Container(),
+        _heading ?? Container(),
         _text,
       ];
 
-      return LColumn(
+      return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: _childrens + (bottom ?? []),

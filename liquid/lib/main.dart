@@ -88,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final GlobalKey<LDropdownState> _dropdown = GlobalKey<LDropdownState>();
+  final GlobalKey<LCollapseState> _collapse = GlobalKey<LCollapseState>();
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               visibility: LBoxVisibility(
                 xs: false,
-                sm: false,
               ),
             ),
           ],
@@ -124,6 +124,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
                     heading: "Well done!",
                     type: LAlertType.success,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: LExpansionPanel(
+                      caption: LBadge.icon(
+                        padding: EdgeInsets.all(3),
+                        icon: Icon(Icons.warning),
+                        label: Text("COVID-19 alert"),
+                        background: Colors.red,
+                      ),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.black45,
+                      ),
+                      title: Text("Coronavirus disease"),
+                      subtitle: Text("Get the latest information"),
+                      collapseChild: Center(
+                        child: LFlatButton.text(text: "Hello World"),
+                      ),
+                      collapseHeight: 200.0,
+                      background: Colors.red.withOpacity(0.5),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 7.0),
@@ -328,8 +349,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           xs: 3,
                           children: <Widget>[
                             LFlatButton(
-                              child: Text("hello"),
-                              onPressed: () {},
+                              child: Text("Toggle Collapse"),
+                              onPressed: () {
+                                if (_collapse.currentState.isCollapsed)
+                                  _collapse.currentState.open();
+                                else
+                                  _collapse.currentState.close();
+                              },
                               type: ButtonType.primary,
                             ),
                             LFlatButton(
@@ -444,6 +470,17 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ],
+                    ),
+                    LCollapse(
+                      key: _collapse,
+                      child: Center(
+                        child: LFlatButton.text(
+                          text: "Close",
+                          onPressed: () => _collapse.currentState.close(),
+                        ),
+                      ),
+                      height: 200.0,
+                      background: Colors.black,
                     ),
                   ],
                 ),
