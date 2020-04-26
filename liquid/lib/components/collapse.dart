@@ -11,7 +11,6 @@ class LExpansionPanel extends StatefulWidget {
   final EdgeInsets padding;
   final Color background;
   final double radius;
-  final double collapseHeight;
   final Widget collapseChild;
   final Color collapseBackground;
   final double elevation;
@@ -28,11 +27,9 @@ class LExpansionPanel extends StatefulWidget {
     this.background = Colors.white,
     this.radius,
     this.elevation = 6.0,
-    @required this.collapseHeight,
     @required this.collapseChild,
     this.collapseBackground = Colors.white,
-  })  : assert(collapseHeight != null),
-        assert(collapseChild != null),
+  })  : assert(collapseChild != null),
         super(key: key);
 
   @override
@@ -68,12 +65,7 @@ class _LExpansionPanelState extends State<LExpansionPanel>
       child: Column(
         children: <Widget>[
           GestureDetector(
-            onTap: () {
-              if (isCollapsed)
-                open();
-              else
-                close();
-            },
+            onTap: toggle,
             child: AnimatedContainer(
               duration: widget.duration,
               decoration: BoxDecoration(
@@ -130,7 +122,6 @@ class _LExpansionPanelState extends State<LExpansionPanel>
             padding: widget.padding,
             background: widget.collapseBackground,
             child: widget.collapseChild,
-            height: widget.collapseHeight,
             radius: widget.radius,
           ),
         ],
@@ -140,7 +131,14 @@ class _LExpansionPanelState extends State<LExpansionPanel>
 
   bool get isCollapsed => _isCollapsed;
 
-  open() {
+  void toggle() {
+    if (isCollapsed)
+      open();
+    else
+      close();
+  }
+
+  void open() {
     _collapseKey.currentState.open();
     _animationController.forward();
     setState(() {
@@ -148,7 +146,7 @@ class _LExpansionPanelState extends State<LExpansionPanel>
     });
   }
 
-  close() {
+  void close() {
     _collapseKey.currentState.close();
     _animationController.reverse();
     setState(() {
@@ -162,7 +160,6 @@ class LCollapse extends StatefulWidget {
   final Curve curve;
   final EdgeInsets padding;
   final double radius;
-  final double height;
   final Widget child;
   final Color background;
   final Decoration decoration;
@@ -173,7 +170,6 @@ class LCollapse extends StatefulWidget {
     this.radius,
     this.duration = const Duration(milliseconds: 200),
     this.curve,
-    @required this.height,
     @required this.child,
     this.background,
     this.decoration,
@@ -182,7 +178,6 @@ class LCollapse extends StatefulWidget {
                 decoration != null && background == null && radius == null,
             "do not provide background or radius along with decoration"),
         assert(key != null),
-        assert(height != null),
         assert(child != null),
         assert(duration != null),
         super(key: key);
@@ -191,30 +186,34 @@ class LCollapse extends StatefulWidget {
   LCollapseState createState() => LCollapseState();
 }
 
-class LCollapseState extends State<LCollapse> {
+class LCollapseState extends State<LCollapse>
+    with SingleTickerProviderStateMixin {
   bool _isCollapsed = true;
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: widget.duration);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: widget.duration,
-      curve: widget.curve ?? Curves.fastLinearToSlowEaseIn,
-      height: _isCollapsed ? 0.0 : widget.height,
-      padding: widget.padding ??
-          const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-      decoration: widget.decoration ??
-          BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.radius ?? 10.0),
-            color: widget.background,
-          ),
-      child: FlexibleSpaceBarSettings(
-          toolbarOpacity: 1.0,
-          minExtent: 0.0,
-          maxExtent: widget.height,
-          currentExtent: widget.height,
-          child: FlexibleSpaceBar(
-            background: widget.child,
-          )),
+    return SizeTransition(
+      axis: Axis.vertical,
+      axisAlignment: 1.0,
+      sizeFactor: CurvedAnimation(
+          parent: _controller, curve: widget.curve ?? Curves.fastOutSlowIn),
+      child: Container(
+        padding: widget.padding ??
+            const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+        decoration: widget.decoration ??
+            BoxDecoration(
+              borderRadius: BorderRadius.circular(widget.radius ?? 10.0),
+              color: widget.background,
+            ),
+        child: widget.child,
+      ),
     );
   }
 
@@ -224,11 +223,13 @@ class LCollapseState extends State<LCollapse> {
     setState(() {
       _isCollapsed = false;
     });
+    _controller.forward();
   }
 
   close() {
     setState(() {
       _isCollapsed = true;
     });
+    _controller.reverse();
   }
 }
