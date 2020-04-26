@@ -113,7 +113,7 @@ class LiquidBadgeTheme {
   const LiquidBadgeTheme({
     this.backgroundColors = const LiquidBadgeBackgroundColors(),
     this.textColors = const LiquidBadgeTextColors(),
-    this.padding = const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
     this.margin = const EdgeInsets.only(bottom: 0.0),
   });
 }
@@ -426,6 +426,28 @@ class LiquidDropdownTheme {
   });
 }
 
+class LiquidCollapseTheme {
+  final TextStyle titleStyle;
+  final TextStyle subtitleStyle;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
+
+  const LiquidCollapseTheme({
+    this.titleStyle = const TextStyle(
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
+      height: 1.2,
+      color: Colors.black,
+    ),
+    this.subtitleStyle = const TextStyle(
+      fontSize: 12.8,
+      color: Colors.black38,
+    ),
+    this.padding,
+    this.margin,
+  });
+}
+
 class LiquidThemeData {
   final LiquidTextColors textColors;
   final LiquidBackgroundColors backgroundColors;
@@ -435,6 +457,7 @@ class LiquidThemeData {
   final LiquidButtonTheme buttonTheme;
   final LiquidTypographyTheme typographyTheme;
   final LiquidDropdownTheme dropdownTheme;
+  final LiquidCollapseTheme collapseTheme;
 
   const LiquidThemeData({
     this.textColors = const LiquidTextColors(),
@@ -445,6 +468,7 @@ class LiquidThemeData {
     this.buttonTheme = const LiquidButtonTheme(),
     this.typographyTheme = const LiquidTypographyTheme(),
     this.dropdownTheme = const LiquidDropdownTheme(),
+    this.collapseTheme = const LiquidCollapseTheme(),
   });
 }
 
