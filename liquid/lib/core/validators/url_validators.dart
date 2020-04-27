@@ -1,7 +1,7 @@
 part of 'validators.dart';
 
-class URLValidator extends RegexValidator {
-  URLValidator(
+class LURLValidator extends LRegexValidator {
+  LURLValidator(
       {String invalidMessage = "Invalid URL", bool withProtocol = false})
       : super(
           regex: withProtocol

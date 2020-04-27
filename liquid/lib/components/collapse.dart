@@ -153,6 +153,12 @@ class _LExpansionPanelState extends State<LExpansionPanel>
       _isCollapsed = true;
     });
   }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 }
 
 class LCollapse extends StatefulWidget {
@@ -231,5 +237,11 @@ class LCollapseState extends State<LCollapse>
       _isCollapsed = true;
     });
     _controller.reverse();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

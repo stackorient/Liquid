@@ -1,4 +1,5 @@
 import 'package:liquid/liquid.dart';
+import 'form_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -592,8 +593,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         LColumn(
                           children: <Widget>[
                             LRaisedButton(
-                              child: Text("hello"),
-                              onPressed: () {},
+                              child: Text("Form"),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FormPage()));
+                              },
                               type: ButtonType.success,
                             ),
                             LRaisedButton(

@@ -1,7 +1,7 @@
 part of 'validators.dart';
 
-class IPv4Validator extends RegexValidator {
-  IPv4Validator({String invalidMessage = "Invalid IP version 4 address"})
+class LIPv4Validator extends LRegexValidator {
+  LIPv4Validator({String invalidMessage = "Invalid IP version 4 address"})
       : super(
           regex: RegExp(
               r"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"),
@@ -9,8 +9,8 @@ class IPv4Validator extends RegexValidator {
         );
 }
 
-class IPv6Validator extends RegexValidator {
-  IPv6Validator({String invalidMessage = "Invalid IP version 6 address"})
+class LIPv6Validator extends LRegexValidator {
+  LIPv6Validator({String invalidMessage = "Invalid IP version 6 address"})
       : super(
           regex: RegExp(
               r"(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:"

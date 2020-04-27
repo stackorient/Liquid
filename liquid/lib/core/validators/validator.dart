@@ -8,7 +8,7 @@ abstract class LValidator<T> {
 
   String get errorMessage => _message;
   bool valid({T candidate});
-  Future<bool> asyncValid();
+  Future<bool> asyncValid({T candidate});
 }
 
 /// **Warning** Validators expect the candidate is Already sanatized
@@ -17,7 +17,7 @@ abstract class LValidator<T> {
 /// Find Purple Cow in string
 ///
 /// ```dart
-/// final hasPurpleCow = RegexValidator(
+/// final hasPurpleCow = LRegexValidator(
 ///   regex: RegExp(r'purple[ |}{":>?<!@#$%^\&*(\*+]+cow'),
 ///   invalidMessage: "Purple cow not found",
 /// );
@@ -25,10 +25,10 @@ abstract class LValidator<T> {
 /// print(hasPurpleCow.valid("Big fat purple cow is near you")) // true
 /// print(hasPurpleCow.valid("humm! no cow")) // false
 /// ```
-class RegexValidator extends LValidator<String> {
+class LRegexValidator extends LValidator<String> {
   final RegExp _regex;
 
-  const RegexValidator(
+  const LRegexValidator(
       {@required RegExp regex, @required String invalidMessage})
       : assert(regex != null),
         _regex = regex,
@@ -44,7 +44,7 @@ class RegexValidator extends LValidator<String> {
       Future.value(valid(candidate: candidate));
 }
 
-enum CombinedValidateType {
+enum LCombinedValidateType {
   allTrue,
   allFalse,
   atLeastOneTrue,
@@ -53,14 +53,14 @@ enum CombinedValidateType {
   atMostOneFalse,
 }
 
-class CombinedValidator<T> extends LValidator<T> {
+class LCombinedValidator<T> extends LValidator<T> {
   final List<LValidator<T>> validators;
-  final CombinedValidateType validateType;
+  final LCombinedValidateType validateType;
 
-  const CombinedValidator({
+  const LCombinedValidator({
     @required this.validators,
     String invalidMessage = "",
-    this.validateType = CombinedValidateType.allTrue,
+    this.validateType = LCombinedValidateType.allTrue,
   })  : assert(validators != null),
         super(errorMessage: invalidMessage);
 
@@ -71,22 +71,22 @@ class CombinedValidator<T> extends LValidator<T> {
   @override
   bool valid({T candidate}) {
     switch (validateType) {
-      case CombinedValidateType.allTrue:
+      case LCombinedValidateType.allTrue:
         return _all(true, candidate);
         break;
-      case CombinedValidateType.allFalse:
+      case LCombinedValidateType.allFalse:
         return _all(false, candidate);
         break;
-      case CombinedValidateType.atLeastOneTrue:
+      case LCombinedValidateType.atLeastOneTrue:
         return _atLeastOne(true, candidate);
         break;
-      case CombinedValidateType.atLeastOneFalse:
+      case LCombinedValidateType.atLeastOneFalse:
         return _atLeastOne(false, candidate);
         break;
-      case CombinedValidateType.atMostOneTrue:
+      case LCombinedValidateType.atMostOneTrue:
         return _atMostOne(true, candidate);
         break;
-      case CombinedValidateType.atMostOneFalse:
+      case LCombinedValidateType.atMostOneFalse:
         return _atMostOne(false, candidate);
         break;
       default:
