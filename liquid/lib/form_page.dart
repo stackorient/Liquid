@@ -59,7 +59,6 @@ class _FormPageState extends State<FormPage> {
     print("is invalid ${state.isInvalid}");
     print(state.serialize());
     print(state.fields["email2"].value);
-    // print("is submitted ${state.isSubmitted}");
   }
 
   _reset() {
@@ -69,6 +68,5 @@ class _FormPageState extends State<FormPage> {
     print("is pristine ${state.isPristine}");
     print("is valid ${state.isValid}");
     print("is invalid ${state.isInvalid}");
-    // print("is submitted ${state.isSubmitted}");
   }
 }
