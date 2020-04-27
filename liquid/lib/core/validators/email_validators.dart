@@ -1,7 +1,7 @@
 part of 'validators.dart';
 
-class CommonEmailValidator extends RegexValidator {
-  CommonEmailValidator({
+class LCommonEmailValidator extends LRegexValidator {
+  LCommonEmailValidator({
     String invalidMessage = "Invalid Email",
   }) : super(
           regex: RegExp(r"^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$"),
@@ -9,8 +9,8 @@ class CommonEmailValidator extends RegexValidator {
         );
 }
 
-class UnCommonEmailValidator extends RegexValidator {
-  UnCommonEmailValidator({
+class LUnCommonEmailValidator extends LRegexValidator {
+  LUnCommonEmailValidator({
     String invalidMessage = "Invalid Email",
   }) : super(
           regex: RegExp(r"^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$"),
@@ -18,11 +18,11 @@ class UnCommonEmailValidator extends RegexValidator {
         );
 }
 
-class EmailValidator extends CombinedValidator<String> {
-  EmailValidator({String invalidMessage = "Invalid Email"})
+class LEmailValidator extends LCombinedValidator<String> {
+  LEmailValidator({String invalidMessage = "Invalid Email"})
       : super(
-          validators: [CommonEmailValidator(), UnCommonEmailValidator()],
+          validators: [LCommonEmailValidator(), LUnCommonEmailValidator()],
           invalidMessage: invalidMessage,
-          validateType: CombinedValidateType.atLeastOneTrue,
+          validateType: LCombinedValidateType.atLeastOneTrue,
         );
 }

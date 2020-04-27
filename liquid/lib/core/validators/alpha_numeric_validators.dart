@@ -1,7 +1,7 @@
 part of 'validators.dart';
 
-class AlphaNumericValidator extends RegexValidator {
-  AlphaNumericValidator(
+class LAlphaNumericValidator extends LRegexValidator {
+  LAlphaNumericValidator(
       {String invalidMessage = "Not Alphanumeric", bool withSpace = false})
       : super(
           regex: withSpace

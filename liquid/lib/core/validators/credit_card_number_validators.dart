@@ -1,15 +1,15 @@
 part of 'validators.dart';
 
-class VisaCardValidator extends RegexValidator {
-  VisaCardValidator({String invalidMessage = "Invalid Visa Card Number"})
+class LVisaCardValidator extends LRegexValidator {
+  LVisaCardValidator({String invalidMessage = "Invalid Visa Card Number"})
       : super(
           regex: RegExp(r"^4[0-9]{12}(?:[0-9]{3})?$"),
           invalidMessage: invalidMessage,
         );
 }
 
-class MasterCardValidator extends RegexValidator {
-  MasterCardValidator({String invalidMessage = "Invalid Master Card Number"})
+class LMasterCardValidator extends LRegexValidator {
+  LMasterCardValidator({String invalidMessage = "Invalid Master Card Number"})
       : super(
           regex: RegExp(
               r"^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$"),
@@ -17,8 +17,8 @@ class MasterCardValidator extends RegexValidator {
         );
 }
 
-class AmericanExpressCardValidator extends RegexValidator {
-  AmericanExpressCardValidator(
+class LAmericanExpressCardValidator extends LRegexValidator {
+  LAmericanExpressCardValidator(
       {String invalidMessage = "Invalid American Express Card Number"})
       : super(
           regex: RegExp(r"^3[47][0-9]{13}$"),
@@ -26,8 +26,8 @@ class AmericanExpressCardValidator extends RegexValidator {
         );
 }
 
-class DinersClubValidator extends RegexValidator {
-  DinersClubValidator(
+class LDinersClubValidator extends LRegexValidator {
+  LDinersClubValidator(
       {String invalidMessage = "Invalid Diners Club Card Number"})
       : super(
           regex: RegExp(r"^3(?:0[0-5]|[68][0-9])[0-9]{11}$"),
@@ -35,8 +35,8 @@ class DinersClubValidator extends RegexValidator {
         );
 }
 
-class DiscoverCardValidator extends RegexValidator {
-  DiscoverCardValidator(
+class LDiscoverCardValidator extends LRegexValidator {
+  LDiscoverCardValidator(
       {String invalidMessage = "Invalid Discover Card Number"})
       : super(
           regex: RegExp(r"^6(?:011|5[0-9]{2})[0-9]{12}$"),
@@ -44,8 +44,8 @@ class DiscoverCardValidator extends RegexValidator {
         );
 }
 
-class JCBCardValidator extends RegexValidator {
-  JCBCardValidator({String invalidMessage = "Invalid JCB Card Number"})
+class LJCBCardValidator extends LRegexValidator {
+  LJCBCardValidator({String invalidMessage = "Invalid JCB Card Number"})
       : super(
           regex: RegExp(r"^(?:2131|1800|35\d{3})\d{11}$"),
           invalidMessage: invalidMessage,
@@ -53,24 +53,24 @@ class JCBCardValidator extends RegexValidator {
 }
 
 /// Matches only Visa, MasterCard, Discover, JCB, AmericanExpress, DinersClub
-/// For other cards use [RegexValidator] along with [CombinedValidator]
+/// For other cards use [LRegexValidator] along with [LCombinedValidator]
 ///
 /// example:
 /// ```dart
-/// final someOtherCardValidator = RegexValidator(
+/// final someOtherCardValidator = LRegexValidator(
 ///   regex: RegExp(r'other_card_regex'),
 ///   invalidMessage: "Invalid Card",
 /// );
-/// final newCreditCardValidator = CombinedValidator(validators: [
+/// final newCreditCardValidator = LCombinedValidator(validators: [
 ///   someOtherCardValidator,
-///   CreditCardValidator(),
+///   LCreditCardValidator(),
 /// ]);
 ///
 /// final isValid =
 ///     newCreditCardValidator.valid(candidate: "Some Credit Card Number"); // true | false
 ///```
-class CreditCardValidator extends RegexValidator {
-  CreditCardValidator({String invalidMessage = "Invalid JCB Card Number"})
+class LCreditCardValidator extends LRegexValidator {
+  LCreditCardValidator({String invalidMessage = "Invalid JCB Card Number"})
       : super(
           regex:
               RegExp(r"^(?:4[0-9]{12}(?:[0-9]{3})?|(?:5[1-5][0-9]{2}|222[1-9]|"
