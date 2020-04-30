@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../base/base.dart';
 import 'buttons.dart';
+import 'theme/liquid_theme_extension.dart';
 
 class LGroupButton {
   final Color textColor;
@@ -44,95 +45,31 @@ class LGroupButton {
 }
 
 class LButtonGroup extends StatelessWidget {
-  final Color textColor;
-  final Color color;
-  final ButtonType type;
-  final ButtonShape shape;
-  final double elevation;
-  final EdgeInsets margin;
-  final EdgeInsets padding;
-  final bool enableFeedback;
-  final bool excludeFromSemantics;
-  final Color focusColor;
-  final Color highlightColor;
-  final Color hoverColor;
-  final bool small;
   final Axis direction;
-  final List<LGroupButton> children;
-  final double radius;
-  final double borderThickness;
-  final bool outline;
+  final List<LButton> children;
+  final ButtonShape buttonShape;
+  final double _radius;
 
-  const LButtonGroup({
+  LButtonGroup({
     Key key,
-    this.textColor,
-    this.color,
-    this.type,
-    this.shape,
-    this.elevation,
-    this.margin,
-    this.padding,
-    this.enableFeedback,
-    this.excludeFromSemantics,
-    this.focusColor,
-    this.highlightColor,
-    this.hoverColor,
-    this.small = false,
     this.direction = Axis.horizontal,
     this.children,
-    this.radius = 3.0,
-    this.borderThickness = 0.0,
-    this.outline = false,
+    this.buttonShape,
+    double radius = 3.0,
   })  : assert(children != null && children.length >= 2),
+        assert(radius != null),
+        _radius = buttonShape == ButtonShape.pill ? 1000 : radius,
         super(key: key);
-
-  Color _getColor(LiquidThemeData themeData) {
-    final bg = themeData.buttonTheme.buttonColors;
-
-    switch (type) {
-      case ButtonType.secondary:
-        return bg.secondaryColor;
-        break;
-      case ButtonType.success:
-        return bg.success;
-        break;
-      case ButtonType.danger:
-        return bg.danger;
-        break;
-      case ButtonType.info:
-        return bg.info;
-        break;
-      case ButtonType.warning:
-        return bg.warning;
-        break;
-      case ButtonType.light:
-        return bg.light;
-        break;
-      case ButtonType.dark:
-        return bg.dark;
-        break;
-
-      case ButtonType.primary:
-      default:
-        return bg.primaryColor;
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = LiquidTheme.of(context);
-    final _color = _getColor(theme);
+    final buttonTheme = LiquidTheme.of(context).buttonTheme;
 
-    return Material(
-      type: MaterialType.transparency,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(radius),
-        side: BorderSide(width: borderThickness, color: _color),
-      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(_radius),
       child: IntrinsicWidth(
         child: Flex(
-          children: _buildButtons(),
+          children: _buildButtons(buttonTheme),
           direction: direction,
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: direction == Axis.vertical
@@ -143,10 +80,10 @@ class LButtonGroup extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildButtons() {
-    final first = _buildFirstButton();
-    final List<Widget> mid = _buildMidbuttons();
-    final last = _buildLastButton();
+  List<Widget> _buildButtons(LiquidButtonTheme buttonTheme) {
+    final first = _buildFirstButton(buttonTheme);
+    final List<Widget> mid = _buildMidbuttons(buttonTheme);
+    final last = _buildLastButton(buttonTheme);
 
     final List<Widget> _groups = [];
     _groups.add(first);
@@ -156,109 +93,60 @@ class LButtonGroup extends StatelessWidget {
     return _groups;
   }
 
-  Widget _applyStyle(LGroupButton defination, int position) {
-    BorderRadius _r;
+  Widget _buildFirstButton(LiquidButtonTheme buttonTheme) {
+    final button = children.first;
 
-    if (position == 0) {
-      if (direction == Axis.horizontal) {
-        _r = BorderRadius.only(
-          topLeft:
-              Radius.circular(shape == ButtonShape.circular ? 1000 : radius),
-          bottomLeft:
-              Radius.circular(shape == ButtonShape.circular ? 1000 : radius),
-        );
-      } else {
-        _r = BorderRadius.only(
-          topLeft:
-              Radius.circular(shape == ButtonShape.circular ? 1000 : radius),
-          topRight:
-              Radius.circular(shape == ButtonShape.circular ? 1000 : radius),
-        );
-      }
-    } else if (position == -1) {
-      if (direction == Axis.horizontal) {
-        _r = BorderRadius.only(
-          topRight:
-              Radius.circular(shape == ButtonShape.circular ? 1000 : radius),
-          bottomRight:
-              Radius.circular(shape == ButtonShape.circular ? 1000 : radius),
-        );
-      } else {
-        _r = BorderRadius.only(
-          bottomRight:
-              Radius.circular(shape == ButtonShape.circular ? 1000 : radius),
-          bottomLeft:
-              Radius.circular(shape == ButtonShape.circular ? 1000 : radius),
-        );
-      }
-    } else {
-      _r = BorderRadius.zero;
-    }
-
-    if (defination.outline ?? outline) {
-      return LOutlineButton(
-        textColor: textColor,
-        color: defination.color ?? color,
-        text: defination.text,
-        type: defination.type ?? type,
-        child: defination.child,
-        onPressed: defination.onPressed,
-        enableFeedback: enableFeedback,
-        excludeFromSemantics: excludeFromSemantics,
-        focusColor: focusColor,
-        focusNode: defination.focusNode,
-        highlightColor: defination.highlightColor ?? highlightColor,
-        hoverColor: defination.hoverColor ?? hoverColor,
-        onFocusChange: defination.onFocusChange,
-        onHighlightChanged: defination.onHighlightChanged,
-        onHover: defination.onHover,
-        padding: padding,
-        margin: EdgeInsets.zero,
-        small: small,
-        borderRadius: _r,
-        borderThickness: borderThickness / 2,
-      );
-    } else {
-      return LButton(
-        textColor: textColor,
-        color: defination.color ?? color,
-        text: defination.text,
-        type: defination.type ?? type,
-        child: defination.child,
-        onPressed: defination.onPressed,
-        enableFeedback: enableFeedback,
-        excludeFromSemantics: excludeFromSemantics,
-        focusColor: focusColor,
-        focusNode: defination.focusNode,
-        highlightColor: defination.highlightColor ?? highlightColor,
-        hoverColor: defination.hoverColor ?? hoverColor,
-        onFocusChange: defination.onFocusChange,
-        onHighlightChanged: defination.onHighlightChanged,
-        onHover: defination.onHover,
-        padding: padding,
-        margin: EdgeInsets.zero,
-        small: small,
-        borderRadius: _r,
-        borderThickness: borderThickness,
-      );
-    }
+    return button.copyWith(
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(direction == Axis.vertical ? _radius : 0),
+          topLeft: Radius.circular(_radius),
+          bottomLeft: Radius.circular(direction == Axis.vertical ? 0 : _radius),
+        ),
+        side: BorderSide.none,
+      ),
+      materialTapTargetSize: button is LRaisedButton
+          ? MaterialTapTargetSize.padded
+          : MaterialTapTargetSize.shrinkWrap,
+      buttonShape: ButtonShape.standard,
+    );
   }
 
-  Widget _buildFirstButton() {
-    final firstItem = children.first;
-    return _applyStyle(firstItem, 0);
+  Widget _buildLastButton(LiquidButtonTheme buttonTheme) {
+    final button = children.last;
+    return button.copyWith(
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(direction == Axis.vertical ? 0 : _radius),
+          bottomRight: Radius.circular(_radius),
+          bottomLeft: Radius.circular(direction == Axis.vertical ? _radius : 0),
+        ),
+        side: BorderSide.none,
+      ),
+      materialTapTargetSize: button is LRaisedButton
+          ? MaterialTapTargetSize.padded
+          : MaterialTapTargetSize.shrinkWrap,
+      buttonShape: ButtonShape.standard,
+    );
   }
 
-  Widget _buildLastButton() {
-    final lastItem = children.last;
-    return _applyStyle(lastItem, -1);
-  }
-
-  List<Widget> _buildMidbuttons() {
+  List<Widget> _buildMidbuttons(LiquidButtonTheme buttonTheme) {
     final List<Widget> _buttons = [];
 
     for (int i = 1; i < children.length - 1; i++) {
-      final button = _applyStyle(children[i], i);
+      final button = children[i].copyWith(
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+          side: BorderSide.none,
+        ),
+        materialTapTargetSize: children[i] is LRaisedButton
+            ? MaterialTapTargetSize.padded
+            : MaterialTapTargetSize.shrinkWrap,
+        buttonShape: ButtonShape.standard,
+      );
       _buttons.add(button);
     }
 
