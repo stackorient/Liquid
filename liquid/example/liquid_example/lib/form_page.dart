@@ -15,37 +15,42 @@ class _FormPageState extends State<FormPage> {
       appBar: AppBar(),
       body: Container(
         padding: const EdgeInsets.all(10.0),
-        child: LForm(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              LTextFormField(
-                name: "email",
-                validators: [
-                  LRequiredValidator(),
-                  LEmailValidator(
-                    invalidMessage: "Please enter correct email address",
-                  )
-                ],
-              ),
-              LTextFormField(
-                name: "email2",
-                validators: [
-                  LRequiredValidator(),
-                  LEmailValidator(
-                      invalidMessage: "Please enter correct email address")
-                ],
-              ),
-              LFlatButton.text(
-                text: "Submit",
-                onPressed: _submit,
-              ),
-              LFlatButton.text(
-                text: "reset",
-                onPressed: _reset,
-              )
-            ],
-          ),
+        // child: LForm(
+        //   key: _formKey,
+        //   child: Column(
+        //     children: <Widget>[
+        //       LTextFormField(
+        //         name: "email",
+        //         validators: [
+        //           LRequiredValidator(),
+        //           LEmailValidator(
+        //             invalidMessage: "Please enter correct email address",
+        //           )
+        //         ],
+        //       ),
+        //       LTextFormField(
+        //         name: "email2",
+        //         validators: [
+        //           LRequiredValidator(),
+        //           LEmailValidator(
+        //               invalidMessage: "Please enter correct email address")
+        //         ],
+        //       ),
+        //       LFlatButton.text(
+        //         text: "Submit",
+        //         onPressed: _submit,
+        //       ),
+        //       LFlatButton.text(
+        //         text: "reset",
+        //         onPressed: _reset,
+        //       )
+        //     ],
+        //   ),
+        // ),
+        child: LAlert(
+          "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
+          heading: "Well done!",
+          type: LAlertType.success,
         ),
       ),
     );

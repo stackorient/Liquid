@@ -290,7 +290,6 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
 
   @override
   void didChangeMetrics() {
-    print("change");
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _rebuildDropdown(force: true);
     });
@@ -352,8 +351,6 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     if (pos.dy < widget.hideOnTopOffset) {
       return false;
     }
-
-    print(pos);
     return true;
   }
 
