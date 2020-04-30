@@ -24,7 +24,7 @@ class LFastSplashFactory extends InteractiveInkFeatureFactory {
     RenderBox referenceBox,
     TextDirection textDirection,
   }) {
-    return new CustomSplash(
+    return _CustomSplash(
       controller: controller,
       referenceBox: referenceBox,
       position: position,
@@ -38,7 +38,7 @@ class LFastSplashFactory extends InteractiveInkFeatureFactory {
   }
 }
 
-class CustomSplash extends InteractiveInkFeature {
+class _CustomSplash extends InteractiveInkFeature {
   /// Used to specify this type of ink splash for an [InkWell], [InkResponse]
   /// or material [Theme].
   static const InteractiveInkFeatureFactory splashFactory =
@@ -59,7 +59,7 @@ class CustomSplash extends InteractiveInkFeature {
   /// This is the default.
   ///
   /// When the splash is removed, `onRemoved` will be called.
-  CustomSplash({
+  _CustomSplash({
     @required MaterialInkController controller,
     @required RenderBox referenceBox,
     Offset position,

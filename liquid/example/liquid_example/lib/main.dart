@@ -14,9 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-
       home: MyHomePage(title: 'Flutter Demo Home Page'),
-      // builder: (context, child) => child,
     );
   }
 }
@@ -32,6 +30,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String result;
+
+  List<bool> isSelected = [false, false, false];
 
   void _showModel() {
     showLModel(context,
@@ -90,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final GlobalKey<LDropdownState> _dropdown = GlobalKey<LDropdownState>();
+  final GlobalKey<LDropdownState> _dropdown2 = GlobalKey<LDropdownState>();
   final GlobalKey<LCollapseState> _collapse = GlobalKey<LCollapseState>();
 
   @override
@@ -118,6 +119,46 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
         child: LColumn(
           children: <Widget>[
+            LRow(
+              columns: [
+                LColumn(
+                  children: <Widget>[
+                    ToggleButtons(
+                      borderColor: Colors.red,
+                      children: <Widget>[
+                        Icon(Icons.ac_unit),
+                        Icon(Icons.call),
+                        LDropdown(
+                          scrollable: false,
+                          scrollToClose: false,
+                          key: _dropdown2,
+                          trigger: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Toggle Dropdown"),
+                          ),
+                          items: [
+                            LDropdownItem(
+                              text: "First Item",
+                              onTap: () {},
+                            )
+                          ],
+                        )
+                      ],
+                      onPressed: (int index) {
+                        setState(() {
+                          isSelected[index] = !isSelected[index];
+                        });
+
+                        if (index == 2) {
+                          _dropdown2.currentState.toggleDropdown();
+                        }
+                      },
+                      isSelected: isSelected,
+                    ),
+                  ],
+                )
+              ],
+            ),
             LRow(columns: [
               LColumn(
                 mainAxisAlignment: MainAxisAlignment.center,
