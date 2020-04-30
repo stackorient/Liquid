@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../base/base.dart';
 import '../buttons.dart';
 
-extension LButtonTheme on LiquidButtonTheme {
+extension LButtonThemeExtension on LiquidButtonTheme {
   Color getButtonColor(LNButton button) {
     switch (button.type) {
       case ButtonType.secondary:
