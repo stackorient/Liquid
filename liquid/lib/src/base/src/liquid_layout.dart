@@ -99,22 +99,6 @@ class LResponsiveBuilder extends StatelessWidget {
   }
 }
 
-class LBoxDimension {
-  final double xs;
-  final double sm;
-  final double md;
-  final double lg;
-  final double xl;
-
-  const LBoxDimension({
-    this.xs,
-    this.sm,
-    this.md,
-    this.lg,
-    this.xl,
-  });
-}
-
 class LBoxVisibility {
   final bool xs;
   final bool sm;
@@ -129,46 +113,6 @@ class LBoxVisibility {
     this.lg = true,
     this.xl = true,
   });
-}
-
-class LBox extends StatelessWidget {
-  final LBoxDimension height;
-  final LBoxDimension width;
-  final LBoxVisibility visibility;
-
-  final Widget child;
-
-  const LBox({
-    Key key,
-    this.height = const LBoxDimension(),
-    this.width = const LBoxDimension(),
-    this.visibility = const LBoxVisibility(),
-    @required this.child,
-  })  : assert(child != null),
-        assert(height != null),
-        assert(width != null),
-        assert(visibility != null),
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return LResponsiveBuilder(
-      useMediaQuery: true,
-      onXS: (_) => visibility.xs ? _buildBox(height.xs, width.xs) : Container(),
-      onSM: (_) => visibility.sm ? _buildBox(height.sm, width.sm) : Container(),
-      onMD: (_) => visibility.md ? _buildBox(height.md, width.md) : Container(),
-      onLG: (_) => visibility.lg ? _buildBox(height.lg, width.lg) : Container(),
-      onXL: (_) => visibility.xl ? _buildBox(height.xl, width.xl) : Container(),
-    );
-  }
-
-  Widget _buildBox(double height, double width) {
-    return SizedBox(
-      height: height,
-      width: width,
-      child: child,
-    );
-  }
 }
 
 enum BreakPoint { xs, sm, md, lg, xl }

@@ -216,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               LColumn(
                 children: <Widget>[
-                  LBox(
+                  LAnimatedBox(
                     height: LBoxDimension(
                       xl: 450.0,
                       lg: 350.0,
