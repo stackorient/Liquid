@@ -4,7 +4,7 @@ import '../../../base/base.dart';
 import '../buttons.dart';
 
 extension LButtonThemeExtension on LiquidButtonTheme {
-  Color getButtonColor(LNButton button) {
+  Color getButtonColor(LButton button) {
     switch (button.type) {
       case ButtonType.secondary:
         return buttonColors.secondaryColor;
@@ -34,12 +34,22 @@ extension LButtonThemeExtension on LiquidButtonTheme {
     }
   }
 
-  Color getFillColor(LNButton button) {
-    if (button is LNOutlineButton) return Colors.transparent;
+  Color getFillColor(LButton button) {
+    if (!button.enabled) return Colors.grey;
+    Color _color;
+    if (button is LOutlineButton)
+      _color = Colors.transparent;
+    else
+      _color = getButtonColor(button);
+    return _color;
+  }
+
+  Color getDisabledColor(LButton button) {
+    if (button is LOutlineButton) return Colors.transparent;
     return getButtonColor(button);
   }
 
-  Color getButtonBorderColor(LNButton button) {
+  Color getButtonBorderColor(LButton button) {
     switch (button.type) {
       case ButtonType.secondary:
         return buttonColors.secondaryColor.darken(0.1);
@@ -69,26 +79,26 @@ extension LButtonThemeExtension on LiquidButtonTheme {
     }
   }
 
-  Color getFocusColor(LNButton button) {
+  Color getFocusColor(LButton button) {
     return getButtonColor(button).darken(0.1);
   }
 
-  Color getHoverColor(LNButton button) {
-    if (button is LNOutlineButton && button.fillMode == FillMode.transparent) {
+  Color getHoverColor(LButton button) {
+    if (button is LOutlineButton && button.fillMode == FillMode.transparent) {
       return getButtonColor(button).withOpacity(0.2);
     }
     return getButtonColor(button).darken(0.05);
   }
 
-  Color getHighlightColor(LNButton button) {
-    if (button is LNOutlineButton && button.fillMode == FillMode.transparent) {
+  Color getHighlightColor(LButton button) {
+    if (button is LOutlineButton && button.fillMode == FillMode.transparent) {
       return null;
     }
     return getButtonColor(button).withOpacity(0.8);
   }
 
-  Color getSplashColor(LNButton button) {
-    if (button is LNOutlineButton) {
+  Color getSplashColor(LButton button) {
+    if (button is LOutlineButton) {
       if (button.fillMode == FillMode.transparent) {
         return getButtonColor(button).withOpacity(0.3);
       }
@@ -96,51 +106,54 @@ extension LButtonThemeExtension on LiquidButtonTheme {
     return getButtonColor(button).lighten(0.4);
   }
 
-  double getElevation(LNButton button) {
+  double getElevation(LButton button) {
     if (button is LRaisedButton) return 3.0;
     return 0.0;
   }
 
-  double getFocusElevation(LNButton button) {
+  double getFocusElevation(LButton button) {
     if (button is LRaisedButton) return 5.0;
     return 0.0;
   }
 
-  double getHoverElevation(LNButton button) {
+  double getHoverElevation(LButton button) {
     if (button is LRaisedButton) return 4.0;
     return 0.0;
   }
 
-  double getHighlightElevation(LNButton button) {
+  double getHighlightElevation(LButton button) {
     return 0.0;
   }
 
-  double getDisabledElevation(LNButton button) {
+  double getDisabledElevation(LButton button) {
     return 0.0;
   }
 
-  ShapeBorder getButtonShape(LNButton button) {
-    if (button is LRaisedButton)
+  ShapeBorder getButtonShape(LButton button) {
+    if (button is LOutlineButton) {
       return RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
             button.buttonShape == ButtonShape.pill ? 1000 : 3.0),
+        side: BorderSide(
+          width: 1,
+          color: button.type == ButtonType.light
+              ? getButtonColor(button).darken(0.2)
+              : getButtonColor(button).darken(0.05),
+        ),
       );
+    }
     return RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(
           button.buttonShape == ButtonShape.pill ? 1000 : 3.0),
-      side: BorderSide(
-        width: 1,
-        color: button.type == ButtonType.light
-            ? getButtonColor(button).darken(0.2)
-            : getButtonColor(button).darken(0.05),
-      ),
     );
   }
 
-  TextStyle getTextStyle(LNButton button, bool hover) {
+  TextStyle getTextStyle(LButton button, bool hover) {
     final _ts = (button.small ?? false) ? smallTextStyle : textStyle;
-
-    if (button is LNOutlineButton &&
+    if (!button.enabled) {
+      return _ts.withColor(Colors.grey[300]);
+    }
+    if (button is LOutlineButton &&
         (button.fillMode == FillMode.transparent || !hover)) {
       return _ts.withColor(
         button.type == ButtonType.light

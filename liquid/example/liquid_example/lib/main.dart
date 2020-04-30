@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         footer: LModelFooter(
           actions: <Widget>[
-            LButton(
+            LFlatButton.text(
               text: "Cancel",
               onPressed: () async {
                 final _ = await LiquidStateManager.of(context)
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               margin: const EdgeInsets.only(right: 5.0),
             ),
-            LButton(
+            LFlatButton.text(
               text: "Accept",
               onPressed: () async {
                 final _ = await LiquidStateManager.of(context)
@@ -215,6 +215,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               LColumn(
+                visibility: LBoxVisibility(
+                  md: false,
+                ),
                 children: <Widget>[
                   LAnimatedBox(
                     height: LBoxDimension(
@@ -321,6 +324,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       icon: Icon(Icons.ac_unit),
                       color: Colors.green,
                       onPressed: () {},
+                      splashThickness: 010.0,
                     ),
                     SizedBox(height: 20.0),
                     IconButton(
@@ -337,27 +341,25 @@ class _MyHomePageState extends State<MyHomePage> {
               gutter: 0,
               columns: [
                 LColumn(
-                  xs: 6,
-                  xl: 1,
                   children: <Widget>[
                     LButtonGroup(
-                      small: false,
                       direction: Axis.horizontal,
+                      buttonShape: ButtonShape.pill,
                       children: [
-                        LGroupButton(
-                            text: "primary",
-                            onPressed: () {
-                              print("hello");
-                            }),
-                        LGroupButton(
-                            child: Icon(Icons.arrow_drop_down, size: 16.0),
-                            onPressed: () {
-                              print("dark button");
-                            }),
+                        LRaisedButton.text(
+                          text: "First",
+                          onPressed: () {},
+                        ),
+                        LRaisedButton.text(
+                          text: "Second",
+                          onPressed: () {},
+                        ),
+                        LRaisedButton.text(
+                          text: "Third",
+                          onPressed: () {},
+                          type: ButtonType.dark,
+                        ),
                       ],
-                      type: ButtonType.success,
-                      borderThickness: 1.0,
-                      outline: true,
                     ),
                   ],
                 ),
@@ -541,12 +543,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         LColumn(
                           xs: 3,
                           children: <Widget>[
-                            LNOutlineButton(
+                            LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.primary,
                             ),
-                            LNOutlineButton(
+                            LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.secondary,
@@ -555,12 +557,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
-                            LNOutlineButton(
+                            LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.success,
                             ),
-                            LNOutlineButton(
+                            LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.danger,
@@ -569,14 +571,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
-                            LNOutlineButton(
+                            LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.warning,
                               fillMode: FillMode.transparent,
                               buttonShape: ButtonShape.pill,
                             ),
-                            LNOutlineButton(
+                            LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
                               type: ButtonType.info,
@@ -585,14 +587,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
-                            LNOutlineButton(
+                            LOutlineButton(
                               child: Text("Hello"),
                               onPressed: () {},
                               type: ButtonType.dark,
                               fillMode: FillMode.transparent,
                               buttonShape: ButtonShape.pill,
                             ),
-                            LNOutlineButton.icon(
+                            LOutlineButton.icon(
                               icon: Icon(Icons.ac_unit),
                               label: Text("hello"),
                               onPressed: () {},
@@ -737,7 +739,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     footer: LModelFooter(
                       actions: <Widget>[
-                        LOutlineButton(
+                        LOutlineButton.text(
                           text: "Cancel",
                           onPressed: () {},
                           type: ButtonType.primary,
@@ -745,7 +747,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               horizontal: 20.0, vertical: 10.0),
                           margin: const EdgeInsets.only(right: 5.0),
                         ),
-                        LButton(
+                        LOutlineButton.text(
                           text: "Accept",
                           onPressed: () {},
                           padding: const EdgeInsets.symmetric(
@@ -774,7 +776,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       subTitle:
                           "hi how are you fine from my side hi how are you fine from my side hi how are you fine from my side ",
                       title: "Hello",
-                      child: LButton(
+                      child: LOutlineButton.text(
                         text: "welcome",
                         type: ButtonType.dark,
                       ),

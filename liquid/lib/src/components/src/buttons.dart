@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid/components.dart';
 
 import '../../base/base.dart';
 import 'theme/liquid_theme_extension.dart';
@@ -16,9 +17,9 @@ enum ButtonType {
   dark
 }
 
-enum ButtonShape { standard, circular, pill }
+enum ButtonShape { standard, pill }
 
-class LNButton extends StatefulWidget {
+class LButton extends StatefulWidget {
   final ButtonType type;
   final ButtonShape buttonShape;
   final bool small;
@@ -29,6 +30,8 @@ class LNButton extends StatefulWidget {
   final void Function() onLongPress;
   final void Function(bool) onHighlightChanged;
   final TextStyle textStyle;
+  final TextStyle disabledTextStyle;
+  final Color disabledColor;
   final Color fillColor;
   final Color focusColor;
   final Color hoverColor;
@@ -52,7 +55,7 @@ class LNButton extends StatefulWidget {
   final Widget child;
   final bool enableFeedback;
 
-  const LNButton({
+  const LButton({
     Key key,
     this.type = ButtonType.primary,
     this.small,
@@ -62,6 +65,8 @@ class LNButton extends StatefulWidget {
     this.onMouseExit,
     this.onMouseHover,
     this.textStyle,
+    this.disabledTextStyle,
+    this.disabledColor,
     this.fillColor,
     this.focusColor,
     this.hoverColor,
@@ -98,11 +103,57 @@ class LNButton extends StatefulWidget {
           key: key,
         );
 
+  bool get enabled => onPressed != null || onLongPress != null;
+
+  LButton copyWith({
+    EdgeInsetsGeometry padding,
+    EdgeInsetsGeometry margin,
+    BoxConstraints constraints,
+    ShapeBorder shape,
+    MaterialTapTargetSize materialTapTargetSize,
+    ButtonShape buttonShape,
+  }) =>
+      LButton(
+        type: this.type,
+        small: this.small,
+        onLongPress: this.onLongPress,
+        onHighlightChanged: this.onHighlightChanged,
+        onMouseEnter: this.onMouseEnter,
+        onMouseExit: this.onMouseExit,
+        onMouseHover: this.onMouseHover,
+        textStyle: this.textStyle,
+        fillColor: this.fillColor,
+        focusColor: this.focusColor,
+        hoverColor: this.hoverColor,
+        highlightColor: this.highlightColor,
+        splashColor: this.splashColor,
+        elevation: this.elevation,
+        focusElevation: this.focusElevation,
+        hoverElevation: this.hoverElevation,
+        highlightElevation: this.highlightElevation,
+        disabledElevation: this.disabledElevation,
+        padding: padding ?? this.padding,
+        margin: margin ?? this.margin,
+        visualDensity: this.visualDensity,
+        constraints: constraints ?? this.constraints,
+        shape: shape ?? this.shape,
+        animationDuration: this.animationDuration,
+        clipBehavior: this.clipBehavior,
+        focusNode: this.focusNode,
+        autofocus: this.autofocus,
+        child: this.child,
+        enableFeedback: this.enableFeedback,
+        onPressed: this.onPressed,
+        materialTapTargetSize:
+            materialTapTargetSize ?? this.materialTapTargetSize,
+        buttonShape: buttonShape ?? this.buttonShape,
+      );
+
   @override
-  _LNButtonState createState() => _LNButtonState();
+  _LButtonState createState() => _LButtonState();
 }
 
-class _LNButtonState extends State<LNButton> {
+class _LButtonState extends State<LButton> {
   bool hover;
   bool mouseOver;
 
@@ -132,9 +183,13 @@ class _LNButtonState extends State<LNButton> {
           child: RawMaterialButton(
             onLongPress: widget.onLongPress,
             onHighlightChanged: _onHighlightChanged,
-            textStyle:
-                widget.textStyle ?? buttonTheme.getTextStyle(widget, hover),
-            fillColor: widget.fillColor ?? buttonTheme.getFillColor(widget),
+            textStyle: (widget.enabled
+                    ? widget.textStyle
+                    : widget.disabledTextStyle) ??
+                buttonTheme.getTextStyle(widget, hover),
+            fillColor:
+                (widget.enabled ? widget.fillColor : widget.disabledColor) ??
+                    buttonTheme.getFillColor(widget),
             focusColor: widget.focusColor ?? buttonTheme.getFocusColor(widget),
             hoverColor: widget.hoverColor ?? buttonTheme.getHoverColor(widget),
             highlightColor:
@@ -150,9 +205,10 @@ class _LNButtonState extends State<LNButton> {
                 buttonTheme.getHighlightElevation(widget),
             disabledElevation: widget.disabledElevation ??
                 buttonTheme.getDisabledElevation(widget),
-            padding: widget.padding ?? (widget.small ?? false)
-                ? buttonTheme.smallPadding
-                : buttonTheme.padding,
+            padding: widget.padding ??
+                ((widget.small ?? false)
+                    ? buttonTheme.smallPadding
+                    : buttonTheme.padding),
             visualDensity: widget.visualDensity,
             shape: widget.shape ?? buttonTheme.getButtonShape(widget),
             clipBehavior: Clip.antiAlias,
@@ -204,7 +260,7 @@ class _LNButtonState extends State<LNButton> {
   }
 }
 
-class LFlatButton extends LNButton {
+class LFlatButton extends LButton {
   const LFlatButton({
     Key key,
     bool small,
@@ -216,6 +272,8 @@ class LFlatButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -253,6 +311,8 @@ class LFlatButton extends LNButton {
           onLongPress: onLongPress,
           onHighlightChanged: onHighlightChanged,
           textStyle: textStyle,
+          disabledColor: disabledColor,
+          disabledTextStyle: disabledTextStyle,
           fillColor: fillColor,
           focusColor: focusColor,
           hoverColor: hoverColor,
@@ -289,6 +349,8 @@ class LFlatButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -325,6 +387,8 @@ class LFlatButton extends LNButton {
         onLongPress: onLongPress,
         onHighlightChanged: onHighlightChanged,
         textStyle: textStyle,
+        disabledColor: disabledColor,
+        disabledTextStyle: disabledTextStyle,
         fillColor: fillColor,
         focusColor: focusColor,
         hoverColor: hoverColor,
@@ -372,6 +436,8 @@ class LFlatButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -406,6 +472,8 @@ class LFlatButton extends LNButton {
         onLongPress: onLongPress,
         onHighlightChanged: onHighlightChanged,
         textStyle: textStyle,
+        disabledColor: disabledColor,
+        disabledTextStyle: disabledTextStyle,
         fillColor: fillColor,
         focusColor: focusColor,
         hoverColor: hoverColor,
@@ -433,13 +501,60 @@ class LFlatButton extends LNButton {
         onPressed: onPressed,
         constraints: constraints,
       );
+
+  @override
+  LFlatButton copyWith({
+    EdgeInsetsGeometry padding,
+    EdgeInsetsGeometry margin,
+    BoxConstraints constraints,
+    ShapeBorder shape,
+    MaterialTapTargetSize materialTapTargetSize,
+    ButtonShape buttonShape,
+  }) =>
+      LFlatButton(
+        type: this.type,
+        small: this.small,
+        onLongPress: this.onLongPress,
+        onHighlightChanged: this.onHighlightChanged,
+        onMouseEnter: this.onMouseEnter,
+        onMouseExit: this.onMouseExit,
+        onMouseHover: this.onMouseHover,
+        textStyle: this.textStyle,
+        disabledColor: this.disabledColor,
+        disabledTextStyle: this.disabledTextStyle,
+        fillColor: this.fillColor,
+        focusColor: this.focusColor,
+        hoverColor: this.hoverColor,
+        highlightColor: this.highlightColor,
+        splashColor: this.splashColor,
+        elevation: this.elevation,
+        focusElevation: this.focusElevation,
+        hoverElevation: this.hoverElevation,
+        highlightElevation: this.highlightElevation,
+        disabledElevation: this.disabledElevation,
+        padding: padding ?? this.padding,
+        margin: margin ?? this.margin,
+        visualDensity: this.visualDensity,
+        constraints: constraints ?? this.constraints,
+        shape: shape ?? this.shape,
+        animationDuration: this.animationDuration,
+        clipBehavior: this.clipBehavior,
+        focusNode: this.focusNode,
+        autofocus: this.autofocus,
+        child: this.child,
+        enableFeedback: this.enableFeedback,
+        onPressed: this.onPressed,
+        materialTapTargetSize:
+            materialTapTargetSize ?? this.materialTapTargetSize,
+        buttonShape: buttonShape ?? this.buttonShape,
+      );
 }
 
 enum FillMode { transparent, solid }
 
-class LNOutlineButton extends LNButton {
+class LOutlineButton extends LButton {
   final FillMode fillMode;
-  const LNOutlineButton({
+  const LOutlineButton({
     Key key,
     ButtonType type,
     ButtonShape buttonShape = ButtonShape.standard,
@@ -451,6 +566,8 @@ class LNOutlineButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -488,6 +605,8 @@ class LNOutlineButton extends LNButton {
           onLongPress: onLongPress,
           onHighlightChanged: onHighlightChanged,
           textStyle: textStyle,
+          disabledColor: disabledColor,
+          disabledTextStyle: disabledTextStyle,
           fillColor: fillColor,
           focusColor: focusColor,
           hoverColor: hoverColor,
@@ -513,7 +632,7 @@ class LNOutlineButton extends LNButton {
           constraints: constraints,
         );
 
-  factory LNOutlineButton.icon({
+  factory LOutlineButton.icon({
     Key key,
     ButtonType type,
     ButtonShape buttonShape = ButtonShape.standard,
@@ -525,6 +644,8 @@ class LNOutlineButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -551,7 +672,7 @@ class LNOutlineButton extends LNButton {
     MaterialTapTargetSize materialTapTargetSize,
     Axis direction,
   }) =>
-      LNOutlineButton(
+      LOutlineButton(
         type: type,
         buttonShape: buttonShape,
         small: small,
@@ -562,6 +683,8 @@ class LNOutlineButton extends LNButton {
         onLongPress: onLongPress,
         onHighlightChanged: onHighlightChanged,
         textStyle: textStyle,
+        disabledColor: disabledColor,
+        disabledTextStyle: disabledTextStyle,
         fillColor: fillColor,
         focusColor: focusColor,
         hoverColor: hoverColor,
@@ -595,7 +718,7 @@ class LNOutlineButton extends LNButton {
         constraints: constraints,
       );
 
-  factory LNOutlineButton.text({
+  factory LOutlineButton.text({
     Key key,
     ButtonType type,
     ButtonShape buttonShape = ButtonShape.standard,
@@ -607,6 +730,8 @@ class LNOutlineButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -631,7 +756,7 @@ class LNOutlineButton extends LNButton {
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
   }) =>
-      LNOutlineButton(
+      LOutlineButton(
         type: type,
         buttonShape: buttonShape,
         small: small,
@@ -642,6 +767,8 @@ class LNOutlineButton extends LNButton {
         onLongPress: onLongPress,
         onHighlightChanged: onHighlightChanged,
         textStyle: textStyle,
+        disabledColor: disabledColor,
+        disabledTextStyle: disabledTextStyle,
         fillColor: fillColor,
         focusColor: focusColor,
         hoverColor: hoverColor,
@@ -669,9 +796,56 @@ class LNOutlineButton extends LNButton {
         onPressed: onPressed,
         constraints: constraints,
       );
+
+  @override
+  LOutlineButton copyWith({
+    EdgeInsetsGeometry padding,
+    EdgeInsetsGeometry margin,
+    BoxConstraints constraints,
+    ShapeBorder shape,
+    MaterialTapTargetSize materialTapTargetSize,
+    ButtonShape buttonShape,
+  }) =>
+      LOutlineButton(
+        type: this.type,
+        small: this.small,
+        onLongPress: this.onLongPress,
+        onHighlightChanged: this.onHighlightChanged,
+        onMouseEnter: this.onMouseEnter,
+        onMouseExit: this.onMouseExit,
+        onMouseHover: this.onMouseHover,
+        textStyle: this.textStyle,
+        disabledColor: this.disabledColor,
+        disabledTextStyle: this.disabledTextStyle,
+        fillColor: this.fillColor,
+        focusColor: this.focusColor,
+        hoverColor: this.hoverColor,
+        highlightColor: this.highlightColor,
+        splashColor: this.splashColor,
+        elevation: this.elevation,
+        focusElevation: this.focusElevation,
+        hoverElevation: this.hoverElevation,
+        highlightElevation: this.highlightElevation,
+        disabledElevation: this.disabledElevation,
+        padding: padding ?? this.padding,
+        margin: margin ?? this.margin,
+        visualDensity: this.visualDensity,
+        constraints: constraints ?? this.constraints,
+        shape: shape ?? this.shape,
+        animationDuration: this.animationDuration,
+        clipBehavior: this.clipBehavior,
+        focusNode: this.focusNode,
+        autofocus: this.autofocus,
+        child: this.child,
+        enableFeedback: this.enableFeedback,
+        onPressed: this.onPressed,
+        materialTapTargetSize:
+            materialTapTargetSize ?? this.materialTapTargetSize,
+        buttonShape: buttonShape ?? this.buttonShape,
+      );
 }
 
-class LRaisedButton extends LNButton {
+class LRaisedButton extends LButton {
   const LRaisedButton({
     Key key,
     ButtonType type,
@@ -683,6 +857,8 @@ class LRaisedButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -720,6 +896,8 @@ class LRaisedButton extends LNButton {
           onLongPress: onLongPress,
           onHighlightChanged: onHighlightChanged,
           textStyle: textStyle,
+          disabledColor: disabledColor,
+          disabledTextStyle: disabledTextStyle,
           fillColor: fillColor,
           focusColor: focusColor,
           hoverColor: hoverColor,
@@ -756,6 +934,8 @@ class LRaisedButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -792,6 +972,8 @@ class LRaisedButton extends LNButton {
         onLongPress: onLongPress,
         onHighlightChanged: onHighlightChanged,
         textStyle: textStyle,
+        disabledColor: disabledColor,
+        disabledTextStyle: disabledTextStyle,
         fillColor: fillColor,
         focusColor: focusColor,
         hoverColor: hoverColor,
@@ -836,6 +1018,8 @@ class LRaisedButton extends LNButton {
     void Function() onLongPress,
     void Function(bool) onHighlightChanged,
     TextStyle textStyle,
+    TextStyle disabledTextStyle,
+    Color disabledColor,
     Color fillColor,
     Color focusColor,
     Color hoverColor,
@@ -870,6 +1054,8 @@ class LRaisedButton extends LNButton {
         onLongPress: onLongPress,
         onHighlightChanged: onHighlightChanged,
         textStyle: textStyle,
+        disabledColor: disabledColor,
+        disabledTextStyle: disabledTextStyle,
         fillColor: fillColor,
         focusColor: focusColor,
         hoverColor: hoverColor,
@@ -897,11 +1083,59 @@ class LRaisedButton extends LNButton {
         onPressed: onPressed,
         constraints: constraints,
       );
+
+  @override
+  LRaisedButton copyWith({
+    EdgeInsetsGeometry padding,
+    EdgeInsetsGeometry margin,
+    BoxConstraints constraints,
+    ShapeBorder shape,
+    MaterialTapTargetSize materialTapTargetSize,
+    ButtonShape buttonShape,
+  }) =>
+      LRaisedButton(
+        type: this.type,
+        small: this.small,
+        onLongPress: this.onLongPress,
+        onHighlightChanged: this.onHighlightChanged,
+        onMouseEnter: this.onMouseEnter,
+        onMouseExit: this.onMouseExit,
+        onMouseHover: this.onMouseHover,
+        textStyle: this.textStyle,
+        disabledColor: this.disabledColor,
+        disabledTextStyle: this.disabledTextStyle,
+        fillColor: this.fillColor,
+        focusColor: this.focusColor,
+        hoverColor: this.hoverColor,
+        highlightColor: this.highlightColor,
+        splashColor: this.splashColor,
+        elevation: this.elevation,
+        focusElevation: this.focusElevation,
+        hoverElevation: this.hoverElevation,
+        highlightElevation: this.highlightElevation,
+        disabledElevation: this.disabledElevation,
+        padding: padding ?? this.padding,
+        margin: margin ?? this.margin,
+        visualDensity: this.visualDensity,
+        constraints: constraints ?? this.constraints,
+        shape: shape ?? this.shape,
+        animationDuration: this.animationDuration,
+        clipBehavior: this.clipBehavior,
+        focusNode: this.focusNode,
+        autofocus: this.autofocus,
+        child: this.child,
+        enableFeedback: this.enableFeedback,
+        onPressed: this.onPressed,
+        materialTapTargetSize:
+            materialTapTargetSize ?? this.materialTapTargetSize,
+        buttonShape: buttonShape ?? this.buttonShape,
+      );
 }
 
 class LIconButton extends StatelessWidget {
   final Icon icon;
   final double iconSize;
+  final Color disabledColor;
   final double splashThickness;
   final Color splashColor;
   final Color color;
@@ -913,6 +1147,9 @@ class LIconButton extends StatelessWidget {
   final void Function() onLongPress;
   final void Function() onDoubleTap;
 
+  bool get enabled =>
+      onPressed != null || onLongPress != null || onDoubleTap != null;
+
   const LIconButton({
     Key key,
     @required this.icon,
@@ -921,6 +1158,7 @@ class LIconButton extends StatelessWidget {
     this.splashThickness = 10.0,
     this.onLongPress,
     this.onDoubleTap,
+    this.disabledColor,
     this.splashColor,
     this.color,
     this.focusColor,
@@ -938,7 +1176,9 @@ class LIconButton extends StatelessWidget {
     return Container(
       margin: margin,
       child: IconTheme(
-        data: IconThemeData.fallback().copyWith(size: iconSize, color: color),
+        data: IconThemeData.fallback().copyWith(
+            size: iconSize,
+            color: enabled ? color : (disabledColor ?? Colors.grey)),
         child: InkWell(
           borderRadius: BorderRadius.circular(iconSize + splashThickness),
           onTap: onPressed,
@@ -952,278 +1192,6 @@ class LIconButton extends StatelessWidget {
             padding: EdgeInsets.all(splashThickness),
             child: icon,
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class LButton extends StatelessWidget {
-  final Color textColor;
-  final Color color;
-  final String text;
-  final ButtonType type;
-  final ButtonShape shape;
-  final Widget child;
-  final double elevation;
-  final EdgeInsets margin;
-  final EdgeInsets padding;
-  final Function onPressed;
-  final bool autofocus;
-  final BorderRadius borderRadius;
-  final bool canRequestFocus;
-  final ShapeBorder customBorder;
-  final bool enableFeedback;
-  final bool excludeFromSemantics;
-  final Color focusColor;
-  final FocusNode focusNode;
-  final Color highlightColor;
-  final Color hoverColor;
-  final Function onFocusChange;
-  final Function onHighlightChanged;
-  final Function onHover;
-  final bool small;
-  final double borderThickness;
-
-  const LButton({
-    Key key,
-    this.child,
-    this.color,
-    this.text,
-    this.textColor,
-    this.elevation = 0.0,
-    this.small = false,
-    this.type = ButtonType.primary,
-    this.shape = ButtonShape.standard,
-    this.margin,
-    this.padding,
-    this.onPressed,
-    this.autofocus,
-    this.borderRadius,
-    this.canRequestFocus,
-    this.customBorder,
-    this.enableFeedback,
-    this.excludeFromSemantics,
-    this.focusColor,
-    this.focusNode,
-    this.highlightColor,
-    this.hoverColor,
-    this.onFocusChange,
-    this.onHighlightChanged,
-    this.onHover,
-    this.borderThickness,
-  })  : assert(
-            (child != null && text == null) || (child == null && text != null),
-            "Use either child or text"),
-        super(key: key);
-
-  Color getColor(LiquidThemeData themeData) {
-    final bg = themeData.buttonTheme.buttonColors;
-
-    switch (type) {
-      case ButtonType.secondary:
-        return bg.secondaryColor;
-        break;
-      case ButtonType.success:
-        return bg.success;
-        break;
-      case ButtonType.danger:
-        return bg.danger;
-        break;
-      case ButtonType.info:
-        return bg.info;
-        break;
-      case ButtonType.warning:
-        return bg.warning;
-        break;
-      case ButtonType.light:
-        return bg.light;
-        break;
-      case ButtonType.dark:
-        return bg.dark;
-        break;
-
-      case ButtonType.primary:
-      default:
-        return bg.primaryColor;
-        break;
-    }
-  }
-
-  double _getRadius() {
-    switch (shape) {
-      case ButtonShape.circular:
-        return 1000.0;
-        break;
-      case ButtonShape.standard:
-      default:
-        return 2.0;
-    }
-  }
-
-  ShapeBorder _getShape(LiquidThemeData themeData, Color color) {
-    return RoundedRectangleBorder(
-        borderRadius: borderRadius ?? BorderRadius.circular(_getRadius()),
-        side: BorderSide(width: borderThickness ?? 1.0, color: color));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = LiquidTheme.of(context);
-    final _color = color ?? getColor(theme);
-    final _shape = _getShape(theme, _color);
-
-    return Container(
-      margin: margin ?? theme.buttonTheme.margin,
-      child: Material(
-        color: onPressed == null ? _color.withOpacity(0.6) : _color,
-        shape: _shape,
-        elevation: elevation,
-        child: InkWell(
-          autofocus: autofocus,
-          borderRadius: borderRadius ?? BorderRadius.circular(_getRadius()),
-          canRequestFocus: canRequestFocus,
-          customBorder: customBorder,
-          enableFeedback: enableFeedback,
-          excludeFromSemantics: excludeFromSemantics,
-          focusColor: focusColor,
-          focusNode: focusNode,
-          highlightColor: _color.darken(0.05),
-          onFocusChange: onFocusChange,
-          onHighlightChanged: onHighlightChanged,
-          onHover: onHover,
-          onTap: onPressed,
-          child: Padding(
-              padding: padding ??
-                  (small
-                      ? theme.buttonTheme.smallPadding
-                      : theme.buttonTheme.padding),
-              child: _buildChild(theme, textColor ?? Colors.white)),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChild(LiquidThemeData theme, Color color) {
-    if (text != null) {
-      return Text(
-        text,
-        textAlign: TextAlign.center,
-        style: (small
-                ? theme.typographyTheme.small.size(10.0)
-                : theme.typographyTheme.p)
-            .withColor(color)
-            .weight(FontWeight.w500),
-      );
-    }
-    return child;
-  }
-}
-
-class LOutlineButton extends LButton {
-  final ShapeBorder border;
-
-  const LOutlineButton({
-    Key key,
-    this.border,
-    Widget child,
-    Color color,
-    String text,
-    Color textColor,
-    double elevation = 0.0,
-    bool small = false,
-    ButtonType type = ButtonType.primary,
-    ButtonShape shape = ButtonShape.standard,
-    EdgeInsets margin,
-    EdgeInsets padding,
-    Function onPressed,
-    bool autofocus,
-    BorderRadius borderRadius,
-    bool canRequestFocus,
-    bool enableFeedback,
-    bool excludeFromSemantics,
-    Color focusColor,
-    FocusNode focusNode,
-    Color highlightColor,
-    Color hoverColor,
-    Function onFocusChange,
-    Function onHighlightChanged,
-    Function onHover,
-    double borderThickness,
-  })  : assert(
-            (child != null && text == null) || (child == null && text != null),
-            "Use either child or text"),
-        super(
-          key: key,
-          child: child,
-          elevation: elevation,
-          small: small,
-          text: text,
-          textColor: textColor,
-          color: color,
-          type: type,
-          shape: shape,
-          margin: margin,
-          padding: padding,
-          onPressed: onPressed,
-          autofocus: autofocus,
-          borderRadius: borderRadius,
-          canRequestFocus: canRequestFocus,
-          customBorder: null,
-          enableFeedback: enableFeedback,
-          excludeFromSemantics: excludeFromSemantics,
-          focusColor: focusColor,
-          focusNode: focusNode,
-          highlightColor: highlightColor,
-          hoverColor: hoverColor,
-          onFocusChange: onFocusChange,
-          onHighlightChanged: onHighlightChanged,
-          onHover: onHover,
-          borderThickness: borderThickness,
-        );
-
-  @override
-  ShapeBorder _getShape(LiquidThemeData themeData, Color color) {
-    return RoundedRectangleBorder(
-      borderRadius: borderRadius ?? BorderRadius.circular(_getRadius()),
-      side: BorderSide(width: borderThickness ?? 1.0, color: color),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = LiquidTheme.of(context);
-    final _color =
-        (color ?? getColor(theme)).lighten(onPressed != null ? 0.0 : 0.05);
-    final _shape = _getShape(theme, _color);
-
-    return Container(
-      margin: margin ?? theme.buttonTheme.margin,
-      child: Material(
-        borderOnForeground: true,
-        shape: border ?? _shape,
-        elevation: elevation,
-        child: InkWell(
-          autofocus: autofocus,
-          borderRadius: borderRadius == null
-              ? BorderRadius.circular(_getRadius())
-              : borderRadius,
-          canRequestFocus: canRequestFocus,
-          enableFeedback: enableFeedback,
-          excludeFromSemantics: excludeFromSemantics,
-          focusColor: focusColor,
-          focusNode: focusNode,
-          highlightColor: _color.withOpacity(0.1),
-          onFocusChange: onFocusChange,
-          onHighlightChanged: onHighlightChanged,
-          onHover: onHover,
-          onTap: onPressed,
-          child: Padding(
-              padding: padding ??
-                  (small
-                      ? theme.buttonTheme.smallPadding
-                      : theme.buttonTheme.padding),
-              child: _buildChild(theme, textColor ?? _color)),
         ),
       ),
     );
