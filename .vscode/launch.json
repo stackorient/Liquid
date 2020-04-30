@@ -8,21 +8,21 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
-            "program": "${workspaceFolder}/liquid/example/main.dart"
+            "program": "${workspaceFolder}/liquid/example/liquid_example/lib/main.dart"
         },
         {
             "name": "Profile",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
-            "program": "${workspaceFolder}/liquid/example/main.dart"
+            "program": "${workspaceFolder}/liquid/example/liquid_example/lib/main.dart"
         },
         {
             "name": "Release",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
-            "program": "${workspaceFolder}/liquid/example/main.dart"
+            "program": "${workspaceFolder}/liquid/example/liquid_example/lib/main.dart"
         }
     ]
 }
