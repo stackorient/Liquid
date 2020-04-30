@@ -167,8 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   LHeaderTag(
-                    text: 'Today',
-                    subText: 'April 25',
+                    child: Text('Header'),
                     tagColor:
                         LiquidTheme.of(context).backgroundColors.secondaryColor,
                   ),
