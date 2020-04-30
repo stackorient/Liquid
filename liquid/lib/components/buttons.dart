@@ -145,7 +145,7 @@ class _LNButtonState extends State<LNButton> {
                 buttonTheme.getHighlightElevation(widget),
             disabledElevation: widget.disabledElevation ??
                 buttonTheme.getDisabledElevation(widget),
-            padding: (widget.small ?? false)
+            padding: widget.padding ?? (widget.small ?? false)
                 ? buttonTheme.smallPadding
                 : buttonTheme.padding,
             visualDensity: widget.visualDensity,
@@ -157,7 +157,7 @@ class _LNButtonState extends State<LNButton> {
                 ((widget.small ?? false)
                     ? buttonTheme.smallMaterialTapTargetSize
                     : buttonTheme.materialTapTargetSize),
-            animationDuration: Duration(milliseconds: 0),
+            animationDuration: Duration(milliseconds: 120),
             enableFeedback: widget.enableFeedback ?? true,
             child: widget.child,
             onPressed: widget.onPressed,
