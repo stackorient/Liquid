@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 extension ColorExtension on Color {
+  /// darken the color by [amount]
+  ///
+  /// default: 0.1
   Color darken([double amount = .1]) {
     assert(amount >= 0 && amount <= 1);
 
@@ -11,6 +14,9 @@ extension ColorExtension on Color {
     return hslDark.toColor();
   }
 
+  /// lighten the color by [amount]
+  ///
+  /// default: 0.1
   Color lighten([double amount = .1]) {
     assert(amount >= 0 && amount <= 1);
 
