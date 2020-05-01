@@ -14,15 +14,61 @@ enum LAlertType {
 }
 
 class LAlert extends StatelessWidget {
+  /// defines alert type
   final LAlertType type;
+
+  /// defines alert description text
   final String text;
+
+  /// defines alert heading
   final String heading;
+
+  /// list of url
   final List<Uri> urls;
+
   final EdgeInsets margin;
+
+  /// provides padding around heading of the alert [heading]
   final EdgeInsets headingPadding;
+
+  /// To style the heading text
   final TextStyle headingStyle;
+
+  /// To style the alert description text
   final TextStyle style;
+
+  /// List of widget to be aligned at bottom of alert [alert]
   final List<Widget> bottom;
+
+  /// Create an alert box
+  ///
+  /// example:
+  /// ```
+  /// ...
+  ///
+  /// child: LAlert(
+  ///          "Aww yeah, you successfully read this important alert message.
+  ///           This example text is going to run a bit longer so that you can see
+  ///           how spacing within an alert works with this kind of content.",
+  ///          heading: "Well done!",
+  ///          type: LAlertType.success,
+  ///        ),
+  ///...
+  ///
+  ///```
+  ///See Also:
+  ///* different type of `LAlertType`
+  ///
+  ///     * `LAlertType.primary`
+  ///     * `LAlertType.secondary`
+  ///     * `LAlertType.success`
+  ///     * `LAlertType.warning`
+  ///     * `LAlertType.danger`
+  ///     * `LAlertType.info`
+  ///     * `LAlertType.light`
+  ///     * `LAlertType.dark`
+  ///
+  ///
 
   const LAlert(
     this.text, {

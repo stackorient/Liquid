@@ -4,9 +4,19 @@ import '../../base/base.dart';
 import 'buttons.dart';
 
 class LButtonGroup extends StatelessWidget {
+  /// To  [ButtonGroup] either in `horizontal` or `vertical` direction
   final Axis direction;
+
+  /// Create list of [LButton] type
   final List<LButton> children;
+
+  /// Select [ButtonShape]from
+  ///   * [ButtonShape.standard]
+  ///   * [ButtonShape.pill]
+  ///
   final ButtonShape buttonShape;
+
+  /// BorderRadius
   final double _radius;
 
   LButtonGroup({

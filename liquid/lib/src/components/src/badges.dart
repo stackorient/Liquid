@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../base/base.dart';
 
-enum BadgesType {
+enum BadgeType {
   primary,
   secondary,
   success,
@@ -13,24 +13,79 @@ enum BadgesType {
   dark
 }
 
-enum BadgesShape {
+enum BadgeShape {
   standard,
 
   pills
 }
 
 class LBadge extends StatelessWidget {
-  final BadgesType type;
-  final BadgesShape shape;
+  /// defines the badge type
+  ///
+  /// `primary`, `secondary`, `success`, `warning`,
+  /// `danger`, `dark`, `info`, `light`, `dark`
+  ///
+  /// see: [BadgeType]
+  final BadgeType type;
+
+  /// defines the badge shape
+  ///
+  /// `standard`, `pills`
+  ///
+  /// see: [BadgeShape]
+  final BadgeShape shape;
+
   final Widget child;
+
+  /// defins the margin around badge
   final EdgeInsets margin;
+
+  /// defines the padding inside the badge
   final EdgeInsets padding;
+
+  /// defines the background color of the badge
   final Color background;
 
+  /// Creates a badge of Widget type
+  ///
+  ///
+  ///
+  /// example:
+  /// ```dart
+  ///
+  /// ...
+  /// LBadge(
+  ///   shape: BadgeShape.pills,
+  ///   type: BadgeType.info,
+  ///   child: Row(
+  ///        mainAxisSize: MainAxisSize.min,
+  ///        children: <Widget>[
+  ///        Icon(
+  ///           Icons.warning,
+  ///           size: 15.0,
+  ///             ),
+  ///        SizedBox(
+  ///           width: 10.0,
+  ///         ),
+  ///        Text(
+  ///          "No Update",
+  ///         ),
+  ///       ],
+  ///     ),
+  ///   ),
+  ///
+  /// ...
+  /// ```
+  /// see:
+  /// `BadgeType`, `BadgeShape`, `background`
+  ///
+  /// seeAlso:
+  /// * `LBadge.text()` holds for text as child,
+  /// *`LBadge.icon()` holds for icon as child
   const LBadge({
     Key key,
-    this.type = BadgesType.primary,
-    this.shape = BadgesShape.standard,
+    this.type = BadgeType.primary,
+    this.shape = BadgeShape.standard,
     this.margin,
     this.padding,
     this.child,
@@ -43,28 +98,28 @@ class LBadge extends StatelessWidget {
     final tc = themeData.badgeTheme.textColors;
 
     switch (type) {
-      case BadgesType.primary:
+      case BadgeType.primary:
         return [bg.primaryColor, tc.primaryColor];
         break;
-      case BadgesType.secondary:
+      case BadgeType.secondary:
         return [bg.secondaryColor, tc.secondaryColor];
         break;
-      case BadgesType.success:
+      case BadgeType.success:
         return [bg.success, tc.success];
         break;
-      case BadgesType.danger:
+      case BadgeType.danger:
         return [bg.danger, tc.danger];
         break;
-      case BadgesType.info:
+      case BadgeType.info:
         return [bg.info, tc.info];
         break;
-      case BadgesType.warning:
+      case BadgeType.warning:
         return [bg.warning, tc.warning];
         break;
-      case BadgesType.light:
+      case BadgeType.light:
         return [bg.light, tc.light];
         break;
-      case BadgesType.dark:
+      case BadgeType.dark:
         return [bg.dark, tc.dark];
         break;
 
@@ -76,20 +131,33 @@ class LBadge extends StatelessWidget {
 
   BorderRadius _getShape(LiquidThemeData themeData) {
     switch (shape) {
-      case BadgesShape.pills:
+      case BadgeShape.pills:
         return BorderRadius.circular(15.0);
         break;
-      case BadgesShape.standard:
+      case BadgeShape.standard:
       default:
         return BorderRadius.circular(4.0);
     }
   }
 
+  /// defines text instead of widget [child] in LBadge
+  ///
+  ///example:
+  ///```
+  ///...
+  /// child: LBadge.text(
+  ///          "Hello, @heypnd and @heyrjs",
+  ///          shape: BadgeShape.standard,
+  ///          type: BadgeType.dark,
+  ///        ),
+  ///...
+  ///```
+  ///
   factory LBadge.text(
     String text, {
     TextStyle style,
-    BadgesType type,
-    BadgesShape shape,
+    BadgeType type,
+    BadgeShape shape,
     EdgeInsets margin,
     EdgeInsets padding,
     Color background,
@@ -108,6 +176,27 @@ class LBadge extends StatelessWidget {
     );
   }
 
+  /// defines icon instead of widget [child] in LBadge
+  ///
+  /// `label` defines for a trailing widget
+  ///
+  /// `spacing` space between `icon` and `label`
+  ///
+  ///Example:
+  ///
+  ///```
+  ///...
+  ///
+  /// child: LBadge.icon(
+  ///          icon: Icon(Icons.ac_unit),
+  ///          shape: BadgeShape.standard,
+  ///          type: BadgeType.dark,
+  ///        ),
+  ///
+  ///...
+  ///```
+  ///
+  ///
   factory LBadge.icon({
     @required Widget icon,
     @required Widget label,
@@ -115,8 +204,8 @@ class LBadge extends StatelessWidget {
     double iconSize,
     Color color = Colors.white,
     double spacing,
-    BadgesType type,
-    BadgesShape shape,
+    BadgeType type,
+    BadgeShape shape,
     EdgeInsets margin,
     EdgeInsets padding,
     Color background,

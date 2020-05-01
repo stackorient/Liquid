@@ -3,13 +3,38 @@ import 'package:flutter/material.dart';
 import '../../base/base.dart';
 
 class LBreadCrumbItem extends StatelessWidget {
+  /// It indicates the current active selection
   final bool active;
+
+  /// OnTapCallback
   final Function onTap;
+
+  /// text Color
   final Color color;
+
+  /// To display the active breadCrumbs with required color
   final Color activeColor;
+
+  /// To display widget ahead of other
   final Widget leading;
+
   final String text;
 
+  /// Create a single Item of the BreadCrumb widget
+  ///
+  ///
+  ///Example:
+  ///```
+  ///...
+  /// LBreadCrumbItem(
+  ///       "Data",
+  ///       active: true,
+  ///       onTap:(){}
+  ///     ),
+  ///...
+  ///```
+  ///
+  ///
   const LBreadCrumbItem(
     this.text, {
     Key key,
@@ -56,9 +81,42 @@ class LBreadCrumbItem extends StatelessWidget {
 }
 
 class LBreadCrumbs extends StatelessWidget {
+  /// Holds list of items of type [LBreadCrumbItem]
   final List<LBreadCrumbItem> items;
+
+  /// To show a [Widget] type `seperator` betwwen [LBreadCrumbItem]
   final Widget seperator;
+
+  /// To display space or gap between `seperator` and `widget`
   final double spacing;
+
+  /// Create a BreadCrumb widget
+  ///
+  ///
+  ///Example:
+  ///```
+  ///...
+  ///LBreadCrumbs(
+  ///   items: [
+  ///     LBreadCrumbItem(
+  ///       "Home",
+  ///       onTap: () {},
+  ///     ),
+  ///     LBreadCrumbItem(
+  ///       "Library",
+  ///       onTap: () {},
+  ///     ),
+  ///     LBreadCrumbItem(
+  ///       "Data",
+  ///       active: true,
+  ///     ),
+  ///   ],
+  /// ),
+  ///
+  ///...
+  ///```
+  ///
+  ///
 
   const LBreadCrumbs({
     Key key,
