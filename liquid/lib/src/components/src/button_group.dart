@@ -3,46 +3,6 @@ import 'package:flutter/material.dart';
 import '../../base/base.dart';
 import 'buttons.dart';
 
-class LGroupButton {
-  final Color textColor;
-  final Color color;
-  final String text;
-  final ButtonType type;
-  final Widget child;
-  final Function onPressed;
-  final bool enableFeedback;
-  final bool excludeFromSemantics;
-  final Color focusColor;
-  final FocusNode focusNode;
-  final Color highlightColor;
-  final Color hoverColor;
-  final Function onFocusChange;
-  final Function onHighlightChanged;
-  final Function onHover;
-
-  /// create an outline button
-  final bool outline;
-
-  LGroupButton({
-    this.textColor,
-    this.color,
-    this.text,
-    this.type,
-    this.child,
-    this.onPressed,
-    this.enableFeedback,
-    this.excludeFromSemantics,
-    this.focusColor,
-    this.focusNode,
-    this.highlightColor,
-    this.hoverColor,
-    this.onFocusChange,
-    this.onHighlightChanged,
-    this.onHover,
-    this.outline,
-  });
-}
-
 class LButtonGroup extends StatelessWidget {
   final Axis direction;
   final List<LButton> children;
