@@ -349,15 +349,46 @@ class _MyHomePageState extends State<MyHomePage> {
                         LRaisedButton.text(
                           text: "First",
                           onPressed: () {},
+                          small: true,
                         ),
                         LRaisedButton.text(
                           text: "Second",
                           onPressed: () {},
+                          small: true,
                         ),
                         LRaisedButton.text(
                           text: "Third",
                           onPressed: () {},
+                          small: true,
                           type: ButtonType.dark,
+                        ),
+                        LOutlineButton.text(
+                          text: 'heee',
+                          small: true,
+                        ),
+                      ],
+                    ),
+                    LListGroup(
+                      borderColor: Colors.black12,
+                      borderWidth: 1,
+                      direction: Axis.vertical,
+                      selectedTextColor: Colors.white,
+                      selectedBackgroundColor: Colors.blue[700],
+                      disabledBackgroundColor: Colors.grey[300],
+                      dense: true,
+                      flush: true,
+                      children: [
+                        LListItem(
+                          title: Text("Item 1"),
+                          selected: true,
+                        ),
+                        LListItem(
+                          title: Text("Item 1"),
+                          trailing: LBadge.text("45"),
+                          onTap: () {},
+                        ),
+                        LListItem(
+                          title: Text("Item 2"),
                         ),
                       ],
                     ),
