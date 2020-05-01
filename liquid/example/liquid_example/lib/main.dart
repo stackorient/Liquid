@@ -368,6 +368,21 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
+                    LBox(
+                      decoration: LBoxDecoration(
+                        xs: const BoxDecoration(color: Colors.blue),
+                        sm: const BoxDecoration(color: Colors.pink),
+                        lg: BoxDecoration(color: Colors.green),
+                      ),
+                      padding: LBoxEdgeInsets(
+                        xs: const EdgeInsets.all(2.0),
+                        lg: const EdgeInsets.all(15.0),
+                      ),
+                      child: Image.network(
+                          "https://source.unsplash.com/random/",
+                          height: 100.0,
+                          width: 100.0),
+                    ),
                     LListGroup(
                       borderColor: Colors.black12,
                       borderWidth: 1,
@@ -376,7 +391,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       selectedBackgroundColor: Colors.blue[700],
                       disabledBackgroundColor: Colors.grey[300],
                       dense: true,
-                      flush: true,
                       children: [
                         LListItem(
                           title: Text("Item 1"),
