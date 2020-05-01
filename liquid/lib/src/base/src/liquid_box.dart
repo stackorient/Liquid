@@ -177,7 +177,8 @@ class LBox extends StatelessWidget {
   }
 }
 
-class LAnimatedBox extends StatefulWidget {
+class LAnimatedBox extends StatelessWidget {
+  final Duration duration;
   final LBoxDimension height;
   final LBoxDimension width;
   final LBoxVisibility visibility;
@@ -191,6 +192,7 @@ class LAnimatedBox extends StatefulWidget {
 
   const LAnimatedBox({
     Key key,
+    this.duration = const Duration(milliseconds: 150),
     this.height = const LBoxDimension(),
     this.width = const LBoxDimension(),
     this.visibility = const LBoxVisibility(),
@@ -212,88 +214,59 @@ class LAnimatedBox extends StatefulWidget {
         super(key: key);
 
   @override
-  _LAnimatedBoxState createState() => _LAnimatedBoxState();
-}
-
-class _LAnimatedBoxState extends State<LAnimatedBox>
-    with SingleTickerProviderStateMixin {
-  @override
   Widget build(BuildContext context) {
     return LResponsiveBuilder(
-      useMediaQuery: widget.useMediaQuery,
-      onXS: (_) => AnimatedSize(
-        duration: Duration(milliseconds: 400),
-        vsync: this,
-        child: SizedBox.fromSize(
-          size: widget.visibility.xs ? null : Size.zero,
-          child: _buildBox(
-            height: widget.height.xs,
-            width: widget.width.xs,
-            padding: widget.padding.xs,
-            margin: widget.margin.xs,
-            alignment: widget.alignment.xs,
-            decoration: widget.decoration.xs,
-          ),
-        ),
-      ),
-      onSM: (_) => AnimatedSize(
-        duration: Duration(milliseconds: 400),
-        vsync: this,
-        child: SizedBox.fromSize(
-            size: widget.visibility.sm ? null : Size.zero,
-            child: _buildBox(
-              height: widget.height.sm,
-              width: widget.width.sm,
-              padding: widget.padding.sm,
-              margin: widget.margin.sm,
-              alignment: widget.alignment.sm,
-              decoration: widget.decoration.sm,
-            )),
-      ),
-      onMD: (_) => AnimatedSize(
-        duration: Duration(milliseconds: 400),
-        vsync: this,
-        child: SizedBox.fromSize(
-          size: widget.visibility.md ? null : Size.zero,
-          child: _buildBox(
-            height: widget.height.md,
-            width: widget.width.md,
-            padding: widget.padding.md,
-            margin: widget.margin.md,
-            alignment: widget.alignment.md,
-            decoration: widget.decoration.md,
-          ),
-        ),
-      ),
-      onLG: (_) => AnimatedSize(
-        duration: Duration(milliseconds: 400),
-        vsync: this,
-        child: SizedBox.fromSize(
-            size: widget.visibility.lg ? null : Size.zero,
-            child: _buildBox(
-              height: widget.height.lg,
-              width: widget.width.lg,
-              padding: widget.padding.lg,
-              margin: widget.margin.lg,
-              alignment: widget.alignment.lg,
-              decoration: widget.decoration.lg,
-            )),
-      ),
-      onXL: (_) => AnimatedSize(
-        duration: Duration(milliseconds: 400),
-        vsync: this,
-        child: SizedBox.fromSize(
-          size: widget.visibility.xl ? null : Size.zero,
-          child: _buildBox(
-            height: widget.height.xl,
-            width: widget.width.xl,
-            padding: widget.padding.xl,
-            margin: widget.margin.xl,
-            alignment: widget.alignment.xl,
-            decoration: widget.decoration.xl,
-          ),
-        ),
-      ),
+      useMediaQuery: useMediaQuery,
+      onXS: (_) => visibility.xs
+          ? _buildBox(
+              height: height.xs,
+              width: width.xs,
+              padding: padding.xs,
+              margin: margin.xs,
+              alignment: alignment.xs,
+              decoration: decoration.xs,
+            )
+          : Container(),
+      onSM: (_) => visibility.sm
+          ? _buildBox(
+              height: height.sm,
+              width: width.sm,
+              padding: padding.sm,
+              margin: margin.sm,
+              alignment: alignment.sm,
+              decoration: decoration.sm,
+            )
+          : Container(),
+      onMD: (_) => visibility.md
+          ? _buildBox(
+              height: height.md,
+              width: width.md,
+              padding: padding.md,
+              margin: margin.md,
+              alignment: alignment.md,
+              decoration: decoration.md,
+            )
+          : Container(),
+      onLG: (_) => visibility.lg
+          ? _buildBox(
+              height: height.lg,
+              width: width.lg,
+              padding: padding.lg,
+              margin: margin.lg,
+              alignment: alignment.lg,
+              decoration: decoration.lg,
+            )
+          : Container(),
+      onXL: (_) => visibility.xl
+          ? _buildBox(
+              height: height.xl,
+              width: width.xl,
+              padding: padding.xl,
+              margin: margin.xl,
+              alignment: alignment.xl,
+              decoration: decoration.xl,
+            )
+          : Container(),
     );
   }
 
@@ -305,14 +278,15 @@ class _LAnimatedBoxState extends State<LAnimatedBox>
     AlignmentGeometry alignment,
     Decoration decoration,
   }) {
-    return Container(
+    return AnimatedContainer(
+      duration: duration,
       height: height,
       width: width,
       margin: margin,
       padding: padding,
       alignment: alignment,
       decoration: decoration,
-      child: widget.child,
+      child: child,
     );
   }
 }
