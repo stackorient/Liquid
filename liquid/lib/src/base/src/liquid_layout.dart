@@ -1,5 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
+import 'env.dart';
+
+/// No. of columns in each [LRow]
+const _kColumnCount = 12;
 
 class LRowRaw extends Flex {
   final Axis direction;
@@ -58,13 +62,63 @@ class LColumnRaw extends Flex {
 }
 
 class LResponsiveBuilder extends StatelessWidget {
+  /// when `true`, [LResponsiveBuilder] will use Screen width instead of Parent Width
+  /// for determining active [LBreakPoint]
+  ///
+  /// default: `false`
+  ///
+  /// See also:
+  ///
+  ///  * [LBox], a class which uses [LResponsiveBuilder]
+  ///    to build its child on each [BreakPoint] with
+  ///    `useMediaQuery = true` (default).
+  ///
   final bool useMediaQuery;
+
+  /// builder for `xs` [LBreakPoint]
   final Widget Function(BuildContext context) onXS;
+
+  /// builder for `sm` [LBreakPoint]
   final Widget Function(BuildContext context) onSM;
+
+  /// builder for `md` [LBreakPoint]
   final Widget Function(BuildContext context) onMD;
+
+  /// builder for `lg` [LBreakPoint]
   final Widget Function(BuildContext context) onLG;
+
+  /// builder for `xl` [LBreakPoint]
   final Widget Function(BuildContext context) onXL;
 
+  /// Creates a widget that builds according to breakpoint.
+  ///
+  /// if `useMediaQuery` is `true`,
+  /// Widget creation deferred until the layout.
+  ///
+  /// if `useMediaQuery` is `false`,
+  /// Widget creation not deferred until the layout.
+  ///
+  /// **Note:** if builder is not defined for particular [BreakPoint]
+  /// `onXS` builder will be used instead
+  ///
+  /// The `onXS` argument must not be null.
+  ///
+  /// =========================================
+  ///
+  /// `onXS` builder for `xs` [LBreakPoint]
+  ///
+  /// `onSM` builder for `sm` [LBreakPoint]
+  ///
+  /// `onMD` builder for `md` [LBreakPoint]
+  ///
+  /// `onLG` builder for `lg` [LBreakPoint]
+  ///
+  /// `onXL` builder for `xl` [LBreakPoint]
+  ///
+  /// See Also:
+  ///
+  /// * [LBox], a class which uses [LResponsiveBuilder]
+  ///    to build its child on each [BreakPoint].
   const LResponsiveBuilder({
     Key key,
     @required this.onXS,
@@ -106,30 +160,207 @@ class LBoxVisibility {
   final bool lg;
   final bool xl;
 
+  /// used in [LBox] and [LColumn] for `hiding (false)` or `showing(true)`
+  /// of the child and children respectively
+  /// on each [LBreakPoint]
   const LBoxVisibility({
     this.xs = true,
     this.sm = true,
     this.md = true,
     this.lg = true,
     this.xl = true,
-  });
+  })  : assert(xs != null),
+        assert(sm != null),
+        assert(md != null),
+        assert(lg != null),
+        assert(xl != null);
+
+  factory LBoxVisibility.all(bool value) => LBoxVisibility(
+        xs: value,
+        sm: value,
+        md: value,
+        lg: value,
+        xl: value,
+      );
+
+  factory LBoxVisibility.aboveXS(bool value) => LBoxVisibility(
+        sm: value,
+        md: value,
+        lg: value,
+        xl: value,
+      );
+
+  factory LBoxVisibility.aboveSM(bool value) => LBoxVisibility(
+        md: value,
+        lg: value,
+        xl: value,
+      );
+
+  factory LBoxVisibility.aboveMD(bool value) => LBoxVisibility(
+        lg: value,
+        xl: value,
+      );
+
+  factory LBoxVisibility.belowXL(bool value) => LBoxVisibility(
+        xs: value,
+        sm: value,
+        md: value,
+        lg: value,
+      );
+  factory LBoxVisibility.belowLG(bool value) => LBoxVisibility(
+        xs: value,
+        sm: value,
+        md: value,
+      );
+
+  factory LBoxVisibility.belowMD(bool value) => LBoxVisibility(
+        xs: value,
+        sm: value,
+      );
 }
 
-enum BreakPoint { xs, sm, md, lg, xl }
+/// BreakPoint
+///
+/// * `xs` : `width < 576px`
+/// * `sm` : `width >= 576px`
+/// * `md` : `width >= 768px`
+/// * `lg` : `width >= 992px`
+/// * `xl` : `width >= 1200px`
+enum LBreakPoint {
+  /// `width < 576px`
+  xs,
+
+  /// `width >= 576px`
+  sm,
+
+  /// `width >= 768px`
+  md,
+
+  /// `width >= 992px`
+  lg,
+
+  /// `width >= 1200px`
+  xl,
+}
 
 class LColumn extends StatelessWidget {
+  /// Control Visibility of [LColumn] on each breakpoint
+  ///
+  /// Below example, second column will be hidden in `md` and `xl` breakpoint
+  ///
+  /// example:
+  /// ```dart
+  /// LRow(
+  ///   columns: [
+  ///     LColumn(
+  ///       children: <Widget>[
+  ///         Container(height: 50.0, color: Colors.amber[800]),
+  ///       ],
+  ///     ),
+  ///     LColumn(
+  ///       visibility: LBoxVisibility(
+  ///         md: false,
+  ///         xl: false,
+  ///       ),
+  ///       children: <Widget>[
+  ///         Container(height: 50.0, color: Colors.green[800]),
+  ///       ],
+  ///     ),
+  ///   ],
+  /// ),
+  /// ```
   final LBoxVisibility visibility;
+
+  /// Column span for breakpoint
+  ///
+  /// Note: if the total sum of spans in an [LRow] at any breakpoint is
+  /// greater than 12 than an auto-calculated span will be 0.
+  ///
+  /// **NOTE:** To prevent this add a discrete column-span.
   final int xs, sm, md, lg, xl;
+
   final List<Widget> children;
+
+  /// if `true`, Childrens will be wrapped in Flexible or Expanded
+  ///
+  /// if `expanded` is `true`, fit will be [FlexFit.tight] else [FlexFit.loose]
   final bool flexible;
+
+  /// if `expanded` is `true`, fit will be [FlexFit.tight] else [FlexFit.loose]
+  ///
+  /// for this to work `flexible` must be `true`
   final bool expanded;
+
+  /// How the children should be placed along the main axis in a column layout.
+  ///
+  /// default: `MainAxisAlignment.start`
+  ///
   final MainAxisAlignment mainAxisAlignment;
+
+  /// How much space should be occupied in the main axis.
+  ///
+  /// default: `MainAxisSize.min`
+  ///
   final MainAxisSize mainAxisSize;
+
+  /// How the children should be placed along the cross axis in a column layout.
+  ///
+  ///default: `CrossAxisAlignment.center`
+  ///
   final CrossAxisAlignment crossAxisAlignment;
+
+  /// A direction in which text flows.
   final TextDirection textDirection;
-  final VerticalDirection verticalDirection = VerticalDirection.down;
+
+  /// A horizontal line used for aligning text.
   final TextBaseline textBaseline;
 
+  /// Creates a responsive column
+  ///
+  /// Generally, used in [LRow]
+  ///
+  /// Below example,
+  /// * The columns will take `~8.33%` width of their parent in `xs` breakpoint.
+  /// * The columns will take `~16.66%` and `~8.33%` width of their parent in each `sm` breakpoint.
+  /// * The columns will take `~24.99%` width of their parent in each `md` breakpoint.
+  /// * The columns will take `50%` width of their parent in each `lg` breakpoint.
+  /// * The columns will take `~66.64%` and `~33.32%` width of their parent in each `xl` breakpoint.
+  ///
+  /// example:
+  /// ```dart
+  /// LRow(
+  ///   columns: [
+  ///     LColumn(
+  ///       xs: 1,
+  ///       sm: 2,
+  ///       md: 3,
+  ///       lg: 6,
+  ///       xl: 8,
+  ///       children: <Widget>[
+  ///         Container(height: 50.0),
+  ///       ],
+  ///     ),
+  ///     LColumn(
+  ///       xs: 1,
+  ///       sm: 1,
+  ///       md: 3,
+  ///       lg: 6,
+  ///       xl: 4,
+  ///       children: <Widget>[
+  ///         Container(height: 50.0),
+  ///       ],
+  ///     )
+  ///   ],
+  /// ),
+  /// ```
+  ///
+  /// #### NOTE:
+  /// * By `default`, each breakpoint value will be auto determined to take equal width.
+  /// * If any breakpoint not specified in [LColumn], `mode` is ignored for that breakpoint.
+  /// * By `default`, columns are `vertical` on `xs` unless column has `xs` defined
+  ///
+  /// See Also:
+  /// * [LRow], A Responsive Row that uses [LColumn] as its children
   const LColumn({
     Key key,
     this.visibility = const LBoxVisibility(),
@@ -178,74 +409,209 @@ class LColumn extends StatelessWidget {
   }
 }
 
-enum LGridMode { ratio, fixedSize }
+enum LGridMode {
+  /// [LRow] will use ratio for calculating width of [LColumn]s
+  ratio,
+
+  /// [LRow] will use precise width for [LColumn]s
+  fixedSize,
+}
 
 class LRow extends StatelessWidget {
-  final int columnCount = 12;
+  /// No. of columns allowed
+  final int columnCount = _kColumnCount;
+
+  /// List of [LColumn]
   final List<LColumn> columns;
+
+  /// The width of the space between columns.
+  /// [LRow] also applies a `vertical margin` equals to `gutter/2` by default.
+  ///
+  ///default: `5`
+  ///
+  /// To Remove default margin
+  ///
+  /// ```dart
+  /// LRow(
+  ///  ...
+  ///   margin: EdgeInsets.zero,
+  ///  ...
+  /// )
+  /// ```
+  ///
   final double gutter;
 
   // TODO: work on this
-  final int cols;
+  // final int cols;
+
+  /// How the children should be placed along the main axis in layout.
   final MainAxisAlignment mainAxisAlignment;
+
+  /// How much space should be occupied in the main axis.
+  ///
+  /// During a flex layout, available space along the main axis is allocated to
+  /// children. After allocating space, there might be some remaining free space.
+  /// This value controls whether to maximize or minimize the amount of free
+  /// space, subject to the incoming layout constraints.
+  ///
+  /// if `null`, then it is determined based on the current
+  /// breakpoint
+  ///
   final MainAxisSize mainAxisSize;
+
+  /// How the children should be placed along the cross axis in a flex layout.
+  ///
+  /// default: `CrossAxisAlignment.start`
   final CrossAxisAlignment crossAxisAlignment;
+
+  /// Determines the order to lay children out horizontally and how to interpret
+  /// `start` and `end` in the horizontal direction.
+  ///
+  /// Defaults to the ambient [Directionality].
   final TextDirection textDirection;
-  final VerticalDirection verticalDirection;
+
+  /// If aligning items according to their baseline, which baseline to use.
   final TextBaseline textBaseline;
+
+  /// Change the way columns are rendered
+  ///
+  /// default: `fixedSize` //LGridMode.fixedSize
+  ///
+  /// if `mode` is [LGridMode.fixedSize],
+  /// columns with defined breakpoint will have precise width
+  ///
+  /// if `mode` is [LGridMode.ratio],
+  /// columns with defined breakpoint will use ratio to
+  /// calculate width
   final LGridMode mode;
 
+  /// margin around the row
+  final EdgeInsets margin;
+
+  /// Creates a responsive Row
+  ///
+  /// Liquid's [LRow] is based on 12 column grid
+  ///
+  /// if `mode` is [LGridMode.fixedSize] [LColumn]s
+  /// will take fixed size width for defined breakpoints.
+  /// Below example, the column will take `~8.33%` width of their parent in each breakpoint.
+  ///
+  /// example:
+  /// ```dart
+  /// LRow(
+  ///   mode: LGridMode.fixedSize, // default
+  ///   columns: [
+  ///     LColumn(
+  ///       xs: 1,
+  ///       sm: 1,
+  ///       md: 1,
+  ///       lg: 1,
+  ///       xl: 1,
+  ///       children: <Widget>[
+  ///         Container(height: 50.0),
+  ///       ],
+  ///     ),
+  ///     LColumn(
+  ///       xs: 1,
+  ///       sm: 1,
+  ///       md: 1,
+  ///       lg: 1,
+  ///       xl: 1,
+  ///       children: <Widget>[
+  ///         Container(height: 50.0),
+  ///       ],
+  ///     )
+  ///   ],
+  /// ),
+  /// ```
+  ///
+  /// if `mode` is [LGridMode.ratio] [LColumn]s will take width according to the ratio for defined breakpoints.
+  /// Below example, the first column and second column
+  /// will take `~16.66%` and `~83.33%` width respectively of their parent
+  /// when breakpoint `lg` is triggered, otherwise by default
+  /// each column will take equal spacing
+  ///
+  /// example:
+  /// ```dart
+  /// LRow(
+  ///   mode: LGridMode.ratio,
+  ///   columns: [
+  ///     LColumn(
+  ///       lg: 1,
+  ///       children: <Widget>[
+  ///         Container(height: 50.0),
+  ///       ],
+  ///     ),
+  ///     LColumn(
+  ///       lg: 5,
+  ///       children: <Widget>[
+  ///         Container(height: 50.0),
+  ///       ],
+  ///     )
+  ///   ],
+  /// ),
+  /// ```
+  /// #### NOTE:
+  /// * By `default`, each column will take equal spacing if breakpoints are not specified.
+  /// * If any breakpoint not specified in [LColumn], `mode` is ignored for that breakpoint.
+  /// * By `default`, columns are `vertical` on `xs` unless at least one column has `xs` defined
+  /// * If at any breakpoint, the total sum of breakpoint is greater than `12`,
+  /// [LGridMode.ratio] will be used even if `mode` is set to other value
+  ///
+  ///
   const LRow({
     Key key,
     this.columns = const <LColumn>[],
-    this.cols,
+    // this.cols,
     this.gutter,
+    this.margin,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize,
     this.crossAxisAlignment,
     this.textDirection,
-    this.verticalDirection = VerticalDirection.down,
     this.textBaseline,
     this.mode = LGridMode.fixedSize,
   })  : assert(mode != null),
         assert(columns != null),
         assert(columns.length > 0,
             "You need to add atleast one column to the LRow"),
+        assert(columns.length <= _kColumnCount,
+            "Only $_kColumnCount Columns are allowed in each LRow"),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: gutter ?? 5.0),
+    return Container(
+      margin: margin ?? EdgeInsets.symmetric(vertical: (gutter ?? 5) / 2),
       child: LResponsiveBuilder(
-        onXS: (context) => _buildChildrens(context, BreakPoint.xs),
-        onSM: (context) => _buildChildrens(context, BreakPoint.sm),
-        onMD: (context) => _buildChildrens(context, BreakPoint.md),
-        onLG: (context) => _buildChildrens(context, BreakPoint.lg),
-        onXL: (context) => _buildChildrens(context, BreakPoint.xl),
+        onXS: (context) => _buildChildrens(context, LBreakPoint.xs),
+        onSM: (context) => _buildChildrens(context, LBreakPoint.sm),
+        onMD: (context) => _buildChildrens(context, LBreakPoint.md),
+        onLG: (context) => _buildChildrens(context, LBreakPoint.lg),
+        onXL: (context) => _buildChildrens(context, LBreakPoint.xl),
       ),
     );
   }
 
-  int _getFlex(LColumn child, BreakPoint breakPoint) {
+  int _getFlex(LColumn child, LBreakPoint breakPoint) {
     switch (breakPoint) {
-      case BreakPoint.xs:
+      case LBreakPoint.xs:
         return child.xs ?? -1;
         break;
 
-      case BreakPoint.sm:
+      case LBreakPoint.sm:
         return child.sm ?? -1;
         break;
 
-      case BreakPoint.md:
+      case LBreakPoint.md:
         return child.md ?? -1;
         break;
 
-      case BreakPoint.lg:
+      case LBreakPoint.lg:
         return child.lg ?? -1;
         break;
 
-      case BreakPoint.xl:
+      case LBreakPoint.xl:
         return child.xl ?? -1;
         break;
 
@@ -255,7 +621,7 @@ class LRow extends StatelessWidget {
     }
   }
 
-  List<dynamic> _preProcess(BreakPoint breakPoint) {
+  List<dynamic> _preProcess(LBreakPoint breakPoint) {
     final List<int> bp = [];
     bool _ = false;
     columns.forEach((element) {
@@ -294,18 +660,19 @@ class LRow extends StatelessWidget {
       final diff = columnCount - _colSum;
       _calBps.add(diff);
       _colSum += diff;
+
+      // assert(_colSum)
     }
 
-    if (kDebugMode) {
+    if (lShowLogs && kDebugMode) {
       if (bps.length > columnCount) {
-        print("Warning: More than 12 colums not suitable for row");
+        print("Warning: More than $_kColumnCount colums not suitable for LRow");
       }
 
-      if (_colSum > columnCount) {
-        print("Warning: Colums flexs are greater than 12!");
-      }
-      if (_colSum < columnCount) {
-        print("Warning: Colums flexs are less than 12!");
+      if (_colSum > columnCount && mode == LGridMode.fixedSize) {
+        print("Info: Changing LRow mode to LGridMode.ratio.");
+        print(
+            "Because LColums breakpoint sum is greater than $_kColumnCount!.");
       }
     }
 
@@ -318,25 +685,25 @@ class LRow extends StatelessWidget {
     }
   }
 
-  bool _isVisible(LColumn column, BreakPoint breakPoint) {
+  bool _isVisible(LColumn column, LBreakPoint breakPoint) {
     switch (breakPoint) {
-      case BreakPoint.xs:
+      case LBreakPoint.xs:
         return column.visibility.xs;
         break;
 
-      case BreakPoint.sm:
+      case LBreakPoint.sm:
         return column.visibility.sm;
         break;
 
-      case BreakPoint.md:
+      case LBreakPoint.md:
         return column.visibility.md;
         break;
 
-      case BreakPoint.lg:
+      case LBreakPoint.lg:
         return column.visibility.lg;
         break;
 
-      case BreakPoint.xl:
+      case LBreakPoint.xl:
         return column.visibility.xl;
         break;
 
@@ -346,21 +713,22 @@ class LRow extends StatelessWidget {
     }
   }
 
-  Widget _buildChildrens(BuildContext context, BreakPoint breakPoint) {
+  Widget _buildChildrens(BuildContext context, LBreakPoint breakPoint) {
     int currentIndex = 0;
     final _processed = _preProcess(breakPoint);
     final _flexes = _fillEmpty(_processed[0] as List<int>);
 
     final vertical =
-        _processed[1] ? false : (breakPoint == BreakPoint.xs ? true : false);
-    final lastchild = columns.last.hashCode;
+        _processed[1] ? false : (breakPoint == LBreakPoint.xs ? true : false);
+    final lastchild = columns.last;
+    final firstChild = columns.first;
     return LRowRaw(
       mainAxisAlignment: mainAxisAlignment,
       mainAxisSize:
           mainAxisSize ?? (vertical ? MainAxisSize.min : MainAxisSize.max),
       crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
       textDirection: textDirection,
-      verticalDirection: verticalDirection,
+      verticalDirection: VerticalDirection.down,
       textBaseline: textBaseline,
       direction: vertical ? Axis.vertical : Axis.horizontal,
       children: columns.map(
@@ -372,12 +740,17 @@ class LRow extends StatelessWidget {
             return Flexible(
               fit: vertical ? FlexFit.loose : FlexFit.tight,
               child: Padding(
-                padding: EdgeInsets.only(
-                  right: (child.hashCode == lastchild || vertical)
-                      ? 0.0
-                      : (gutter ?? 5.0),
-                  bottom: !vertical ? 0.0 : (gutter ?? 5.0),
-                ),
+                padding: flex != 0
+                    ? EdgeInsets.only(
+                        right: (child == lastchild || vertical)
+                            ? 0.0
+                            : (gutter ?? 5.0) / 2,
+                        bottom: !vertical ? 0.0 : (gutter ?? 5.0),
+                        left: (child == firstChild || vertical)
+                            ? 0.0
+                            : (gutter ?? 5.0) / 2,
+                      )
+                    : EdgeInsets.zero,
                 child: child,
               ),
               flex: flex,

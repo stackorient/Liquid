@@ -10,7 +10,7 @@ class LBoxDimension {
   final double xl;
 
   /// used in [LBox] for `height` and `width` values
-  /// on each [BreakPoint]
+  /// on each [LBreakPoint]
   const LBoxDimension({
     this.xs,
     this.sm,
@@ -71,7 +71,7 @@ class LBoxEdgeInsets {
   final EdgeInsetsGeometry xl;
 
   /// used in [LBox] to provide `padding` or `margin` values
-  /// on each [BreakPoint]
+  /// on each [LBreakPoint]
   const LBoxEdgeInsets({
     this.xs,
     this.sm,
@@ -132,7 +132,7 @@ class LBoxAlignment {
   final AlignmentGeometry xl;
 
   /// used in [LBox] to provide `alignment` to `child`
-  /// on each [BreakPoint]
+  /// on each [LBreakPoint]
   const LBoxAlignment({
     this.xs,
     this.sm,
@@ -193,7 +193,7 @@ class LBoxDecoration {
   final Decoration xl;
 
   /// used in [LBox] to provide `decoration` around `child`
-  /// on each [BreakPoint]
+  /// on each [LBreakPoint]
   const LBoxDecoration({
     this.xs,
     this.sm,
@@ -247,20 +247,20 @@ class LBoxDecoration {
 }
 
 class LBox extends StatelessWidget {
-  /// The `height` value of the box on each [BreakPoint]
+  /// The `height` value of the box on each [LBreakPoint]
   final LBoxDimension height;
 
-  /// The `width` value of the box on each [BreakPoint]
+  /// The `width` value of the box on each [LBreakPoint]
   final LBoxDimension width;
 
-  /// The `visiblity` of the box on each [BreakPoint]
+  /// The `visiblity` of the box on each [LBreakPoint]
   ///
   /// [LBox] will only render `child` if its visiblity is true for current screen BreakPoint.
   ///
   /// default: true (for all breakpoint)
   ///
   /// example:
-  /// Image will be hidden in **xs** and **sm** [BreakPoint]
+  /// Image will be hidden in **xs** and **sm** [LBreakPoint]
   /// ```dart
   /// ...
   /// child: LBox(
@@ -280,7 +280,7 @@ class LBox extends StatelessWidget {
   ///
   ///
   /// example:
-  /// Image will have different padding in **xs** and **md** [BreakPoint]
+  /// Image will have different padding in **xs** and **md** [LBreakPoint]
   /// ```dart
   /// ...
   /// child: LBox(
@@ -300,7 +300,7 @@ class LBox extends StatelessWidget {
   ///
   ///
   /// example:
-  /// Image will have different margin in **xs** and **md** [BreakPoint]
+  /// Image will have different margin in **xs** and **md** [LBreakPoint]
   /// ```dart
   /// ...
   /// child: LBox(
@@ -316,7 +316,7 @@ class LBox extends StatelessWidget {
   /// ```
   final LBoxEdgeInsets margin;
 
-  /// Align the [child] within the box on each [BreakPoint].
+  /// Align the [child] within the box on each [LBreakPoint].
   ///
   /// If non-null, the box will expand to fill its parent and position its
   /// child within itself according to the given value. If the incoming
@@ -325,7 +325,7 @@ class LBox extends StatelessWidget {
   /// Ignored if [child] is null.
   ///
   /// example:
-  /// Image will have different alignment in **xs** and **lg** [BreakPoint]
+  /// Image will have different alignment in **xs** and **lg** [LBreakPoint]
   /// ```dart
   /// ...
   /// child: LBox(
@@ -355,10 +355,10 @@ class LBox extends StatelessWidget {
   /// ```
   final LBoxAlignment alignment;
 
-  /// The decoration to paint behind the [child] on each [BreakPoint]
+  /// The decoration to paint behind the [child] on each [LBreakPoint]
   ///
   /// example:
-  /// Box with different background color in **xs**, **sm** and **md** [BreakPoint]
+  /// Box with different background color in **xs**, **sm** and **md** [LBreakPoint]
   /// ```dart
   /// ...
   /// child: LBox(
@@ -376,7 +376,7 @@ class LBox extends StatelessWidget {
   final LBoxDecoration decoration;
 
   /// when `true` [LBox] will use Screen width instead of Parent Width
-  /// for determining active [BreakPoint]
+  /// for determining active [LBreakPoint]
   ///
   /// default: `true`
   ///
@@ -393,7 +393,7 @@ class LBox extends StatelessWidget {
   final Widget child;
 
   /// Creates a widget that combines common painting, positioning, and sizing widgets
-  /// according to [BreakPoint]
+  /// according to [LBreakPoint]
   ///
   /// example:
   /// ```dart
@@ -410,7 +410,7 @@ class LBox extends StatelessWidget {
   ///     lg: 450.0,
   ///     xl: 500.0
   ///   ),
-  ///   padding: LBoxEdgeInsetsGeometry(
+  ///   padding: LBoxEdgeInsets(
   ///     lg: EdgeInsets.all(10.0),
   ///     xl: EdgeInsets.all(20.0),
   ///   ),
