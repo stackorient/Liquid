@@ -135,7 +135,7 @@ extension LButtonThemeExtension on LiquidButtonTheme {
         borderRadius: BorderRadius.circular(
             button.buttonShape == ButtonShape.pill ? 1000 : 3.0),
         side: BorderSide(
-          width: 1,
+          width: 1.5,
           color: button.type == ButtonType.light
               ? getButtonColor(button).darken(0.2)
               : getButtonColor(button).darken(0.05),

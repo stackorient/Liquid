@@ -144,41 +144,90 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LProgressIndicator(
+                progress: 0.7,
+                barColor: LiquidTheme.of(context).backgroundColors.success,
+                barChild: Text(
+                  "70%",
+                  style: LiquidTheme.of(context)
+                      .typographyTheme
+                      .small
+                      .withColor(Colors.white),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LProgressIndicator(
+                progress: 0.2,
+                barChild: Text(
+                  "20%",
+                  style: LiquidTheme.of(context)
+                      .typographyTheme
+                      .small
+                      .withColor(Colors.white),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LCircularProgressIndicator(
+                progress: 0.6,
+                diameter: 70.0,
+                thickness: 6.0,
+                barColor: LiquidTheme.of(context).backgroundColors.primaryColor,
+                child: Text(
+                  "60%",
+                  style: LiquidTheme.of(context).typographyTheme.small,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LProgressIndicator(
+                progress: 0.5,
+                barColor: LiquidTheme.of(context).backgroundColors.primaryColor,
+              ),
+            ),
             LRow(
               columns: [
                 LColumn(
                   children: <Widget>[
-                    ToggleButtons(
-                      borderColor: Colors.red,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Icon(Icons.ac_unit),
-                        Icon(Icons.call),
-                        LDropdown(
-                          scrollable: false,
-                          scrollToClose: false,
-                          key: _dropdown2,
-                          trigger: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Toggle Dropdown"),
-                          ),
-                          items: [
-                            LDropdownItem(
-                              text: "First Item",
-                              onTap: () {},
-                            )
-                          ],
-                        )
+                        LSpinner(
+                          diameter: 50.0,
+                          thickness: 6.0,
+                          cap: StrokeCap.round,
+                        ),
+                        LGrowSpinner(
+                          diameter: 50.0,
+                        ),
                       ],
-                      onPressed: (int index) {
-                        setState(() {
-                          isSelected[index] = !isSelected[index];
-                        });
-
-                        if (index == 2) {
-                          _dropdown2.currentState.toggleDropdown();
-                        }
-                      },
-                      isSelected: isSelected,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        LFlatButton.icon(
+                          icon: LSpinner(color: Colors.white),
+                          label: Text("LOADING"),
+                          buttonShape: ButtonShape.pill,
+                          disabledColor: Colors.blue[300],
+                          onPressed: () {},
+                        ),
+                        LFlatButton.icon(
+                          icon: LGrowSpinner(
+                            color: Colors.white,
+                          ),
+                          label: Text("LOADING"),
+                          buttonShape: ButtonShape.pill,
+                          disabledColor: Colors.blue[300],
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
                   ],
                 )
