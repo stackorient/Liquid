@@ -1419,8 +1419,14 @@ class LRaisedButton extends LButton {
 
 class LIconButton extends StatelessWidget {
   final Icon icon;
+
+  /// default: `24`
   final double iconSize;
   final Color disabledColor;
+
+  /// Extra Splash length around the `icon`
+  ///
+  /// default: `10`
   final double splashThickness;
   final Color splashColor;
   final Color color;
@@ -1437,6 +1443,8 @@ class LIconButton extends StatelessWidget {
 
   /// [LButton] with `icon`
   ///
+  /// Change the splash radius with `splashThickness`
+  ///
   ///Example:
   ///```
   ///...
@@ -1444,7 +1452,7 @@ class LIconButton extends StatelessWidget {
   ///  icon: Icon(Icons.ac_unit),
   ///  color: Colors.green,
   ///  onPressed: () {},
-  ///  splashThickness: 010.0,
+  ///  splashThickness: 10.0,
   ///),
   /// ...
   /// ```
