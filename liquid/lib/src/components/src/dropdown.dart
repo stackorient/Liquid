@@ -91,6 +91,24 @@ class _LDropdownItemRaw extends StatelessWidget {
 }
 
 class LDropdownItem extends _LDropdownItemRaw {
+  /// [LDropdown] menu contents.
+  ///
+  /// Example:
+  /// ```
+  /// ...
+  ///
+  /// LDropdownItem(
+  ///     text: "Item",
+  ///     onTap: () {
+  ///       print("pressed");
+  ///     },
+  ///     onLongPress: () {},
+  ///   ),
+  /// ...
+  ///
+  /// ```
+  /// See Also:
+  /// * [LDropdownItem.divider], [LDropdownItem.header], [LDropdownItem.withChild]
   LDropdownItem({
     Key key,
     Function onTap,
@@ -120,6 +138,35 @@ class LDropdownItem extends _LDropdownItemRaw {
           background: background,
         );
 
+  /// Add custom widget as `child`.
+  ///
+  /// Example:
+  /// ```
+  /// ...
+  /// LDropdownItem.withChild(
+  ///     child: Row(
+  ///   // mainAxisSize: MainAxisSize.min,
+  ///   children: <Widget>[
+  ///     LIconButton(
+  ///       icon: Icon(Icons.ac_unit),
+  ///       onPressed: () {},
+  ///     ),
+  ///     LIconButton(
+  ///       icon: Icon(Icons.ac_unit),
+  ///       onPressed: () {},
+  ///     ),
+  ///     LIconButton(
+  ///       icon: Icon(Icons.ac_unit),
+  ///       onPressed: () {},
+  ///     ),
+  ///   ],
+  /// )
+  ///),
+  /// ...
+  /// ```
+  ///
+  /// See:
+  /// * [LDropdownItem], [LDropdownItem.divider], [LDropdownItem.header]
   LDropdownItem.withChild({
     Key key,
     Widget child,
@@ -132,6 +179,18 @@ class LDropdownItem extends _LDropdownItemRaw {
           padding: padding,
           background: background,
         );
+
+  /// Add custom widget as `child`.
+  ///
+  /// Example:
+  /// ```
+  /// ...
+  /// LDropdownItem.header(text: "Header"),
+  /// ...
+  /// ```
+  ///
+  /// See:
+  /// * [LDropdownItem], [LDropdownItem.divider], [LDropdownItem.withChild]
 
   LDropdownItem.header({
     Key key,
@@ -151,6 +210,20 @@ class LDropdownItem extends _LDropdownItemRaw {
           padding: padding,
           background: background,
         );
+
+  /// Add custom widget as `child`.
+  ///
+  /// Example:
+  /// ```
+  /// ...
+  ///LDropdownItem.divider(
+  /// thickness: 2,
+  ///),
+  /// ...
+  /// ```
+  ///
+  /// See:
+  /// * [LDropdownItem], [LDropdownItem.withChild], [LDropdownItem.header]
 
   LDropdownItem.divider({
     Key key,
@@ -177,20 +250,107 @@ class LDropdownItem extends _LDropdownItemRaw {
 
 class LDropdown extends StatefulWidget {
   final double hideOnTopOffset;
+
+  /// Declare the expected height for the [LDropdown] contents
   final double predictiveHeight;
+
+  /// Declare the expected width for the [LDropdown] contents
   final double predictiveWidth;
+
+  /// Create widget to initiate [LDropdownItem]
   final Widget trigger;
+
+  /// Customize shape of the [LDropdown]
   final ShapeBorder shape;
   final EdgeInsets padding;
   final Color background;
+
+  /// Elevates the [LDropdown]
   final double elevation;
   final List<LDropdownItem> items;
   final List<LDropdownItem> Function(BuildContext context) itemBuilder;
+
+  /// Customize shape of the `trigger`
   final ShapeBorder triggerShape;
   final bool scrollable;
   final bool scrollToClose;
+
+  /// Add [LDropdown] background color
   final Color backdrop;
 
+  ///Toggle contextual overlays for displaying lists of links and
+  /// more with the Bootstrap dropdown plugin.
+  /// Dropdowns are toggleable, contextual overlays for displaying lists of links and more.
+  ///
+  /// Example:
+  ///
+  /// ```
+  /// ...
+  /// LDropdown(
+  ///     key: _dropdown,
+  ///     scrollToClose: false,
+  ///     scrollable: true,
+  ///     // backdrop: Colors.red.withOpacity(0.4),
+  ///     predictiveHeight: 250.0,
+  ///     predictiveWidth: 150.0,
+  ///     elevation: 10.0,
+  ///     trigger: LFlatButton.text(
+  ///               small: true,
+  ///               text: "Dropdown",
+  ///               onPressed: () {
+  ///
+  ///               },
+  ///               type: ButtonType.warning,
+  ///             ),
+  ///             itemBuilder: (context) => [
+  ///               LDropdownItem.header(text: "Option 1"),
+  ///               LDropdownItem(
+  ///                 text: "First Item",
+  ///                 onTap: () {},
+  ///               ),
+  ///               LDropdownItem(
+  ///                 text: "Second Item",
+  ///                 onTap: () {
+  ///                   print("pressed");
+  ///                 },
+  ///                 onLongPress: () {
+  ///                   print("long pressed");
+  ///
+  ///                 },
+  ///               ),
+  ///               LDropdownItem(
+  ///                 text: "Third Item",
+  ///                 onTap: () {},
+  ///        ),
+  ///        LDropdownItem.divider(
+  ///          thickness: 2,
+  ///        ),
+  ///        LDropdownItem.header(text: "Options"),
+  ///        LDropdownItem.withChild(
+  ///            child: Row(
+  ///          // mainAxisSize: MainAxisSize.min,
+  ///          children: <Widget>[
+  ///            LIconButton(
+  ///              icon: Icon(Icons.ac_unit),
+  ///              onPressed: () {},
+  ///            ),
+  ///            LIconButton(
+  ///              icon: Icon(Icons.ac_unit),
+  ///              onPressed: () {},
+  ///            ),
+  ///            LIconButton(
+  ///              icon: Icon(Icons.ac_unit),
+  ///              onPressed: () {},
+  ///            ),
+  ///          ],
+  ///        )),
+  ///      ],
+  ///    ),
+  ///
+  /// ...
+  /// ```
+  /// See:
+  /// * [LDropdown], [LDropdownItem], [LDropdownItem.divider], [LDropdownItem.header], [LDropdownItem.withChild]
   LDropdown({
     @required Key key,
     @required this.trigger,

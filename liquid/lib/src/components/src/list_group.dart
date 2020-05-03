@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:liquid/components.dart';
 
 class LListItem extends StatelessWidget {
+  ///Add widget at the left-most position of [LListItem].
   final Widget leading;
+
+  /// Add widget at `title` position.
   final Widget title;
+
+  /// Add widget at `subTitle` position
   final Widget subtitle;
+
+  /// Add widget to the right-most position of [LListItem]
   final Widget trailing;
   final Color textColor;
+
+  /// Add background color to [LListItem]
   final Color backgroundColor;
+
   final Color selectedBackgroundColor;
   final Color disabledBackgroundColor;
   final Color selectedTextColor;
@@ -18,6 +29,22 @@ class LListItem extends StatelessWidget {
   final void Function() onTap;
   final void Function() onLongPress;
 
+  ///The most basic list group is an unordered list with list items [LListItem]
+  /// and the proper classes.
+  ///
+  /// Example:
+  ///
+  /// ```
+  /// ...
+  /// LListItem(
+  ///     title: Text("Item 1"),
+  ///     trailing: LBadge.text("45"),
+  ///     onTap: () {},
+  ///  ),
+  /// ...
+  /// ```
+  /// See:
+  /// * [LListGroup]
   const LListItem({
     Key key,
     this.leading,
@@ -101,16 +128,30 @@ class LListItem extends StatelessWidget {
 }
 
 class LListGroup extends StatelessWidget {
+  /// List of [LListItem]
   final List<LListItem> children;
+
+  /// Add border color to [LListGroup]
   final Color borderColor;
+
   final EdgeInsets margin;
+
+  /// Display color on focus
   final Color focusColor;
+
+  /// Display color on highlight
   final Color highlightColor;
+
+  /// Display color on hover
   final Color hoverColor;
+
   final Axis direction;
   final double radius;
   final double borderWidth;
+
+  /// Removes border to the list group except the seperating border
   final bool flush;
+
   final Color textColor;
   final Color backgroundColor;
   final Color selectedBackgroundColor;
@@ -118,6 +159,42 @@ class LListGroup extends StatelessWidget {
   final Color selectedTextColor;
   final EdgeInsets itemContentPadding;
   final bool dense;
+
+  /// List groups are a flexible and powerful component for displaying a series of content.
+  ///  Modify and extend them to support just about any content within.
+  ///
+  /// Example:
+  /// ```
+  /// ...
+  /// LListGroup(
+  ///   borderColor: Colors.black12,
+  ///   borderWidth: 1,
+  ///   direction: Axis.vertical,
+  ///   selectedTextColor: Colors.white,
+  ///   selectedBackgroundColor: Colors.blue[700],
+  ///   disabledBackgroundColor: Colors.grey[300],
+  ///   dense: true,
+  ///   children: [
+  ///     LListItem(
+  ///       title: Text("Item 1"),
+  ///       selected: true,
+  ///     ),
+  ///     LListItem(
+  ///       title: Text("Item 1"),
+  ///       trailing: LBadge.text("45"),
+  ///       onTap: () {},
+  ///     ),
+  ///     LListItem(
+  ///       title: Text("Item 2"),
+  ///     ),
+  ///   ],
+  /// ),
+  /// ...
+  /// ```
+  ///
+  /// See:
+  /// * [LListItem]
+  ///
 
   const LListGroup({
     Key key,

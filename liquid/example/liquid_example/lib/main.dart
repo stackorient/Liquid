@@ -252,7 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       sm: 200.0,
                       xs: 200.0,
                     ),
-                    child: LCorousel(
+                    child: LCarousel(
                       withCaption: true,
                       autoScroll: true,
                       withControls: true,
@@ -260,12 +260,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       showIndicator: true,
                       enableIndicatorTapControl: true,
                       items: [
-                        LCorouselItem(
+                        LCarouselItem(
                           child: Image.network(
                             "https://source.unsplash.com/random/?mountain",
                             fit: BoxFit.cover,
                           ),
-                          caption: LCorouselCaption(
+                          caption: LCarouselCaption(
                             titleText: "First Slide",
                             subTitleText: "Cool Work Cool Work Cool",
                             actions: <Widget>[
@@ -278,13 +278,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                         ),
-                        LCorouselItem(
+                        LCarouselItem(
                           child: Image.network(
                             "https://source.unsplash.com/random/?mountain,sunset",
                             fit: BoxFit.cover,
                           ),
                         ),
-                        LCorouselItem(
+                        LCarouselItem(
                           child: Image.network(
                             "https://source.unsplash.com/random/?sunrise",
                             fit: BoxFit.cover,
