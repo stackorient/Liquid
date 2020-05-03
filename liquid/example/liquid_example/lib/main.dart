@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liquid/liquid.dart';
+import 'scrollspy_page.dart';
 import 'form_page.dart';
 
 void main() {
@@ -524,8 +525,15 @@ class _MyHomePageState extends State<MyHomePage> {
                               type: ButtonType.primary,
                             ),
                             LFlatButton(
-                              child: Text("hello"),
-                              onPressed: () {},
+                              child: Text("ScrollSpy"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ScrollSpyPage(),
+                                  ),
+                                );
+                              },
                               type: ButtonType.secondary,
                             ),
                           ],
