@@ -211,7 +211,7 @@ class _LButtonState extends State<LButton> {
                     : buttonTheme.padding),
             visualDensity: widget.visualDensity,
             shape: widget.shape ?? buttonTheme.getButtonShape(widget),
-            clipBehavior: Clip.antiAlias,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
             focusNode: widget.focusNode,
             autofocus: widget.autofocus,
             materialTapTargetSize: widget.materialTapTargetSize ??
