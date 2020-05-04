@@ -322,7 +322,7 @@ class LCarousel extends StatefulWidget {
     this.height,
     this.width,
     this.autoScroll = true,
-    this.interval = const Duration(seconds: 6),
+    this.interval = const Duration(seconds: 8),
     this.duration = const Duration(milliseconds: 500),
     this.curve = Curves.fastLinearToSlowEaseIn,
     this.withControls = false,
@@ -364,10 +364,14 @@ class _LCarouselState extends State<LCarousel> {
     );
   }
 
+  int _getPage(int index) {
+    return _controller.page.floor() + (index - _currentPageIndex);
+  }
+
   _gotoPage({int pageNo, bool reset = false}) {
     if (pageNo == _currentPageIndex) return;
 
-    final _fakepage = _controller.page.floor() + (pageNo - _currentPageIndex);
+    final _fakepage = _getPage(pageNo);
 
     if (reset) {
       _timer.cancel();
@@ -426,7 +430,7 @@ class _LCarouselState extends State<LCarousel> {
                   ? const AlwaysScrollableScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                return widget.items[_currentPageIndex];
+                return widget.items[index % widget.items.length];
               },
             ),
           ),

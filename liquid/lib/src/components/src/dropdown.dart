@@ -248,34 +248,83 @@ class LDropdownItem extends _LDropdownItemRaw {
         );
 }
 
+enum DropdownPosition { left, center, right }
+
 class LDropdown extends StatefulWidget {
+  /// Hide the dropdown when this much offset remains from the top
+  ///
+  /// generally used to hide dropdown when trigger hide under the
+  /// [AppBar]
+  ///
+  /// default: [kToolbarHeight] i.e. `56`
   final double hideOnTopOffset;
 
-  /// Declare the expected height for the [LDropdown] contents
-  final double predictiveHeight;
+  /// Alignment of dropdown with respect to trigger
+  ///
+  /// default: `center`
+  final DropdownPosition position;
 
-  /// Declare the expected width for the [LDropdown] contents
-  final double predictiveWidth;
+  /// Shift the dropdown by this offset to left
+  ///
+  /// default: `0.0`
+  final double leftOffset;
+
+  /// Shift the dropdown by this offset to right
+  ///
+  /// default: `0.0`
+  final double rightOffset;
 
   /// Create widget to initiate [LDropdownItem]
   final Widget trigger;
 
   /// Customize shape of the [LDropdown]
   final ShapeBorder shape;
+
+  /// Spacing inside dropdown body
   final EdgeInsets padding;
+
+  /// Background color of dropdown body
   final Color background;
 
   /// Elevates the [LDropdown]
   final double elevation;
+
+  /// List of [LDropdownItem] items
   final List<LDropdownItem> items;
+
+  /// Lazily build dropdown items
   final List<LDropdownItem> Function(BuildContext context) itemBuilder;
 
-  /// Customize shape of the `trigger`
-  final ShapeBorder triggerShape;
+  /// Whether [LDropdown] should follow `trigger` when
+  /// `trigger` change its positon.
+  ///
+  /// If your trigger is in a [Scrollable] like [ListView], [SingleChildScrollView], etc
+  /// and `scrollable` is `true` then [LDropdown] will follow trigger on scroll
+  ///
+  /// default: `true`
   final bool scrollable;
+
+  /// Whether [LDropdown] should close when a trigger changes its
+  /// position
   final bool scrollToClose;
 
-  /// Add [LDropdown] background color
+  /// Whether the [LDropdown] defaults to being displayed below the `trigger`.
+  /// Defaults to `true`. If there is insufficient space to display the tooltip in the preferred direction,
+  /// the tooltip will be displayed in the opposite direction.
+  final bool preferBelow;
+
+  ///The vertical gap between the `trigger` and the displayed [LDropdown].
+  ///
+  /// When [preferBelow] is set to true and [LDropdown] have sufficient space to display themselve,
+  /// this property defines how much vertical space [LDropdown] will position themselve under their
+  /// corresponding `trigger`. Otherwise, [LDropdown] will position themselve above their corresponding
+  /// `trigger` with the given offset.
+  final double verticalOffset;
+
+  /// when `scrollable` is `false`, the dropdown will show a backdrop
+  /// which on tap event, dismisses the active dropdown
+  ///
+  /// default is Black with opacity 26%
   final Color backdrop;
 
   ///Toggle contextual overlays for displaying lists of links and
@@ -357,29 +406,33 @@ class LDropdown extends StatefulWidget {
     this.shape,
     this.padding,
     this.background,
-    this.hideOnTopOffset = 50.0,
-    this.predictiveHeight = 10.0,
-    this.predictiveWidth = 100.0,
+    this.hideOnTopOffset = kToolbarHeight,
+    this.leftOffset = 0.0,
+    this.rightOffset = 0.0,
+    this.position = DropdownPosition.center,
     this.elevation,
     this.items,
     this.itemBuilder,
-    this.triggerShape,
     this.scrollable = true,
     this.scrollToClose = true,
+    this.preferBelow = true,
+    this.verticalOffset = 0.0,
     this.backdrop = Colors.black26,
   })  : assert(key != null),
         assert(backdrop != null),
         assert(scrollable != null),
         assert(scrollToClose != null),
         assert(trigger != null),
-        assert(predictiveHeight != null && predictiveWidth != null),
-        assert(predictiveHeight >= 0 && predictiveWidth >= 0),
         assert((scrollToClose && scrollable) || !scrollToClose,
             "for scrollToClose you need scrollable to be true"),
         assert(
             (items != null && itemBuilder == null) ||
                 (items == null && itemBuilder != null),
             "need item or itembuilder for dropdown"),
+        assert(verticalOffset != null),
+        assert(preferBelow != null),
+        assert(leftOffset != null && rightOffset != null),
+        assert(position != null),
         super(key: key);
 
   @override
@@ -401,33 +454,33 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     _opened = false;
   }
 
+  /// Is [LDropdown] visible on screen
   bool get isOpened => _opened;
 
+  /// set dropdown items for rendering on an overlay
   _setupDropdownItems() {
     final theme = LiquidTheme.of(context).dropdownTheme;
 
     _dropdownContent = GestureDetector(
       onTap: () {},
-      child: Container(
-        child: Material(
-          color: widget.background ?? theme.background,
-          elevation: widget.elevation ?? theme.elevation,
-          shape: widget.shape ??
-              (theme.shape ??
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                    side: BorderSide(
-                      color: Colors.black.withOpacity(0.15),
-                    ),
-                  )),
-          child: Padding(
-            padding: widget.padding ?? theme.padding,
-            child: IntrinsicWidth(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: widget.items ?? widget.itemBuilder(context),
-              ),
+      child: Material(
+        color: widget.background ?? theme.background,
+        elevation: widget.elevation ?? theme.elevation,
+        shape: widget.shape ??
+            (theme.shape ??
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  side: BorderSide(
+                    color: Colors.black.withOpacity(0.15),
+                  ),
+                )),
+        child: Padding(
+          padding: widget.padding ?? theme.padding,
+          child: IntrinsicWidth(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: widget.items ?? widget.itemBuilder(context),
             ),
           ),
         ),
@@ -440,10 +493,8 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     _setupDropdownItems();
-    return Material(
+    return Container(
       key: _triggerKey,
-      shape: widget.triggerShape,
-      type: MaterialType.transparency,
       child: widget.trigger,
     );
   }
@@ -455,8 +506,11 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     });
   }
 
+  /// toggles the dropdown
   void toggleDropdown() => _showDropdown();
 
+  /// Show the dropdown on screen
+  /// if it isn't on screen else close active dropdown
   void _showDropdown() {
     if (!_opened && _dropdown == null) {
       setState(() {
@@ -473,6 +527,7 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     }
   }
 
+  /// try to close the opened dropdown
   void closeDropdown() {
     _dropdown.remove();
     setState(() {
@@ -481,6 +536,10 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     });
   }
 
+  /// rebuilds dropdown when screen is scrolled
+  /// if [LDropdown] is present in a [Scrollable] widget
+  ///
+  /// or when called with `force` parameter
   void _rebuildDropdown({bool force = false}) {
     if (widget.scrollable || force) {
       if (_opened) {
@@ -500,12 +559,15 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     }
   }
 
+  /// This method returns the [RenderBox]
+  /// of the `trigger` element
   RenderBox _getBox() {
     final _box = _triggerKey.currentContext.findRenderObject() as RenderBox;
-
     return _box;
   }
 
+  /// This method will check if
+  /// dropdown should be repainted
   bool _canPrint(RenderBox box) {
     final pos = box.localToGlobal(Offset.zero);
     if (pos.dy < widget.hideOnTopOffset) {
@@ -514,52 +576,52 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     return true;
   }
 
+  /// Where should dropdown position itself with respect to `trigger`
+  Offset _getOffsetPositon(Size size) {
+    if (widget.position == DropdownPosition.center)
+      return size.center(Offset.zero);
+    if (widget.position == DropdownPosition.left)
+      return size.centerLeft(Offset.zero);
+    if (widget.position == DropdownPosition.right)
+      return size.centerRight(Offset.zero);
+
+    return Offset.zero;
+  }
+
+  /// actual method that builds Dropdown
   Widget _buildDropdown(BuildContext context) {
     final _box = _getBox();
     final size = _box.size;
-    final _pos = _box.localToGlobal(Offset.zero);
+    final _pos = _box.localToGlobal(_getOffsetPositon(size));
     final can = _canPrint(_box);
 
+    final _dropdown = CustomSingleChildLayout(
+      delegate: _DropdownDelegate(
+        preferBelow: widget.preferBelow,
+        target: _pos,
+        verticalOffset: widget.verticalOffset,
+      ),
+      child: Container(
+        margin: EdgeInsets.only(
+          top: size.height / 2,
+          bottom: size.height / 2,
+          left: widget.rightOffset,
+          right: widget.leftOffset,
+        ),
+        child: _dropdownContent,
+      ),
+    );
     return can
         ? (widget.scrollable
-            ? _buildPositioned(_pos, size)
+            ? _dropdown
             : GestureDetector(
                 onTap: closeDropdown,
                 child: Material(
-                    color: widget.backdrop,
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      children: <Widget>[_buildPositioned(_pos, size)],
-                    )),
+                  color: widget.backdrop,
+                  child: _dropdown,
+                ),
               ))
         : Container();
-  }
-
-  Positioned _buildPositioned(Offset _offset, Size size) {
-    final _mqSize = MediaQuery.of(context).size;
-    final _verticalOffset = _mqSize.height - (_offset.dy + size.height);
-    final _horizontalOffset = _mqSize.width - (_offset.dx + size.width);
-
-    double _top, _right, _bottom, _left;
-    if (_verticalOffset < widget.predictiveHeight) {
-      _bottom = _verticalOffset + size.height;
-    } else {
-      _top = _offset.dy + size.height;
-    }
-
-    if (_horizontalOffset < widget.predictiveWidth) {
-      _right = _horizontalOffset;
-    } else {
-      _left = _offset.dx;
-    }
-
-    return Positioned(
-      right: _right,
-      bottom: _bottom,
-      top: _top,
-      left: _left,
-      child: _dropdownContent,
-    );
   }
 
   @override
@@ -567,5 +629,41 @@ class LDropdownState extends State<LDropdown> with WidgetsBindingObserver {
     _dropdown?.remove();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+}
+
+class _DropdownDelegate extends SingleChildLayoutDelegate {
+  final Offset target;
+  final double verticalOffset;
+  final bool preferBelow;
+
+  _DropdownDelegate({
+    @required this.target,
+    @required this.verticalOffset,
+    @required this.preferBelow,
+  })  : assert(target != null),
+        assert(verticalOffset != null),
+        assert(preferBelow != null);
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) =>
+      constraints.loosen();
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    return positionDependentBox(
+      size: size,
+      childSize: childSize,
+      target: target,
+      verticalOffset: verticalOffset,
+      preferBelow: preferBelow,
+    );
+  }
+
+  @override
+  bool shouldRelayout(_DropdownDelegate oldDelegate) {
+    return target != oldDelegate.target ||
+        verticalOffset != oldDelegate.verticalOffset ||
+        preferBelow != oldDelegate.preferBelow;
   }
 }

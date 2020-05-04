@@ -17,3 +17,4 @@ export 'src/spinner.dart';
 export 'src/custom_paints/custom_paints.dart';
 export 'src/progress_indicator.dart';
 export 'src/scroll_spy.dart';
+export 'src/tooltip.dart';
