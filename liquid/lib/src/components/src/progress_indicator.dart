@@ -2,15 +2,52 @@ import 'package:flutter/widgets.dart';
 import 'custom_paints/custom_paints.dart';
 
 class LProgressIndicator extends StatelessWidget {
+  /// Indicates the amount of progress.
   final double progress;
+
+  /// Add color to the background of the progress indicator.
   final Color background;
+
+  /// Add color to the progress indicator.
   final Color barColor;
+
+  /// Progress indicator width.
   final double width;
+
+  /// Progress indicator height.
   final double height;
+
+  /// Progress indicator border radius.
   final double radius;
+
+  /// Progress indicator bar radius.
   final double barRadius;
+
   final Widget barChild;
 
+  ///Documentation and example for using Liquid custom progress bars
+  ///featuring support for stacked bars, animated backgrounds, and text labels.
+  ///
+  ///Displays Linear progress indicator [LProgressIndicator].
+  ///
+  ///Example:
+  ///```
+  ///...
+  ///
+  /// LProgressIndicator(
+  ///    progress: 0.2,
+  ///    barChild: Text(
+  ///      "20%",
+  ///      style: LiquidTheme.of(context)
+  ///          .typographyTheme
+  ///          .small
+  ///          .withColor(Colors.white),
+  ///    ),
+  ///  ),
+  ///...
+  ///```
+  ///See:
+  /// * [LCircularProgressIndicator]
   const LProgressIndicator({
     Key key,
     this.progress = 0.0,
@@ -69,14 +106,47 @@ class LProgressIndicator extends StatelessWidget {
 }
 
 class LCircularProgressIndicator extends StatelessWidget {
+  /// Indicates the amount of progress.
   final double progress;
+
+  /// Progress indicator background color.
   final Color background;
+
+  /// Progress indicator bar color.
   final Color barColor;
+
+  /// Progress indicator diameter.
   final double diameter;
+
+  /// Progress Bar width.
   final double thickness;
+
   final StrokeCap cap;
   final Widget child;
 
+  ///Documentation and example for using Liquid custom progress bars
+  ///featuring support for stacked bars, animated backgrounds, and text labels.
+  ///
+  ///Displays Circular progress indicator [LCircularProgressIndicator].
+  ///
+  ///Example:
+  ///```
+  ///...
+  ///
+  ///  LCircularProgressIndicator(
+  ///     progress: 0.6,
+  ///     diameter: 70.0,
+  ///     thickness: 6.0,
+  ///     barColor: LiquidTheme.of(context).backgroundColors.primaryColor,
+  ///     child: Text(
+  ///       "60%",
+  ///       style: LiquidTheme.of(context).typographyTheme.small,
+  ///     ),
+  ///   ),
+  ///...
+  ///```
+  ///See:
+  /// * [LProgressIndicator]
   const LCircularProgressIndicator({
     Key key,
     this.progress = 0.0,
