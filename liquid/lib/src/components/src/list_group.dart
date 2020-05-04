@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:liquid/components.dart';
 
 class LListItem extends StatelessWidget {
   ///Add widget at the left-most position of [LListItem].

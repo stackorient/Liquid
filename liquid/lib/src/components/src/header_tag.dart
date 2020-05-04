@@ -9,6 +9,7 @@ class LHeaderTag extends StatelessWidget {
   ///Tag height
   final double tagHeight;
 
+  /// Space around the header tag
   final EdgeInsetsGeometry margin;
 
   ///Tag Color

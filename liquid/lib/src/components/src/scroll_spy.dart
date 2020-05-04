@@ -1,18 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-class ScrollSpyItem extends StatelessWidget {
-  final double length;
-  final Widget child;
-
-  ScrollSpyItem({Key key, @required this.length, this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return child;
-  }
-}
-
 class ScrollSpyController extends ScrollController {
   final Duration duration;
   final Curve curve;

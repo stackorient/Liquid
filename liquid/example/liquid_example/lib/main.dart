@@ -303,7 +303,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       xs: 200.0,
                     ),
                     child: LCarousel(
-                      withCaption: false,
+                      withCaption: true,
                       autoScroll: true,
                       withControls: true,
                       canScroll: true,
@@ -386,11 +386,19 @@ class _MyHomePageState extends State<MyHomePage> {
                         type: BadgeType.dark,
                       ),
                     ),
-                    LBadge.icon(
-                      label: Text('hey'),
-                      icon: Icon(Icons.ac_unit),
-                      shape: BadgeShape.standard,
-                      type: BadgeType.dark,
+                    Tooltip(
+                      message: "Accept",
+                      padding: const EdgeInsets.all(40.0),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                      ),
+                      showDuration: Duration(seconds: 20),
+                      child: LBadge.icon(
+                        label: Text('hey'),
+                        icon: Icon(Icons.ac_unit),
+                        shape: BadgeShape.standard,
+                        type: BadgeType.dark,
+                      ),
                     ),
                   ],
                 ),
@@ -567,8 +575,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               scrollToClose: false,
                               scrollable: true,
                               // backdrop: Colors.red.withOpacity(0.4),
-                              predictiveHeight: 250.0,
-                              predictiveWidth: 150.0,
                               elevation: 10.0,
                               trigger: LFlatButton.text(
                                 small: true,
