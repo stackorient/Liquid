@@ -328,7 +328,7 @@ class LDropdown extends StatefulWidget {
   final Color backdrop;
 
   ///Toggle contextual overlays for displaying lists of links and
-  /// more with the Bootstrap dropdown plugin.
+  /// more with the Liquid dropdown plugin [LDropdown].
   /// Dropdowns are toggleable, contextual overlays for displaying lists of links and more.
   ///
   /// Example:
