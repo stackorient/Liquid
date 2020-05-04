@@ -1,14 +1,19 @@
 import 'package:flutter/widgets.dart';
 
-// if (onXL != null && width >= 1200) return onXL(context);
-// if (onLG != null && width >= 992) return onLG(context);
-// if (onMD != null && width >= 768) return onMD(context);
-// if (onSM != null && width >= 576) return onSM(context);
+import 'liquid_layout.dart';
 
 extension MediaQueryDataExtension on MediaQueryData {
-  bool get isXS => size.width < 576.0;
-  bool get isSM => size.width >= 576.0 && size.width < 768.0;
-  bool get isMD => size.width >= 768.0 && size.width < 992.0;
-  bool get isLG => size.width >= 992.0 && size.width < 1200.0;
-  bool get isXL => size.width > 1200.0;
+  bool get isXS => size.width < kSMBreakPoint;
+  bool get isSM => size.width >= kSMBreakPoint && size.width < kMDBreakPoint;
+  bool get isMD => size.width >= kMDBreakPoint && size.width < kLGBreakPoint;
+  bool get isLG => size.width >= kLGBreakPoint && size.width < kXLBreakPoint;
+  bool get isXL => size.width >= kXLBreakPoint;
+
+  LBreakPoint get activeBreakpoint {
+    if (size.width >= kXLBreakPoint) return LBreakPoint.xl;
+    if (size.width >= kLGBreakPoint) return LBreakPoint.lg;
+    if (size.width >= kMDBreakPoint) return LBreakPoint.md;
+    if (size.width >= kSMBreakPoint) return LBreakPoint.sm;
+    return LBreakPoint.xs;
+  }
 }

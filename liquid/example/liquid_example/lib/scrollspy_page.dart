@@ -20,10 +20,27 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
     'seven',
   ];
 
+  String _activeID = 'one';
+
   final ScrollSpyController _controller = ScrollSpyController();
 
   void _scrollTo(String id) {
     _controller.scrollTo(id);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      // print(_controller.activeID);
+      // print(_controller.offset);
+
+      if (_controller.activeID != _activeID) {
+        setState(() {
+          _activeID = _controller.activeID;
+        });
+      }
+    });
   }
 
   @override
@@ -100,9 +117,7 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
               (e) => LFlatButton.text(
                 text: e,
                 onPressed: () => _scrollTo(e),
-                type: _controller?.activeID == e
-                    ? ButtonType.primary
-                    : ButtonType.dark,
+                type: _activeID == e ? ButtonType.primary : ButtonType.dark,
               ),
             )
             .toList(),
@@ -120,9 +135,7 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
             (e) => LFlatButton.text(
               text: e,
               onPressed: () => _scrollTo(e),
-              type: _controller?.activeID == e
-                  ? ButtonType.primary
-                  : ButtonType.dark,
+              type: _activeID == e ? ButtonType.primary : ButtonType.dark,
             ),
           )
           .toList(),

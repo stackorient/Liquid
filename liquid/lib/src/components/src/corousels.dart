@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../../base/base.dart';
 
-enum LCorouselAnimation { slide, fade }
+enum LCarouselAnimation { slide, fade }
 
-class LCorouselCaption extends StatelessWidget {
+class LCarouselCaption extends StatelessWidget {
   final String titleText;
   final String subTitleText;
   final TextStyle titleTextStyle;
@@ -14,7 +14,7 @@ class LCorouselCaption extends StatelessWidget {
   final Widget subTitle;
   final List<Widget> actions;
 
-  const LCorouselCaption({
+  const LCarouselCaption({
     Key key,
     this.title,
     this.subTitle,
@@ -70,22 +70,22 @@ class LCorouselCaption extends StatelessWidget {
   }
 }
 
-class LCorouselItem extends StatelessWidget {
+class LCarouselItem extends StatelessWidget {
   final double height;
-  final LCorouselCaption caption;
+  final LCarouselCaption caption;
   final Function onTap;
   final Widget child;
 
-  const LCorouselItem({
+  const LCarouselItem({
     Key key,
     this.height,
-    this.caption = const LCorouselCaption(),
+    this.caption = const LCarouselCaption(),
     this.onTap,
     @required this.child,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final corousel = LCorousel.of(context);
+    final corousel = LCarousel.of(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -107,7 +107,7 @@ class LCorouselItem extends StatelessWidget {
   }
 }
 
-class LCorousel extends StatefulWidget {
+class LCarousel extends StatefulWidget {
   final double height;
   final double width;
   final bool autoScroll;
@@ -117,11 +117,11 @@ class LCorousel extends StatefulWidget {
   final bool showIndicator;
   final bool enableIndicatorTapControl;
   final bool withCaption;
-  final List<LCorouselItem> items;
+  final List<LCarouselItem> items;
   final PageController controller;
   final Widget Function(BuildContext context, int activeIndex) indicatorBuilder;
 
-  const LCorousel({
+  const LCarousel({
     Key key,
     this.height,
     this.width,
@@ -133,19 +133,19 @@ class LCorousel extends StatefulWidget {
     this.enableIndicatorTapControl = false,
     this.controller,
     this.withCaption = false,
-    this.items = const <LCorouselItem>[],
+    this.items = const <LCarouselItem>[],
     this.indicatorBuilder,
   }) : super(key: key);
 
   @override
-  _LCorouselState createState() => _LCorouselState();
+  _LCarouselState createState() => _LCarouselState();
 
-  static LCorousel of(BuildContext context) {
-    return context.findAncestorWidgetOfExactType<LCorousel>();
+  static LCarousel of(BuildContext context) {
+    return context.findAncestorWidgetOfExactType<LCarousel>();
   }
 }
 
-class _LCorouselState extends State<LCorousel> {
+class _LCarouselState extends State<LCarousel> {
   Timer _timer;
   PageController _controller;
   int _currentPageValue = 0;
@@ -156,7 +156,7 @@ class _LCorouselState extends State<LCorousel> {
     _controller = (widget.controller ?? PageController())
       ..addListener(
         () => setState(() {
-          _currentPageValue = _controller.page.round();
+          _currentPageValue = _getIndex(_controller.page.floor());
         }),
       );
     if (widget.autoScroll) {
@@ -165,16 +165,7 @@ class _LCorouselState extends State<LCorousel> {
   }
 
   _initAutoRun(Timer _) {
-    final _totalPage = widget.items.length;
-
-    if (_currentPageValue == _totalPage - 1) {
-      _gotoPage();
-    } else {
-      _controller.nextPage(
-        duration: Duration(milliseconds: 500),
-        curve: Curves.fastLinearToSlowEaseIn,
-      );
-    }
+    _gotoPage(pageNo: _getIndex(_currentPageValue + 1));
   }
 
   _gotoPage({int pageNo, bool reset = false}) {
@@ -197,10 +188,7 @@ class _LCorouselState extends State<LCorousel> {
     setState(() {
       _timer = Timer.periodic(widget.interval, _initAutoRun);
     });
-    _controller.previousPage(
-      duration: Duration(milliseconds: 500),
-      curve: Curves.fastLinearToSlowEaseIn,
-    );
+    _gotoPage(pageNo: _getIndex(_currentPageValue - 1));
   }
 
   _nextPage() {
@@ -208,10 +196,17 @@ class _LCorouselState extends State<LCorousel> {
     setState(() {
       _timer = Timer.periodic(widget.interval, _initAutoRun);
     });
-    _controller.nextPage(
-      duration: Duration(milliseconds: 500),
-      curve: Curves.fastLinearToSlowEaseIn,
-    );
+    _gotoPage(pageNo: _getIndex(_currentPageValue + 1));
+  }
+
+  int _getIndex(int i) {
+    if (i > widget.items.length - 1) {
+      return 0;
+    }
+    if (i < 0) {
+      return widget.items.length - 1;
+    }
+    return i;
   }
 
   @override
@@ -223,13 +218,15 @@ class _LCorouselState extends State<LCorousel> {
         fit: StackFit.passthrough,
         children: <Widget>[
           Positioned.fill(
-            child: PageView(
+            child: PageView.builder(
               pageSnapping: true,
               controller: _controller,
               physics: widget.canScroll
                   ? const AlwaysScrollableScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
-              children: widget.items,
+              itemBuilder: (context, index) {
+                return widget.items[_getIndex(index)];
+              },
             ),
           ),
           widget.withControls
@@ -241,14 +238,12 @@ class _LCorouselState extends State<LCorousel> {
                     color: Colors.transparent,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: _currentPageValue.floor() == 0
-                          ? Container()
-                          : IconButton(
-                              icon: Icon(Icons.chevron_left),
-                              onPressed: _previousPage,
-                              iconSize: 26.0,
-                              color: Colors.white,
-                            ),
+                      child: IconButton(
+                        icon: Icon(Icons.chevron_left),
+                        onPressed: _previousPage,
+                        iconSize: 26.0,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 )
@@ -262,15 +257,12 @@ class _LCorouselState extends State<LCorousel> {
                     color: Colors.transparent,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child:
-                          _currentPageValue.floor() == widget.items.length - 1
-                              ? Container()
-                              : IconButton(
-                                  icon: Icon(Icons.chevron_right),
-                                  onPressed: _nextPage,
-                                  iconSize: 26.0,
-                                  color: Colors.white,
-                                ),
+                      child: IconButton(
+                        icon: Icon(Icons.chevron_right),
+                        onPressed: _nextPage,
+                        iconSize: 26.0,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 )
@@ -283,7 +275,7 @@ class _LCorouselState extends State<LCorousel> {
                   child: widget.indicatorBuilder != null
                       ? widget.indicatorBuilder(
                           context,
-                          _currentPageValue.floor(),
+                          _currentPageValue,
                         )
                       : buildIndicator(),
                 )

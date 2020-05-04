@@ -17,8 +17,9 @@ class ScrollSpyController extends ScrollController {
   final Duration duration;
   final Curve curve;
   double Function(int) _lengthHandler;
-
   List<String> _uniqueIdList;
+
+  List<double> _heightList;
 
   String _activeId;
 
@@ -39,13 +40,36 @@ class ScrollSpyController extends ScrollController {
             keepScrollOffset: keepScrollOffset,
             debugLabel: debugLabel);
 
+  void _generateHeightList() {
+    double _offset = 0;
+    _heightList = [];
+    for (int i = 0; i < _uniqueIdList.length; i++) {
+      _heightList.add(_offset);
+      _offset += _lengthHandler(i);
+    }
+  }
+
   void scrollTo(String id) {
     final _stopIndex = _uniqueIdList.indexOf(id);
-    double offset = 0.0;
-    for (int i = 0; i < _stopIndex; i++) {
-      offset += _lengthHandler(i);
+    final _offset = _heightList[_stopIndex];
+    animateTo(_offset, duration: duration, curve: curve);
+  }
+
+  bool _onScroll(ScrollNotification notification) {
+    final _offset = notification.metrics.pixels + 20.0;
+
+    for (int i = 0; i < _heightList.length; i++) {
+      final _firstOffset = _heightList[i];
+      final _nextIndex = (i + 1) == _heightList.length ? i : (i + 1);
+      final _secondOffset = _heightList[_nextIndex];
+
+      if (_firstOffset == _secondOffset ||
+          _offset >= _firstOffset && _offset <= _secondOffset) {
+        _activeId = _uniqueIdList[i];
+        break;
+      }
     }
-    animateTo(offset, duration: duration, curve: curve);
+    return false;
   }
 }
 
@@ -114,23 +138,28 @@ class ScrollSpy extends StatelessWidget {
   Widget build(BuildContext context) {
     controller._lengthHandler = itemLengthBuilder;
     controller._uniqueIdList = uniqueIdList;
-    return ListView.builder(
-      controller: controller,
-      scrollDirection: scrollDirection,
-      reverse: reverse,
-      shrinkWrap: shrinkWrap,
-      primary: primary,
-      physics: physics,
-      padding: padding,
-      dragStartBehavior: dragStartBehavior,
-      itemExtent: itemExtent,
-      itemBuilder: _builder,
-      itemCount: itemCount,
-      addAutomaticKeepAlives: addAutomaticKeepAlives,
-      addRepaintBoundaries: addRepaintBoundaries,
-      addSemanticIndexes: addSemanticIndexes,
-      cacheExtent: cacheExtent,
-      semanticChildCount: semanticChildCount,
+    controller._generateHeightList();
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: controller._onScroll,
+      child: ListView.builder(
+        controller: controller,
+        scrollDirection: scrollDirection,
+        reverse: reverse,
+        shrinkWrap: shrinkWrap,
+        primary: primary,
+        physics: physics,
+        padding: padding,
+        dragStartBehavior: dragStartBehavior,
+        itemExtent: itemExtent,
+        itemBuilder: _builder,
+        itemCount: itemCount,
+        addAutomaticKeepAlives: addAutomaticKeepAlives,
+        addRepaintBoundaries: addRepaintBoundaries,
+        addSemanticIndexes: addSemanticIndexes,
+        cacheExtent: cacheExtent,
+        semanticChildCount: semanticChildCount,
+      ),
     );
   }
 }
