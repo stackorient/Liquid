@@ -303,7 +303,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       xs: 200.0,
                     ),
                     child: LCarousel(
-                      withCaption: true,
+                      withCaption: false,
                       autoScroll: true,
                       withControls: true,
                       canScroll: true,

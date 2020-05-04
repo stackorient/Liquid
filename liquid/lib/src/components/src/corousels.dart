@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../base/base.dart';
 
-enum LCarouselAnimation { slide, fade }
+// enum LCarouselAnimation { slide, fade }
 
 class LCarouselCaption extends StatelessWidget {
   /// Add `title` to the Carousel
@@ -169,6 +169,78 @@ class LCarouselItem extends StatelessWidget {
   }
 }
 
+const _maxPreviousPages = 1200000;
+
+// class LCarouselController extends PageController {
+//   int _currentIndex = 0;
+//   int _totalItems = 0;
+//   final int _initalPage;
+
+//   LCarouselController({
+//     int initialPage = 0,
+//     bool keepPage = true,
+//     double viewportFraction = 1.0,
+//   })  : assert(initialPage != null),
+//         assert(keepPage != null),
+//         assert(viewportFraction != null),
+//         assert(viewportFraction > 0.0),
+//         _initalPage = initialPage,
+//         super(
+//           initialPage: _maxPreviousPages,
+//           keepPage: keepPage,
+//           viewportFraction: viewportFraction,
+//         );
+
+//   void _setIndex({int index}) =>
+//       _currentIndex = (index ?? page.floor()) % _totalItems;
+
+//   int get currentIndex => _currentIndex;
+
+//   @override
+//   Future<void> animateTo(double offset,
+//       {Duration duration, Curve curve}) async {
+//     await super.animateTo(offset, duration: duration, curve: curve);
+//     _setIndex();
+//   }
+
+//   @override
+//   void jumpTo(double value) {
+//     throw Exception("jump to an offset not allowed in LCaurosel");
+//   }
+
+//   @override
+//   void jumpToPage(int page) {
+//     final _truePageOffset = page - _currentIndex;
+//     final _truePage = (this.page + _truePageOffset).floor();
+//     super.jumpToPage(_truePage);
+//     _setIndex();
+//   }
+
+//   @override
+//   Future<void> nextPage({Duration duration, Curve curve}) async {
+//     _setIndex();
+//     await super.nextPage(duration: duration, curve: curve);
+//   }
+
+//   @override
+//   Future<void> previousPage({Duration duration, Curve curve}) async {
+//     await super.previousPage(duration: duration, curve: curve);
+//     _setIndex();
+//   }
+
+//   @override
+//   Future<void> animateToPage(int page, {Duration duration, Curve curve}) async {
+//     int _truePage;
+//     if (page < _totalItems) {
+//       final _truePageOffset = page - _currentIndex;
+//       _truePage = (this.page + _truePageOffset).floor();
+//     }
+//     await super
+//         .animateToPage(_truePage ?? page, duration: duration, curve: curve);
+//     _setIndex();
+//   }
+// }
+
 ///
 ///A slideshow component for cycling through elements—images
 /// or slides of text—like a carousel.
@@ -235,7 +307,8 @@ class LCarousel extends StatefulWidget {
   final bool enableIndicatorTapControl;
   final bool withCaption;
   final List<LCarouselItem> items;
-  final PageController controller;
+  final Duration duration;
+  final Curve curve;
   final Widget Function(BuildContext context, int activeIndex) indicatorBuilder;
 
   /// A slideshow component for cycling through elements—images
@@ -250,11 +323,12 @@ class LCarousel extends StatefulWidget {
     this.width,
     this.autoScroll = true,
     this.interval = const Duration(seconds: 6),
+    this.duration = const Duration(milliseconds: 500),
+    this.curve = Curves.fastLinearToSlowEaseIn,
     this.withControls = false,
     this.canScroll = true,
     this.showIndicator = false,
     this.enableIndicatorTapControl = false,
-    this.controller,
     this.withCaption = false,
     this.items = const <LCarouselItem>[],
     this.indicatorBuilder,
@@ -271,27 +345,30 @@ class LCarousel extends StatefulWidget {
 class _LCarouselState extends State<LCarousel> {
   Timer _timer;
   PageController _controller;
-  int _currentPageValue = 0;
+  int _currentPageIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _controller = (widget.controller ?? PageController())
-      ..addListener(
-        () => setState(() {
-          _currentPageValue = _getIndex(_controller.page.floor());
-        }),
-      );
+    _controller = PageController(initialPage: _maxPreviousPages);
+
     if (widget.autoScroll) {
       _timer = Timer.periodic(widget.interval, _initAutoRun);
     }
   }
 
   _initAutoRun(Timer _) {
-    _gotoPage(pageNo: _getIndex(_currentPageValue + 1));
+    _controller.nextPage(
+      duration: widget.duration,
+      curve: widget.curve,
+    );
   }
 
   _gotoPage({int pageNo, bool reset = false}) {
+    if (pageNo == _currentPageIndex) return;
+
+    final _fakepage = _controller.page.floor() + (pageNo - _currentPageIndex);
+
     if (reset) {
       _timer.cancel();
       setState(() {
@@ -300,9 +377,9 @@ class _LCarouselState extends State<LCarousel> {
     }
 
     _controller.animateToPage(
-      pageNo ?? 0,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.fastLinearToSlowEaseIn,
+      _fakepage ?? 0,
+      duration: widget.duration,
+      curve: widget.curve,
     );
   }
 
@@ -311,7 +388,10 @@ class _LCarouselState extends State<LCarousel> {
     setState(() {
       _timer = Timer.periodic(widget.interval, _initAutoRun);
     });
-    _gotoPage(pageNo: _getIndex(_currentPageValue - 1));
+    _controller.previousPage(
+      duration: widget.duration,
+      curve: widget.curve,
+    );
   }
 
   _nextPage() {
@@ -319,17 +399,10 @@ class _LCarouselState extends State<LCarousel> {
     setState(() {
       _timer = Timer.periodic(widget.interval, _initAutoRun);
     });
-    _gotoPage(pageNo: _getIndex(_currentPageValue + 1));
-  }
-
-  int _getIndex(int i) {
-    if (i > widget.items.length - 1) {
-      return 0;
-    }
-    if (i < 0) {
-      return widget.items.length - 1;
-    }
-    return i;
+    _controller.nextPage(
+      duration: widget.duration,
+      curve: widget.curve,
+    );
   }
 
   @override
@@ -344,11 +417,16 @@ class _LCarouselState extends State<LCarousel> {
             child: PageView.builder(
               pageSnapping: true,
               controller: _controller,
+              onPageChanged: (int page) {
+                setState(() {
+                  _currentPageIndex = page % widget.items.length;
+                });
+              },
               physics: widget.canScroll
                   ? const AlwaysScrollableScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                return widget.items[_getIndex(index)];
+                return widget.items[_currentPageIndex];
               },
             ),
           ),
@@ -398,7 +476,7 @@ class _LCarouselState extends State<LCarousel> {
                   child: widget.indicatorBuilder != null
                       ? widget.indicatorBuilder(
                           context,
-                          _currentPageValue,
+                          _currentPageIndex,
                         )
                       : buildIndicator(),
                 )
@@ -420,7 +498,7 @@ class _LCarouselState extends State<LCarousel> {
           width: 100 / widget.items.length,
           margin: EdgeInsets.symmetric(
               vertical: widget.enableIndicatorTapControl ? 10.0 : 0.0),
-          color: i == _currentPageValue.round() ? Colors.white : Colors.grey,
+          color: i == _currentPageIndex ? Colors.white : Colors.grey,
         ),
       );
 
