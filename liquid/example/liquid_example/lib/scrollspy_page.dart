@@ -32,9 +32,6 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      // print(_controller.activeID);
-      // print(_controller.offset);
-
       if (_controller.activeID != _activeID) {
         setState(() {
           _activeID = _controller.activeID;
