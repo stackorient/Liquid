@@ -6,6 +6,25 @@ class LGrowSpinner extends StatefulWidget {
   final Color color;
   final CustomPaint _circle;
 
+  ///
+  /// Repeatedly growing spinner.
+  ///
+  /// If you don’t fancy a border spinner, switch to the grow spinner.
+  /// While it doesn’t technically spin, it does repeatedly grow!
+  ///
+  /// Example:
+  ///
+  /// ```
+  /// ...
+  ///
+  /// LGrowSpinner(
+  ///     diameter: 50.0,
+  ///   ),
+  ///
+  /// ...
+  /// ```
+  /// See:
+  ///   * [LSpinner]
   LGrowSpinner({
     Key key,
     this.diameter = 25.0,
@@ -66,12 +85,37 @@ class _LGrowSpinnerState extends State<LGrowSpinner>
 }
 
 class LSpinner extends StatefulWidget {
+  /// `LSpinner` width.
   final double diameter;
+
+  /// Add color to the [LSpinner]
   final Color color;
+
+  ///
   final double thickness;
   final StrokeCap cap;
   final CustomPaint _circle;
 
+  /// Liquid [LSpinner] can be used to show the loading state in your projects
+  ///
+  /// Use [LSpinner] for lightweight loading indicator.
+  ///
+  /// Example:
+  ///
+  /// ```
+  /// ...
+  ///  LSpinner(
+  ///    diameter: 50.0,
+  ///    thickness: 6.0,
+  ///    cap: StrokeCap.round,
+  ///  ),
+  ///
+  /// ...
+  /// ```
+  ///
+  /// See:
+  /// * [LGrowSpinner]
+  ///
   LSpinner({
     Key key,
     this.diameter = 20.0,
