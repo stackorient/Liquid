@@ -352,6 +352,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 LColumn(
                   children: <Widget>[
                     LBadge(
+                      shape: BadgeShape.pills,
+                      type: BadgeType.info,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -380,14 +382,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       child: LBadge.text(
                         "Will hide in xs",
-                        shape: BadgesShape.standard,
-                        type: BadgesType.dark,
+                        shape: BadgeShape.standard,
+                        type: BadgeType.dark,
                       ),
                     ),
-                    LBadge.text(
-                      "Hello",
-                      shape: BadgesShape.standard,
-                      type: BadgesType.dark,
+                    LBadge.icon(
+                      label: Text('hey'),
+                      icon: Icon(Icons.ac_unit),
+                      shape: BadgeShape.standard,
+                      type: BadgeType.dark,
                     ),
                   ],
                 ),
@@ -549,8 +552,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               icon: Text("hello"),
                               label: LBadge.text(
                                 "3",
-                                type: BadgesType.danger,
-                                shape: BadgesShape.pills,
+                                type: BadgeType.danger,
+                                shape: BadgeShape.pills,
                               ),
                               onPressed: () {},
                               type: ButtonType.danger,

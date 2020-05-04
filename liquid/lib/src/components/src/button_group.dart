@@ -4,11 +4,64 @@ import '../../base/base.dart';
 import 'buttons.dart';
 
 class LButtonGroup extends StatelessWidget {
+  /// Orientation
   final Axis direction;
+
+  /// Create list of [LButton] type
+  ///
+  /// See Also:
+  /// * [LOutlineButton]
+  /// * [LRaisedButton]
+  /// * [LFlatButton]
   final List<LButton> children;
+
+  /// Select [ButtonShape]from
+  ///   * `ButtonShape.standard`
+  ///   * `ButtonShape.pill`
+  ///
   final ButtonShape buttonShape;
+
   final double _radius;
 
+  /// Group a series of buttons together on a single line with the button group,
+  ///
+  /// `radius` button group radius
+  ///
+  /// Note: if `buttonShape` is `pill`, `radius` will be ignored
+  ///
+  /// Example:
+  /// ```
+  /// ...
+  /// LButtonGroup(
+  ///   direction: Axis.horizontal,
+  ///   buttonShape: ButtonShape.pill,
+  ///   children: [
+  ///     LRaisedButton.text(
+  ///       text: "First",
+  ///       onPressed: () {},
+  ///       small: true,
+  ///     ),
+  ///     LRaisedButton.text(
+  ///       text: "Second",
+  ///       onPressed: () {},
+  ///       small: true,
+  ///     ),
+  ///     LRaisedButton.text(
+  ///       text: "Third",
+  ///       onPressed: () {},
+  ///       small: true,
+  ///       type: ButtonType.dark,
+  ///     ),
+  ///     LOutlineButton.text(
+  ///       text: 'forth',
+  ///       small: true,
+  ///     ),
+  ///   ],
+  /// ),
+  ///
+  /// ...
+  /// ```
+  ///
   LButtonGroup({
     Key key,
     this.direction = Axis.horizontal,

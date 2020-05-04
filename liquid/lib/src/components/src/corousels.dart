@@ -1,19 +1,50 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
 import '../../base/base.dart';
 
 enum LCarouselAnimation { slide, fade }
 
 class LCarouselCaption extends StatelessWidget {
+  /// Add `title` to the Carousel
   final String titleText;
+
+  /// Add `subTitle` to the Carousel
   final String subTitleText;
   final TextStyle titleTextStyle;
   final TextStyle subTitleTextStyle;
+
+  /// Add custom widget at `title`'s position
   final Widget title;
+
+  ///Add custom widget at `subTitle`'s position
   final Widget subTitle;
+
+  /// List of widget type
   final List<Widget> actions;
 
+  ///Add captions to your slides easily with the [LCarouselCaption] element
+  ///
+  ///Example:
+  ///```
+  ///...
+  ///
+  ///caption: LCarouselCaption(
+  ///          titleText: "First Slide",
+  ///          subTitleText: "Cool Work by @heypnd and @heyrjs",
+  ///          actions: <Widget>[
+  ///            LFlatButton.text(
+  ///              text: "Accept",
+  ///              onPressed: _showModel,
+  ///              margin: const EdgeInsets.only(top: 10.0),
+  ///              small: true,
+  ///            ),
+  ///          ],
+  ///        ),
+  ///
+  /// ...
+  /// ```
+  /// See:
+  /// * [LCarousel], [LCarouselItem]
   const LCarouselCaption({
     Key key,
     this.title,
@@ -72,10 +103,41 @@ class LCarouselCaption extends StatelessWidget {
 
 class LCarouselItem extends StatelessWidget {
   final double height;
+
+  /// Add caption to the [LCarousel] by [LCarouseCaption]
   final LCarouselCaption caption;
   final Function onTap;
+
+  //Add Widget.
   final Widget child;
 
+  ///  Add a new Slide or item to [LCarousel]
+  ///
+  /// Example:
+  /// ```
+  /// ...
+  /// LCarouselItem(
+  ///     child: Image.network(
+  ///       "https://source.unsplash.com/random/",
+  ///       fit: BoxFit.cover,
+  ///     ),
+  ///     caption: LCarouselCaption(
+  ///       titleText: "First Slide",
+  ///       subTitleText: "Hello Liquid!",
+  ///       actions: <Widget>[
+  ///         LFlatButton.text(
+  ///           text: "Accept",
+  ///           onPressed: (){},
+  ///           margin: const EdgeInsets.only(top: 10.0),
+  ///           small: true,
+  ///         ),
+  ///       ],
+  ///     ),
+  ///   ),
+  /// ...
+  /// ```
+  /// See:
+  /// * [LCarousel], [LCarouselCaption]
   const LCarouselItem({
     Key key,
     this.height,
@@ -107,6 +169,61 @@ class LCarouselItem extends StatelessWidget {
   }
 }
 
+///
+///A slideshow component for cycling through elements—images
+/// or slides of text—like a carousel.
+///
+/// Carousels don’t automatically normalize slide dimensions.
+///  As such, you may need to use additional utilities or custom styles to appropriately size content.
+///  While carousels support previous/next controls and indicators, they’re not explicitly required.
+///  Add and customize as you see fit.
+///
+/// Example:
+///
+/// ```
+/// ...
+/// LCarousel(
+///    withCaption: true,
+///    autoScroll: true,
+///    withControls: true,
+///    canScroll: true,
+///    showIndicator: true,
+///    enableIndicatorTapControl: true,
+///    items: [
+///      LCarouselItem(
+///        child: Image.network(
+///          "https://source.unsplash.com/random/?mountain",
+///          fit: BoxFit.cover,
+///        ),
+///        caption: LCarouselCaption(
+///          titleText: "First Slide",
+///          subTitleText: "By @heypnd and @heyrjs",
+///          actions: <Widget>[
+///            LFlatButton.text(
+///          text: "Accept",
+///          onPressed: (){},
+///          margin: const EdgeInsets.only(top: 10.0),
+///          small: true,
+///        ),
+///        ],
+///      ),
+///    ),
+///    LCarouselItem(
+///      child: Image.network(
+///        "https://source.unsplash.com/random/?mountain,sunset",
+///        fit: BoxFit.cover,
+///      ),
+///    ),
+///    LCarouselItem(
+///      child: Image.network(
+///        "https://source.unsplash.com/random/?sunrise",
+///        fit: BoxFit.cover,
+///      ),
+///    ),
+///  ],
+///),
+/// ...
+/// ```
 class LCarousel extends StatefulWidget {
   final double height;
   final double width;
@@ -121,6 +238,12 @@ class LCarousel extends StatefulWidget {
   final PageController controller;
   final Widget Function(BuildContext context, int activeIndex) indicatorBuilder;
 
+  /// A slideshow component for cycling through elements—images
+  /// or slides of text—like a carousel.
+  ///
+  /// Adding in the previous and next controls.
+  ///
+  /// You can also add the indicators to the carousel, alongside the controls, too.
   const LCarousel({
     Key key,
     this.height,

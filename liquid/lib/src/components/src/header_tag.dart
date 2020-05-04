@@ -3,13 +3,35 @@ import 'package:flutter/material.dart';
 import '../../base/base.dart';
 
 class LHeaderTag extends StatelessWidget {
+  ///Tag Width
   final double tagWidth;
+
+  ///Tag height
   final double tagHeight;
+
   final EdgeInsetsGeometry margin;
+
+  ///Tag Color
   final Color tagColor;
   final EdgeInsets padding;
+
+  /// Widget trailing tag.
   final Widget child;
 
+  /// Add tags [LHeaderTag]
+  ///
+  /// Example:
+  ///
+  /// ```
+  /// ...
+  ///
+  ///  LHeaderTag(
+  ///    child: Text('Header'),
+  ///    tagColor:
+  ///        LiquidTheme.of(context).backgroundColors.secondaryColor,
+  ///  ),
+  /// ...
+  /// ```
   const LHeaderTag({
     Key key,
     this.tagWidth = 4.0,
