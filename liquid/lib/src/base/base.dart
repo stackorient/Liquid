@@ -8,3 +8,4 @@ export 'src/liquid_theme.dart';
 export 'src/typography.dart';
 export 'src/liquid_box.dart';
 export 'src/env.dart';
+export 'src/media_query_extension.dart';

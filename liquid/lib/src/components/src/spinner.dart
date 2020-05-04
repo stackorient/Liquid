@@ -124,30 +124,3 @@ class _LSpinnerState extends State<LSpinner>
     super.dispose();
   }
 }
-
-class _LAnimatedSpinner extends AnimatedWidget {
-  final double diameter;
-  final Color color;
-
-  _LAnimatedSpinner(
-      {Key key,
-      @required AnimationController controller,
-      @required this.diameter,
-      @required this.color})
-      : super(key: key, listenable: controller);
-
-  Animation<double> get _progress => listenable;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      foregroundPainter: DrawStrokeCircle(
-        color: color,
-        diameter: diameter,
-        thickness: 10.0,
-        complete: _progress.value,
-      ),
-      size: Size.square(diameter),
-    );
-  }
-}

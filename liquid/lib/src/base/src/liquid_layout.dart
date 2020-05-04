@@ -4,6 +4,10 @@ import 'env.dart';
 
 /// No. of columns in each [LRow]
 const _kColumnCount = 12;
+const kXLBreakPoint = 1200.0;
+const kLGBreakPoint = 992.0;
+const kMDBreakPoint = 768.0;
+const kSMBreakPoint = 576.0;
 
 class LRowRaw extends Flex {
   final Axis direction;
@@ -145,10 +149,10 @@ class LResponsiveBuilder extends StatelessWidget {
   }
 
   Widget _build(BuildContext context, double width) {
-    if (onXL != null && width >= 1200) return onXL(context);
-    if (onLG != null && width >= 992) return onLG(context);
-    if (onMD != null && width >= 768) return onMD(context);
-    if (onSM != null && width >= 576) return onSM(context);
+    if (onXL != null && width >= kXLBreakPoint) return onXL(context);
+    if (onLG != null && width >= kLGBreakPoint) return onLG(context);
+    if (onMD != null && width >= kMDBreakPoint) return onMD(context);
+    if (onSM != null && width >= kSMBreakPoint) return onSM(context);
     return onXS(context);
   }
 }
@@ -184,6 +188,7 @@ class LBoxVisibility {
       );
 
   factory LBoxVisibility.aboveXS(bool value) => LBoxVisibility(
+        xs: !value,
         sm: value,
         md: value,
         lg: value,
@@ -191,12 +196,17 @@ class LBoxVisibility {
       );
 
   factory LBoxVisibility.aboveSM(bool value) => LBoxVisibility(
+        xs: !value,
+        sm: !value,
         md: value,
         lg: value,
         xl: value,
       );
 
   factory LBoxVisibility.aboveMD(bool value) => LBoxVisibility(
+        xs: !value,
+        sm: !value,
+        md: !value,
         lg: value,
         xl: value,
       );
@@ -206,16 +216,22 @@ class LBoxVisibility {
         sm: value,
         md: value,
         lg: value,
+        xl: !value,
       );
   factory LBoxVisibility.belowLG(bool value) => LBoxVisibility(
         xs: value,
         sm: value,
         md: value,
+        lg: !value,
+        xl: !value,
       );
 
   factory LBoxVisibility.belowMD(bool value) => LBoxVisibility(
         xs: value,
         sm: value,
+        md: !value,
+        lg: !value,
+        xl: !value,
       );
 }
 
@@ -281,15 +297,19 @@ class LColumn extends StatelessWidget {
 
   final List<Widget> children;
 
+  final bool _flexible;
+
   /// if `true`, Childrens will be wrapped in Flexible or Expanded
   ///
   /// if `expanded` is `true`, fit will be [FlexFit.tight] else [FlexFit.loose]
-  final bool flexible;
+  bool get flexible => _flexible;
+
+  final bool _expanded;
 
   /// if `expanded` is `true`, fit will be [FlexFit.tight] else [FlexFit.loose]
   ///
   /// for this to work `flexible` must be `true`
-  final bool expanded;
+  bool get expanded => _expanded;
 
   /// How the children should be placed along the main axis in a column layout.
   ///
@@ -361,7 +381,7 @@ class LColumn extends StatelessWidget {
   ///
   /// See Also:
   /// * [LRow], A Responsive Row that uses [LColumn] as its children
-  const LColumn({
+  LColumn({
     Key key,
     this.visibility = const LBoxVisibility(),
     this.xs,
@@ -370,8 +390,8 @@ class LColumn extends StatelessWidget {
     this.lg,
     this.xl,
     this.children = const [],
-    this.flexible = true,
-    this.expanded = false,
+    bool flexible = true,
+    bool expanded = false,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.min,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -383,6 +403,38 @@ class LColumn extends StatelessWidget {
         assert(md == null || md <= 12 && md >= 1),
         assert(lg == null || lg <= 12 && lg >= 1),
         assert(xl == null || xl <= 12 && xl >= 1),
+        assert(expanded != null && flexible != null),
+        _flexible = flexible,
+        _expanded = expanded,
+        super(key: key);
+
+  /// [LColumn] for single child
+  LColumn.child({
+    Key key,
+    this.visibility = const LBoxVisibility(),
+    this.xs,
+    this.sm,
+    this.md,
+    this.lg,
+    this.xl,
+    @required Widget child,
+    bool flexible = true,
+    bool expanded = false,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.mainAxisSize = MainAxisSize.min,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.textDirection,
+    this.textBaseline,
+  })  : assert(child != null),
+        assert(xs == null || (xs <= 12 && xs >= 1)),
+        assert(sm == null || sm <= 12 && sm >= 1),
+        assert(md == null || md <= 12 && md >= 1),
+        assert(lg == null || lg <= 12 && lg >= 1),
+        assert(xl == null || xl <= 12 && xl >= 1),
+        assert(expanded != null && flexible != null),
+        children = [child],
+        _flexible = flexible,
+        _expanded = expanded,
         super(key: key);
 
   @override
@@ -595,28 +647,25 @@ class LRow extends StatelessWidget {
 
   int _getFlex(LColumn child, LBreakPoint breakPoint) {
     switch (breakPoint) {
-      case LBreakPoint.xs:
-        return child.xs ?? -1;
-        break;
-
-      case LBreakPoint.sm:
-        return child.sm ?? -1;
-        break;
-
-      case LBreakPoint.md:
-        return child.md ?? -1;
+      case LBreakPoint.xl:
+        return child.visibility.xl ? (child.xl ?? -1) : 0;
         break;
 
       case LBreakPoint.lg:
-        return child.lg ?? -1;
+        return child.visibility.lg ? (child.lg ?? -1) : 0;
         break;
 
-      case LBreakPoint.xl:
-        return child.xl ?? -1;
+      case LBreakPoint.md:
+        return child.visibility.md ? (child.md ?? -1) : 0;
         break;
 
+      case LBreakPoint.sm:
+        return child.visibility.sm ? (child.sm ?? -1) : 0;
+        break;
+
+      case LBreakPoint.xs:
       default:
-        return child.xs ?? -1;
+        return child.visibility.xs ? (child.xs ?? -1) : 0;
         break;
     }
   }
@@ -660,8 +709,6 @@ class LRow extends StatelessWidget {
       final diff = columnCount - _colSum;
       _calBps.add(diff);
       _colSum += diff;
-
-      // assert(_colSum)
     }
 
     if (lShowLogs && kDebugMode) {
@@ -737,28 +784,36 @@ class LRow extends StatelessWidget {
           currentIndex++;
 
           if (_isVisible(child, breakPoint)) {
+            if (!child.flexible && vertical) {
+              return getPaddedChild(
+                  flex, child, lastchild, vertical, firstChild);
+            }
             return Flexible(
               fit: vertical ? FlexFit.loose : FlexFit.tight,
-              child: Padding(
-                padding: flex != 0
-                    ? EdgeInsets.only(
-                        right: (child == lastchild || vertical)
-                            ? 0.0
-                            : (gutter ?? 5.0) / 2,
-                        bottom: !vertical ? 0.0 : (gutter ?? 5.0),
-                        left: (child == firstChild || vertical)
-                            ? 0.0
-                            : (gutter ?? 5.0) / 2,
-                      )
-                    : EdgeInsets.zero,
-                child: child,
-              ),
+              child:
+                  getPaddedChild(flex, child, lastchild, vertical, firstChild),
               flex: flex,
             );
           }
           return Container();
         },
       ).toList(),
+    );
+  }
+
+  Padding getPaddedChild(int flex, LColumn child, LColumn lastchild,
+      bool vertical, LColumn firstChild) {
+    return Padding(
+      padding: flex != 0
+          ? EdgeInsets.only(
+              right:
+                  (child == lastchild || vertical) ? 0.0 : (gutter ?? 5.0) / 2,
+              bottom: !vertical ? 0.0 : (gutter ?? 5.0),
+              left:
+                  (child == firstChild || vertical) ? 0.0 : (gutter ?? 5.0) / 2,
+            )
+          : EdgeInsets.zero,
+      child: child,
     );
   }
 }

@@ -3,17 +3,89 @@ import 'package:flutter/material.dart';
 import '../../base/base.dart';
 
 class LCard extends StatelessWidget {
+  /// Allows to give [image] in the body of the card.
   final LCardImage image;
+
+  /// Widget type to add to the body of the card [LCardBody]
+  ///
+  /// See:
+  ///  *  title
+  ///  *  child
+  ///  *  subTitle
+  ///  *  titleStyle
+  ///  *  padding
+  ///  *  titleMargin
+  ///
   final LCardBody body;
+
+  /// Widget type to add to [header] part of card
+  ///
+  /// See:
+  ///  *  title
+  ///  *  padding
+  ///  *  showSeperator
   final LCardHeader header;
+
+  /// Widget type to add to [footer] part of card
+  ///
+  /// See:
+  ///   *  actions
+  ///   *  padding
+  ///   *  mainAxisAlignment
+  ///   *  crossAxisAlignment
+  ///   *  showSeperator
   final LCardFooter footer;
+
+  /// Card height
   final double height;
+
+  /// Card width
   final double width;
 
+  /// Card background color
   final Color color;
+
+  /// Card border radius
   final double radius;
+
+  /// Card Border `color`, `type` and `borderWidth`
   final BoxBorder border;
+
+  /// Card Elevation
   final double elevation;
+
+  /// A card is a flexible and extensible content container.
+  /// It includes options for header [LCardHeader] and footer [LCardFooter], [LCardBody],
+  /// contextual background colors, and powerful display options.
+  ///
+  /// Example:
+  ///
+  /// ```
+  /// ...
+  /// LCard(
+  ///   elevation: 10.0,
+  ///   header: LCardHeader(title: "title"),
+  ///   footer: LCardFooter(
+  ///     actions: <Widget>[Text('Footer')],
+  ///   ),
+  ///   color: Colors.white,
+  ///   image: LCardImage(
+  ///     image: NetworkImage(
+  ///       'https://source.unsplash.com/random/',
+  ///     ),
+  ///   ),
+  ///   body: LCardBody(
+  ///     subTitle:
+  ///         "hi how are you? @heyrjs and @heypnd ",
+  ///     title: "Hello",
+  ///     child: LOutlineButton.text(
+  ///       text: "welcome",
+  ///       type: ButtonType.dark,
+  ///     ),
+  ///   ),
+  /// ),
+  /// ...
+  /// ```
   const LCard(
       {Key key,
       this.image,
@@ -59,10 +131,16 @@ class LCard extends StatelessWidget {
 }
 
 class LCardFooter extends StatelessWidget {
+  /// List of widget
   final List<Widget> actions;
+
+  /// Padding
   final EdgeInsets padding;
+
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
+
+  /// If `true`, renders with a top border
   final bool showSeperator;
 
   const LCardFooter({
@@ -101,8 +179,13 @@ class LCardHeader extends StatelessWidget {
   final String title;
 
   final EdgeInsets padding;
+
+  /// if `true`, renders with a bottom border
   final bool showSeperator;
 
+  /// [LCard]'s header
+  ///
+  /// `showSeperator` should not be `null`
   const LCardHeader({
     Key key,
     @required this.title,
@@ -190,6 +273,8 @@ class LCardBody extends StatelessWidget {
   final TextStyle titleStyle;
   final EdgeInsets padding;
   final EdgeInsets titleMargin;
+
+  /// Creates [LCard]'s body with `title`, `subTitle`, `titleStyle`, `padding`, `titlemargin`
   const LCardBody(
       {Key key,
       this.title,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liquid/liquid.dart';
+import 'scrollspy_page.dart';
 import 'form_page.dart';
 
 void main() {
@@ -301,20 +302,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       sm: 200.0,
                       xs: 200.0,
                     ),
-                    child: LCorousel(
-                      withCaption: true,
+                    child: LCarousel(
+                      withCaption: false,
                       autoScroll: true,
                       withControls: true,
                       canScroll: true,
                       showIndicator: true,
                       enableIndicatorTapControl: true,
                       items: [
-                        LCorouselItem(
+                        LCarouselItem(
                           child: Image.network(
                             "https://source.unsplash.com/random/?mountain",
                             fit: BoxFit.cover,
                           ),
-                          caption: LCorouselCaption(
+                          caption: LCarouselCaption(
                             titleText: "First Slide",
                             subTitleText: "Cool Work Cool Work Cool",
                             actions: <Widget>[
@@ -327,13 +328,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                         ),
-                        LCorouselItem(
+                        LCarouselItem(
                           child: Image.network(
                             "https://source.unsplash.com/random/?mountain,sunset",
                             fit: BoxFit.cover,
                           ),
                         ),
-                        LCorouselItem(
+                        LCarouselItem(
                           child: Image.network(
                             "https://source.unsplash.com/random/?sunrise",
                             fit: BoxFit.cover,
@@ -351,6 +352,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 LColumn(
                   children: <Widget>[
                     LBadge(
+                      shape: BadgeShape.pills,
+                      type: BadgeType.info,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -379,14 +382,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       child: LBadge.text(
                         "Will hide in xs",
-                        shape: BadgesShape.standard,
-                        type: BadgesType.dark,
+                        shape: BadgeShape.standard,
+                        type: BadgeType.dark,
                       ),
                     ),
-                    LBadge.text(
-                      "Hello",
-                      shape: BadgesShape.standard,
-                      type: BadgesType.dark,
+                    LBadge.icon(
+                      label: Text('hey'),
+                      icon: Icon(Icons.ac_unit),
+                      shape: BadgeShape.standard,
+                      type: BadgeType.dark,
                     ),
                   ],
                 ),
@@ -524,8 +528,15 @@ class _MyHomePageState extends State<MyHomePage> {
                               type: ButtonType.primary,
                             ),
                             LFlatButton(
-                              child: Text("hello"),
-                              onPressed: () {},
+                              child: Text("ScrollSpy"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ScrollSpyPage(),
+                                  ),
+                                );
+                              },
                               type: ButtonType.secondary,
                             ),
                           ],
@@ -541,8 +552,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               icon: Text("hello"),
                               label: LBadge.text(
                                 "3",
-                                type: BadgesType.danger,
-                                shape: BadgesShape.pills,
+                                type: BadgeType.danger,
+                                shape: BadgeShape.pills,
                               ),
                               onPressed: () {},
                               type: ButtonType.danger,
