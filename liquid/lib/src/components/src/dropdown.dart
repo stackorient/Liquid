@@ -334,6 +334,8 @@ class LDropdown extends StatefulWidget {
   /// Example:
   ///
   /// ```
+  ///
+  /// final GlobalKey<LDropdownState> _dropdown = GlobalKey<LDropdownState>();
   /// ...
   /// LDropdown(
   ///     key: _dropdown,
@@ -397,6 +399,8 @@ class LDropdown extends StatefulWidget {
   ///    ),
   ///
   /// ...
+  ///
+  /// _dropdown.currentState.toggleDropdown(); // toggle dropdown
   /// ```
   /// See:
   /// * [LDropdown], [LDropdownItem], [LDropdownItem.divider], [LDropdownItem.header], [LDropdownItem.withChild]
