@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../base/base.dart';
 
+/// Add tags [LHeaderTag]
 class LHeaderTag extends StatelessWidget {
   ///Tag Width
   final double tagWidth;

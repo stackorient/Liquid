@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+///The most basic list group is an unordered list with list items [LListItem]
+/// and the proper classes.
 class LListItem extends StatelessWidget {
   ///Add widget at the left-most position of [LListItem].
   final Widget leading;
@@ -126,6 +128,8 @@ class LListItem extends StatelessWidget {
   }
 }
 
+/// List groups are a flexible and powerful component for displaying a series of content.
+///  Modify and extend them to support just about any content within.
 class LListGroup extends StatelessWidget {
   /// List of [LListItem]
   final List<LListItem> children;
