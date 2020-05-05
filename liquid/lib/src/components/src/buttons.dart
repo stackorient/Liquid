@@ -395,6 +395,7 @@ class _LButtonState extends State<LButton> {
   }
 }
 
+/// A button without elevation.
 class LFlatButton extends LButton {
   /// A button without elevation.
   ///
@@ -747,22 +748,25 @@ class LFlatButton extends LButton {
 
 enum FillMode { transparent, solid }
 
-/// [LOutlineButton]
-///
-/// Example:
-/// ```
-/// ...
-/// LOutlineButton(
-///     child: Text("hello"),
-///     onPressed: () {},
-///     type: ButtonType.primary,
-///   ),
-/// ...
-/// ```
-/// See Also:
-///   * [LOutlineButton.icon], [LOutlineButton.text]
+/// Button with outline. [LOutlineButton]
+
 class LOutlineButton extends LButton {
   final FillMode fillMode;
+
+  /// [LOutlineButton]
+  ///
+  /// Example:
+  /// ```
+  /// ...
+  /// LOutlineButton(
+  ///     child: Text("hello"),
+  ///     onPressed: () {},
+  ///     type: ButtonType.primary,
+  ///   ),
+  /// ...
+  /// ```
+  /// See Also:
+  ///   * [LOutlineButton.icon], [LOutlineButton.text]
   const LOutlineButton({
     Key key,
     ButtonType type,
@@ -1085,6 +1089,7 @@ class LOutlineButton extends LButton {
       );
 }
 
+/// [LButton] with elevation
 class LRaisedButton extends LButton {
   /// [LButton] with elevation
   ///
@@ -1417,6 +1422,7 @@ class LRaisedButton extends LButton {
       );
 }
 
+/// [LButton] with `icon`
 class LIconButton extends StatelessWidget {
   final Icon icon;
 

@@ -4,6 +4,7 @@ import '../../base/base.dart';
 
 // enum LCarouselAnimation { slide, fade }
 
+///Add captions to your slides easily with the [LCarouselCaption] element
 class LCarouselCaption extends StatelessWidget {
   /// Add `title` to the Carousel
   final String titleText;
@@ -101,6 +102,7 @@ class LCarouselCaption extends StatelessWidget {
   }
 }
 
+///  Add a new Slide or item to [LCarousel]
 class LCarouselItem extends StatelessWidget {
   final double height;
 
@@ -241,61 +243,12 @@ const _maxPreviousPages = 1200000;
 //   }
 // }
 
-///
-///A slideshow component for cycling through elements—images
+/// A slideshow component for cycling through elements—images
 /// or slides of text—like a carousel.
 ///
-/// Carousels don’t automatically normalize slide dimensions.
-///  As such, you may need to use additional utilities or custom styles to appropriately size content.
-///  While carousels support previous/next controls and indicators, they’re not explicitly required.
-///  Add and customize as you see fit.
+/// Adding in the previous and next controls.
 ///
-/// Example:
-///
-/// ```
-/// ...
-/// LCarousel(
-///    withCaption: true,
-///    autoScroll: true,
-///    withControls: true,
-///    canScroll: true,
-///    showIndicator: true,
-///    enableIndicatorTapControl: true,
-///    items: [
-///      LCarouselItem(
-///        child: Image.network(
-///          "https://source.unsplash.com/random/?mountain",
-///          fit: BoxFit.cover,
-///        ),
-///        caption: LCarouselCaption(
-///          titleText: "First Slide",
-///          subTitleText: "By @heypnd and @heyrjs",
-///          actions: <Widget>[
-///            LFlatButton.text(
-///          text: "Accept",
-///          onPressed: (){},
-///          margin: const EdgeInsets.only(top: 10.0),
-///          small: true,
-///        ),
-///        ],
-///      ),
-///    ),
-///    LCarouselItem(
-///      child: Image.network(
-///        "https://source.unsplash.com/random/?mountain,sunset",
-///        fit: BoxFit.cover,
-///      ),
-///    ),
-///    LCarouselItem(
-///      child: Image.network(
-///        "https://source.unsplash.com/random/?sunrise",
-///        fit: BoxFit.cover,
-///      ),
-///    ),
-///  ],
-///),
-/// ...
-/// ```
+/// You can also add the indicators to the carousel, alongside the controls, too.
 class LCarousel extends StatefulWidget {
   final double height;
   final double width;
@@ -311,12 +264,61 @@ class LCarousel extends StatefulWidget {
   final Curve curve;
   final Widget Function(BuildContext context, int activeIndex) indicatorBuilder;
 
-  /// A slideshow component for cycling through elements—images
+  ///
+  ///A slideshow component for cycling through elements—images
   /// or slides of text—like a carousel.
   ///
-  /// Adding in the previous and next controls.
+  /// Carousels don’t automatically normalize slide dimensions.
+  ///  As such, you may need to use additional utilities or custom styles to appropriately size content.
+  ///  While carousels support previous/next controls and indicators, they’re not explicitly required.
+  ///  Add and customize as you see fit.
   ///
-  /// You can also add the indicators to the carousel, alongside the controls, too.
+  /// Example:
+  ///
+  /// ```
+  /// ...
+  /// LCarousel(
+  ///    withCaption: true,
+  ///    autoScroll: true,
+  ///    withControls: true,
+  ///    canScroll: true,
+  ///    showIndicator: true,
+  ///    enableIndicatorTapControl: true,
+  ///    items: [
+  ///      LCarouselItem(
+  ///        child: Image.network(
+  ///          "https://source.unsplash.com/random/?mountain",
+  ///          fit: BoxFit.cover,
+  ///        ),
+  ///        caption: LCarouselCaption(
+  ///          titleText: "First Slide",
+  ///          subTitleText: "By @heypnd and @heyrjs",
+  ///          actions: <Widget>[
+  ///            LFlatButton.text(
+  ///          text: "Accept",
+  ///          onPressed: (){},
+  ///          margin: const EdgeInsets.only(top: 10.0),
+  ///          small: true,
+  ///        ),
+  ///        ],
+  ///      ),
+  ///    ),
+  ///    LCarouselItem(
+  ///      child: Image.network(
+  ///        "https://source.unsplash.com/random/?mountain,sunset",
+  ///        fit: BoxFit.cover,
+  ///      ),
+  ///    ),
+  ///    LCarouselItem(
+  ///      child: Image.network(
+  ///        "https://source.unsplash.com/random/?sunrise",
+  ///        fit: BoxFit.cover,
+  ///      ),
+  ///    ),
+  ///  ],
+  ///),
+  /// ...
+  /// ```
   const LCarousel({
     Key key,
     this.height,

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'custom_paints/custom_paints.dart';
 
+///Displays Linear progress indicator [LProgressIndicator].
 class LProgressIndicator extends StatelessWidget {
   /// Indicates the amount of progress.
   final double progress;
@@ -105,6 +106,7 @@ class LProgressIndicator extends StatelessWidget {
   }
 }
 
+///Displays Circular progress indicator [LCircularProgressIndicator].
 class LCircularProgressIndicator extends StatelessWidget {
   /// Indicates the amount of progress.
   final double progress;

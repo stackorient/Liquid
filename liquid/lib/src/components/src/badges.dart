@@ -19,6 +19,7 @@ enum BadgeShape {
   pills
 }
 
+/// Creates a badge of Widget type
 class LBadge extends StatelessWidget {
   /// defines the badge type
   ///

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../base/base.dart';
 
+/// A card is a flexible and extensible content container.
+/// It includes options for header [LCardHeader] and footer [LCardFooter], [LCardBody],
+/// contextual background colors, and powerful display options.
+///
 class LCard extends StatelessWidget {
   /// Allows to give [image] in the body of the card.
   final LCardImage image;
@@ -130,6 +134,7 @@ class LCard extends StatelessWidget {
   }
 }
 
+/// [LCard]'s header
 class LCardFooter extends StatelessWidget {
   /// List of widget
   final List<Widget> actions;
@@ -175,6 +180,7 @@ class LCardFooter extends StatelessWidget {
   }
 }
 
+/// [LCard]'s header
 class LCardHeader extends StatelessWidget {
   final String title;
 
@@ -214,6 +220,7 @@ class LCardHeader extends StatelessWidget {
   }
 }
 
+/// [LCard]'s image
 class LCardImage extends StatelessWidget {
   final ImageProvider image;
   final double height;
@@ -266,6 +273,7 @@ class LCardImage extends StatelessWidget {
   }
 }
 
+/// Creates [LCard]'s body with `title`, `subTitle`, `titleStyle`, `padding`, `titlemargin`
 class LCardBody extends StatelessWidget {
   final String title;
   final Widget child;

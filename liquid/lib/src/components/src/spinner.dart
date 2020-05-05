@@ -1,6 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'custom_paints/custom_paints.dart';
 
+/// Repeatedly growing spinner.
+///
+/// If you don’t fancy a border spinner, switch to the grow spinner.
+/// While it doesn’t technically spin, it does repeatedly grow!
+///
 class LGrowSpinner extends StatefulWidget {
   final double diameter;
   final Color color;
@@ -84,6 +89,9 @@ class _LGrowSpinnerState extends State<LGrowSpinner>
   }
 }
 
+/// Liquid [LSpinner] can be used to show the loading state in your projects
+///
+/// Use [LSpinner] for lightweight loading indicator.
 class LSpinner extends StatefulWidget {
   /// `LSpinner` width.
   final double diameter;

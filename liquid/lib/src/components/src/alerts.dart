@@ -13,6 +13,7 @@ enum LAlertType {
   dark
 }
 
+/// Create an alert box
 class LAlert extends StatelessWidget {
   /// defines alert type
   final LAlertType type;

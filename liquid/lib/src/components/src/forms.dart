@@ -2,73 +2,75 @@ import 'package:flutter/material.dart';
 
 import '../../../core.dart';
 
-/// An optional container for grouping together multiple form field widgets
+/// Creates a container for form fields.
+////// An optional container for grouping together multiple form field widgets
 /// (e.g. [TextField] widgets).
-///
-/// Each individual form field should be wrapped in a [LFormField] widget, with
-/// the [LForm] widget as a common ancestor of all of those. Call methods on
-/// [LFormState] to save, reset, or validate each [LFormField] that is a
-/// descendant of this [LForm]. To obtain the [LFormState], you may use [LForm.of]
-/// with a context whose ancestor is the [LForm], or pass a [GlobalKey] to the
-/// [LForm] constructor and call [GlobalKey.currentState].
-///
-/// {@tool dartpad --template=stateful_widget_scaffold}
-/// This example shows a [LForm] with one [TextFormField] to enter an email
-/// address and a [RaisedButton] to submit the form. A [GlobalKey] is used here
-/// to identify the [LForm] and validate input.
-///
-/// ![](https://flutter.github.io/assets-for-api-docs/assets/widgets/form.png)
-///
-/// ```dart
-/// final _formKey = GlobalKey<FormState>();
-///
-/// @override
-/// Widget build(BuildContext context) {
-///   return Form(
-///     key: _formKey,
-///     child: Column(
-///       crossAxisAlignment: CrossAxisAlignment.start,
-///       children: <Widget>[
-///         TextFormField(
-///           decoration: const InputDecoration(
-///             hintText: 'Enter your email',
-///           ),
-///           validator: (value) {
-///             if (value.isEmpty) {
-///               return 'Please enter some text';
-///             }
-///             return null;
-///           },
-///         ),
-///         Padding(
-///           padding: const EdgeInsets.symmetric(vertical: 16.0),
-///           child: RaisedButton(
-///             onPressed: () {
-///               // Validate will return true if the form is valid, or false if
-///               // the form is invalid.
-///               if (_formKey.currentState.validate()) {
-///                 // Process data.
-///               }
-///             },
-///             child: Text('Submit'),
-///           ),
-///         ),
-///       ],
-///     ),
-///   );
-/// }
-/// ```
-/// {@end-tool}
-///
-/// See also:
-///
-///  * [GlobalKey], a key that is unique across the entire app.
-///  * [LFormField], a single form field widget that maintains the current state.
-///  * [LTextFormField], a convenience widget that wraps a [TextField] widget in a [LFormField].
+/// The [child] argument must not be null.
 class LForm extends StatefulWidget {
-  /// Creates a container for form fields.
+  /// An optional container for grouping together multiple form field widgets
+  /// (e.g. [TextField] widgets).
   ///
-  /// The [child] argument must not be null.
+  /// Each individual form field should be wrapped in a [LFormField] widget, with
+  /// the [LForm] widget as a common ancestor of all of those. Call methods on
+  /// [LFormState] to save, reset, or validate each [LFormField] that is a
+  /// descendant of this [LForm]. To obtain the [LFormState], you may use [LForm.of]
+  /// with a context whose ancestor is the [LForm], or pass a [GlobalKey] to the
+  /// [LForm] constructor and call [GlobalKey.currentState].
+  ///
+  /// {@tool dartpad --template=stateful_widget_scaffold}
+  /// This example shows a [LForm] with one [TextFormField] to enter an email
+  /// address and a [RaisedButton] to submit the form. A [GlobalKey] is used here
+  /// to identify the [LForm] and validate input.
+  ///
+  /// ![](https://flutter.github.io/assets-for-api-docs/assets/widgets/form.png)
+  ///
+  /// ```dart
+  /// final _formKey = GlobalKey<FormState>();
+  ///
+  /// @override
+  /// Widget build(BuildContext context) {
+  ///   return Form(
+  ///     key: _formKey,
+  ///     child: Column(
+  ///       crossAxisAlignment: CrossAxisAlignment.start,
+  ///       children: <Widget>[
+  ///         TextFormField(
+  ///           decoration: const InputDecoration(
+  ///             hintText: 'Enter your email',
+  ///           ),
+  ///           validator: (value) {
+  ///             if (value.isEmpty) {
+  ///               return 'Please enter some text';
+  ///             }
+  ///             return null;
+  ///           },
+  ///         ),
+  ///         Padding(
+  ///           padding: const EdgeInsets.symmetric(vertical: 16.0),
+  ///           child: RaisedButton(
+  ///             onPressed: () {
+  ///               // Validate will return true if the form is valid, or false if
+  ///               // the form is invalid.
+  ///               if (_formKey.currentState.validate()) {
+  ///                 // Process data.
+  ///               }
+  ///             },
+  ///             child: Text('Submit'),
+  ///           ),
+  ///         ),
+  ///       ],
+  ///     ),
+  ///   );
+  /// }
+  /// ```
+  /// {@end-tool}
+  ///
+  /// See also:
+  ///
+  ///  * [GlobalKey], a key that is unique across the entire app.
+  ///  * [LFormField], a single form field widget that maintains the current state.
+  ///  * [LTextFormField], a convenience widget that wraps a [TextField] widget in a [LFormField].
+
   const LForm({
     Key key,
     @required this.child,
@@ -303,31 +305,35 @@ typedef LFormFieldSetter<T> = void Function(T newValue);
 /// Used by [LFormField.builder].
 typedef LFormFieldBuilder<T> = Widget Function(LFormFieldState<T> field);
 
-/// A single form field.
+/// Creates a single form field.
 ///
-/// This widget maintains the current state of the form field, so that updates
-/// and validation errors are visually reflected in the UI.
-///
-/// When used inside a [LForm], you can use methods on [LFormState] to query or
-/// manipulate the form data as a whole. For example, calling [LFormState.save]
-/// will invoke each [LFormField]'s [onSaved] callback in turn.
-///
-/// Use a [GlobalKey] with [LFormField] if you want to retrieve its current
-/// state, for example if you want one form field to depend on another.
-///
-/// A [LForm] ancestor is not required. The [LForm] simply makes it easier to
-/// save, reset, or validate multiple fields at once. To use without a [LForm],
-/// pass a [GlobalKey] to the constructor and use [GlobalKey.currentState] to
-/// save or reset the form field.
-///
-/// See also:
-///
-///  * [LForm], which is the widget that aggregates the form fields.
-///  * [TextField], which is a commonly used form field for entering text.
+/// The [builder] argument must not be null.
+
 class LFormField<T> extends StatefulWidget {
   /// Creates a single form field.
   ///
   /// The [builder] argument must not be null.
+  /// A single form field.
+  ///
+  /// This widget maintains the current state of the form field, so that updates
+  /// and validation errors are visually reflected in the UI.
+  ///
+  /// When used inside a [LForm], you can use methods on [LFormState] to query or
+  /// manipulate the form data as a whole. For example, calling [LFormState.save]
+  /// will invoke each [LFormField]'s [onSaved] callback in turn.
+  ///
+  /// Use a [GlobalKey] with [LFormField] if you want to retrieve its current
+  /// state, for example if you want one form field to depend on another.
+  ///
+  /// A [LForm] ancestor is not required. The [LForm] simply makes it easier to
+  /// save, reset, or validate multiple fields at once. To use without a [LForm],
+  /// pass a [GlobalKey] to the constructor and use [GlobalKey.currentState] to
+  /// save or reset the form field.
+  ///
+  /// See also:
+  ///
+  ///  * [LForm], which is the widget that aggregates the form fields.
+  ///  * [TextField], which is a commonly used form field for entering text.
   const LFormField({
     Key key,
     @required this.builder,

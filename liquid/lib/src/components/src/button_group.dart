@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import '../../base/base.dart';
 import 'buttons.dart';
 
+/// Group a series of buttons together on a single line with the button group,
+///
+/// `radius` button group radius
+///
+/// Note: if `buttonShape` is `pill`, `radius` will be ignored
 class LButtonGroup extends StatelessWidget {
   /// Orientation
   final Axis direction;

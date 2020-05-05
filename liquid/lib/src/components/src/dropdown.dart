@@ -90,6 +90,7 @@ class _LDropdownItemRaw extends StatelessWidget {
   }
 }
 
+/// [LDropdown] menu contents.
 class LDropdownItem extends _LDropdownItemRaw {
   /// [LDropdown] menu contents.
   ///
@@ -250,6 +251,9 @@ class LDropdownItem extends _LDropdownItemRaw {
 
 enum DropdownPosition { left, center, right }
 
+///Toggle contextual overlays for displaying lists of links and
+/// more with the Liquid dropdown plugin [LDropdown].
+/// Dropdowns are toggleable, contextual overlays for displaying lists of links and more.
 class LDropdown extends StatefulWidget {
   /// Hide the dropdown when this much offset remains from the top
   ///

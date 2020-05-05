@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../base/base.dart';
 
+/// Create a single Item of the BreadCrumb widget
 class LBreadCrumbItem extends StatelessWidget {
   /// It indicates the current active selection
   final bool active;
@@ -80,6 +81,7 @@ class LBreadCrumbItem extends StatelessWidget {
   }
 }
 
+/// Create a BreadCrumb widget
 class LBreadCrumbs extends StatelessWidget {
   /// Holds list of items of type [LBreadCrumbItem]
   final List<LBreadCrumbItem> items;
