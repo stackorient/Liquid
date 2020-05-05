@@ -470,6 +470,13 @@ enum LGridMode {
 }
 
 class LRow extends StatelessWidget {
+  /// when `true`, [LResponsiveBuilder] will use Screen width instead of Parent Width
+  /// for determining active [LBreakPoint]
+  ///
+  /// default: `false`
+  ///
+  final bool useMediaQuery;
+
   /// No. of columns allowed
   final int columnCount = _kColumnCount;
 
@@ -614,6 +621,7 @@ class LRow extends StatelessWidget {
   const LRow({
     Key key,
     this.columns = const <LColumn>[],
+    this.useMediaQuery = true,
     // this.cols,
     this.gutter,
     this.margin,
@@ -629,6 +637,7 @@ class LRow extends StatelessWidget {
             "You need to add atleast one column to the LRow"),
         assert(columns.length <= _kColumnCount,
             "Only $_kColumnCount Columns are allowed in each LRow"),
+        assert(useMediaQuery != null),
         super(key: key);
 
   @override
@@ -636,6 +645,7 @@ class LRow extends StatelessWidget {
     return Container(
       margin: margin ?? EdgeInsets.symmetric(vertical: (gutter ?? 5) / 2),
       child: LResponsiveBuilder(
+        useMediaQuery: useMediaQuery,
         onXS: (context) => _buildChildrens(context, LBreakPoint.xs),
         onSM: (context) => _buildChildrens(context, LBreakPoint.sm),
         onMD: (context) => _buildChildrens(context, LBreakPoint.md),
