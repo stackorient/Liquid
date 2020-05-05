@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:liquid/components.dart';
 
 import '../../base/base.dart';
 import 'theme/liquid_theme_extension.dart';
@@ -395,6 +394,7 @@ class _LButtonState extends State<LButton> {
   }
 }
 
+/// A button without elevation.
 class LFlatButton extends LButton {
   /// A button without elevation.
   ///
