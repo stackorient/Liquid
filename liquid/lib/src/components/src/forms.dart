@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core.dart';
+import '../../core/core.dart';
 
 /// An optional container for grouping together multiple form field widgets
 /// (e.g. [TextField] widgets).
