@@ -398,10 +398,10 @@ class LiquidApp extends StatelessWidget {
           onGenerateTitle: onGenerateTitle,
           color: color,
           theme: (theme ?? Theme.of(context)).copyWith(
-            splashFactory: LFastSplashFactory(),
+            splashFactory: LSmoothSplashFactory(),
           ),
           darkTheme: (darkTheme ?? Theme.of(context)).copyWith(
-            splashFactory: LFastSplashFactory(),
+            splashFactory: LSmoothSplashFactory(),
           ),
           themeMode: themeMode,
           locale: locale,

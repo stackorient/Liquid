@@ -5,38 +5,51 @@ import '../buttons.dart';
 
 extension LButtonThemeExtension on LiquidButtonTheme {
   Color getFillColor(LButton button, Color color) {
-    if (button is LOutlineButton) {
-      return Colors.transparent;
+    if (button.enabled) {
+      if (button is LOutlineButton) {
+        return Colors.transparent;
+      }
+      return color;
     }
-    return color;
+
+    return Colors.black12;
   }
 
   double getElevation(LButton button) {
     if (button is LRaisedButton) {
-      return 2.0;
+      if (button.pushAction == LRaisedButtonPushAction.elevate)
+        return button.elevation ?? 2.0;
+      else
+        return 3.0;
     }
-    return 0.0;
+    return button.elevation ?? 0.0;
   }
 
   double getFocusElevation(LButton button) {
     if (button is LRaisedButton) {
-      return 4.0;
+      return button.focusElevation ?? 4.0;
     }
-    return 0.0;
+    return button.focusElevation ?? 0.0;
   }
 
   double getHighlightElevation(LButton button) {
     if (button is LRaisedButton) {
-      return 8.0;
+      if (button.pushAction == LRaisedButtonPushAction.elevate)
+        return button.highlightElevation ?? 8.0;
+      else
+        return 0.0;
     }
-    return 0.0;
+    return button.highlightElevation ?? 0.0;
   }
 
   double getHoverElevation(LButton button) {
     if (button is LRaisedButton) {
-      return 4.0;
+      if (button.pushAction == LRaisedButtonPushAction.elevate)
+        return button.hoverElevation ?? 4.0;
+      else
+        return 2.5;
     }
-    return 0.0;
+    return button.hoverElevation ?? 0.0;
   }
 
   Color getHighlightColor(LButton button, Color color) {
@@ -75,15 +88,19 @@ extension LButtonThemeExtension on LiquidButtonTheme {
 
   TextStyle getTextStyle(
       LButton button, TextStyle style, Color color, bool _hover) {
-    if (button.type == LElementType.light ||
-        button.type == LElementType.warning)
-      return style.withColor(Colors.black);
+    if (button.enabled) {
+      if (button.type == LElementType.light ||
+          button.type == LElementType.warning)
+        return style.withColor(color.darken(0.3));
 
-    if (button is LOutlineButton) {
-      if (button.fillMode == FillMode.solid && _hover)
-        return style.withColor(Colors.white);
-      return style.withColor(color);
+      if (button is LOutlineButton) {
+        if (button.fillMode == FillMode.solid && _hover)
+          return style.withColor(Colors.white);
+        return style.withColor(color);
+      }
+      return style.withColor(Colors.white);
     }
-    return style.withColor(Colors.white);
+
+    return style.withColor(Colors.black38);
   }
 }

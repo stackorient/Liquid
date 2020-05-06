@@ -214,9 +214,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         LFlatButton.icon(
-                          icon: LSpinner(color: Colors.white),
+                          icon: LSpinner(
+                            color: Colors.white,
+                            diameter: 10.0,
+                            thickness: 2.0,
+                          ),
                           label: Text("LOADING"),
                           shape: LElementShape.pill,
+                          spacing: 10.0,
                           disabledColor: Colors.blue[300],
                           onPressed: () {},
                         ),
@@ -433,21 +438,31 @@ class _MyHomePageState extends State<MyHomePage> {
                       direction: Axis.horizontal,
                       buttonShape: LElementShape.pill,
                       children: [
-                        LRaisedButton.text(
+                        LOutlineButton.text(
                           text: "First",
                           onPressed: () {},
+                          // pushAction: LRaisedButtonPushAction.pushDown,
+                          size: LElementSize.small,
+                          type: LElementType.danger,
                         ),
-                        LRaisedButton.text(
+                        LOutlineButton.text(
                           text: "Second",
                           onPressed: () {},
+                          // pushAction: LRaisedButtonPushAction.pushDown,
+                          size: LElementSize.small,
+                          type: LElementType.danger,
                         ),
-                        LRaisedButton.text(
+                        LOutlineButton.text(
                           text: "Third",
                           onPressed: () {},
-                          type: LElementType.dark,
+                          // pushAction: LRaisedButtonPushAction.pushDown,
+                          size: LElementSize.small,
+                          type: LElementType.danger,
                         ),
                         LOutlineButton.text(
                           text: 'heee',
+                          size: LElementSize.small,
+                          type: LElementType.danger,
                         ),
                       ],
                     ),
@@ -814,7 +829,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Text("hello"),
                               onPressed: () {},
                               type: LElementType.warning,
-                              fillMode: FillMode.transparent,
+                              // fillMode: FillMode.transparent,
                               shape: LElementShape.pill,
                             ),
                             LOutlineButton(

@@ -300,8 +300,9 @@ class _LButtonState extends State<LButton> {
       widthfactor: _sizeFactor,
     );
 
-    final _textStyle = buttonTheme.getTextStyle(
-        widget, _theme.typographyTheme.p, _color, _hover);
+    final _textStyle = buttonTheme
+        .getTextStyle(widget, _theme.typographyTheme.p, _color, _hover)
+        .weight(FontWeight.w500);
     return MouseRegion(
       onEnter: _onMouseEnter,
       onExit: _onMouseExit,
@@ -316,10 +317,13 @@ class _LButtonState extends State<LButton> {
             onPressed: widget.onPressed,
             onLongPress: widget.onLongPress,
             onHighlightChanged: _onHighlightChanged,
-            textStyle: widget.textStyle ??
-                _textStyle.copyWith(
-                    fontSize: _textStyle.fontSize * _sizeFactor),
-            fillColor: widget.fillColor ?? _fillColor,
+            textStyle:
+                (widget.enabled ? widget.textStyle : widget.disabledColor) ??
+                    _textStyle.copyWith(
+                        fontSize: _textStyle.fontSize * _sizeFactor),
+            fillColor:
+                (widget.enabled ? widget.fillColor : widget.disabledColor) ??
+                    _fillColor,
             focusColor: widget.focusColor,
             hoverColor:
                 widget.hoverColor ?? buttonTheme.getHoverColor(widget, _color),
@@ -359,7 +363,7 @@ class _LButtonState extends State<LButton> {
   }
 
   void _onHighlightChanged(_) {
-    if (kIsWeb) _onHover(_);
+    _onHover(_);
     if (widget.onHighlightChanged != null) widget.onHighlightChanged(_);
   }
 
@@ -1061,8 +1065,12 @@ class LOutlineButton extends LButton {
       );
 }
 
+enum LRaisedButtonPushAction { pushDown, elevate }
+
 /// [LButton] with elevation
 class LRaisedButton extends LButton {
+  final LRaisedButtonPushAction pushAction;
+
   /// [LButton] with elevation
   ///
   ///Example:
@@ -1113,9 +1121,11 @@ class LRaisedButton extends LButton {
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
     LElementSize size,
+    this.pushAction = LRaisedButtonPushAction.elevate,
   })  : assert(animationDuration != null),
         assert(clipBehavior != null),
         assert(autofocus != null),
+        assert(pushAction != null),
         super(
           key: key,
           type: type,
@@ -1209,6 +1219,7 @@ class LRaisedButton extends LButton {
     Axis direction,
     LElementSize size,
     double spacing,
+    LRaisedButtonPushAction pushAction = LRaisedButtonPushAction.elevate,
   }) =>
       LRaisedButton(
         type: type,
@@ -1253,6 +1264,7 @@ class LRaisedButton extends LButton {
         onPressed: onPressed,
         constraints: constraints,
         size: size,
+        pushAction: pushAction,
       );
 
   ///[LRaisedButton] with `text`
@@ -1304,6 +1316,7 @@ class LRaisedButton extends LButton {
     void Function() onPressed,
     MaterialTapTargetSize materialTapTargetSize,
     LElementSize size,
+    LRaisedButtonPushAction pushAction = LRaisedButtonPushAction.elevate,
   }) =>
       LRaisedButton(
         type: type,
@@ -1340,6 +1353,7 @@ class LRaisedButton extends LButton {
         onPressed: onPressed,
         constraints: constraints,
         size: size,
+        pushAction: pushAction,
       );
 
   @override
@@ -1387,6 +1401,7 @@ class LRaisedButton extends LButton {
             materialTapTargetSize ?? this.materialTapTargetSize,
         buttonShape: buttonShape ?? this.buttonShape,
         size: this.size,
+        pushAction: this.pushAction,
       );
 }
 
