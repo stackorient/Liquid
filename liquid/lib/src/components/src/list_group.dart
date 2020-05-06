@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../base/base.dart';
 
 ///The most basic list group is an unordered list with list items [LListItem]
 /// and the proper classes.
@@ -103,13 +104,17 @@ class LListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = LiquidTheme.of(context).colors;
+
     return Material(
       color: enabled
-          ? (selected ? selectedBackgroundColor : backgroundColor)
+          ? (selected
+              ? (selectedBackgroundColor ?? _theme.primary)
+              : (backgroundColor ?? _theme.white))
           : disabledBackgroundColor,
       child: ListTileTheme(
-        selectedColor: selectedTextColor,
-        textColor: textColor,
+        selectedColor: selectedTextColor ?? _theme.white,
+        textColor: textColor ?? Colors.black,
         child: ListTile(
           leading: leading,
           title: title,
@@ -227,13 +232,18 @@ class LListGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = LiquidTheme.of(context).colors;
+
     return Material(
       type: MaterialType.transparency,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(flush ? 0 : radius),
         side: flush
             ? BorderSide.none
-            : BorderSide(width: borderWidth, color: borderColor),
+            : BorderSide(
+                width: borderWidth,
+                color: (borderColor ?? Colors.black12),
+              ),
       ),
       child: Flex(
         children: _buildListItems(),
@@ -266,10 +276,12 @@ class LListGroup extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           bottom: direction == Axis.vertical
-              ? BorderSide(color: borderColor, width: borderWidth)
+              ? BorderSide(
+                  color: (borderColor ?? Colors.black12), width: borderWidth)
               : BorderSide.none,
           right: direction == Axis.horizontal
-              ? BorderSide(color: borderColor, width: borderWidth)
+              ? BorderSide(
+                  color: (borderColor ?? Colors.black12), width: borderWidth)
               : BorderSide.none,
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'buttons.dart';
-import 'theme_ext/theme_ext.dart';
 
 import '../../base/base.dart';
 
@@ -53,7 +52,7 @@ class LAlertHeading extends StatelessWidget {
                   color: Colors.white,
                   fillColor: Colors.black12,
                   margin: EdgeInsets.zero,
-                  splashThickness: 0.0,
+                  splashThickness: 1.0,
                 ),
               ],
             )

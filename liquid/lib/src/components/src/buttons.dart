@@ -1478,6 +1478,7 @@ class LIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: margin,
+      alignment: Alignment.center,
       child: Material(
         borderRadius:
             BorderRadius.circular(radius ?? iconSize + splashThickness),

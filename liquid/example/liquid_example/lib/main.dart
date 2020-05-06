@@ -437,7 +437,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     LButtonGroup(
                       direction: Axis.horizontal,
                       buttonShape: LElementShape.pill,
-                      size: LElementSize.small,
+                      size: LElementSize.large,
                       children: [
                         LOutlineButton.text(
                           text: "First",
@@ -485,17 +485,18 @@ class _MyHomePageState extends State<MyHomePage> {
                           Image.network("https://source.unsplash.com/random/"),
                     ),
                     LListGroup(
-                      borderColor: Colors.black12,
+                      // borderColor: Colors.black12,
                       borderWidth: 1,
                       direction: Axis.vertical,
-                      selectedTextColor: Colors.white,
-                      selectedBackgroundColor: Colors.blue[700],
-                      disabledBackgroundColor: Colors.grey[300],
+                      // selectedTextColor: Colors.white,
+                      // selectedBackgroundColor: Colors.blue[700],
+                      // disabledBackgroundColor: Colors.grey[300],
                       dense: true,
                       children: [
                         LListItem(
                           title: Text("Item 1"),
                           selected: true,
+                          onTap: () {},
                         ),
                         LListItem(
                           title: Text("Item 1"),
