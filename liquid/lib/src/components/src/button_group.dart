@@ -26,6 +26,8 @@ class LButtonGroup extends StatelessWidget {
   ///
   final LElementShape buttonShape;
 
+  final LElementSize size;
+
   final double _radius;
 
   /// Group a series of buttons together on a single line with the button group,
@@ -73,6 +75,7 @@ class LButtonGroup extends StatelessWidget {
     this.children,
     this.buttonShape,
     double radius = 3.0,
+    this.size,
   })  : assert(children != null && children.length >= 2),
         assert(radius != null),
         _radius = buttonShape == LElementShape.pill ? 1000 : radius,
@@ -124,6 +127,7 @@ class LButtonGroup extends StatelessWidget {
         side: BorderSide.none,
       ),
       shape: LElementShape.standard,
+      size: size,
     );
   }
 
@@ -143,6 +147,7 @@ class LButtonGroup extends StatelessWidget {
           ? MaterialTapTargetSize.padded
           : MaterialTapTargetSize.shrinkWrap,
       shape: LElementShape.standard,
+      size: size,
     );
   }
 
@@ -160,6 +165,7 @@ class LButtonGroup extends StatelessWidget {
             ? MaterialTapTargetSize.padded
             : MaterialTapTargetSize.shrinkWrap,
         shape: LElementShape.standard,
+        size: size,
       );
       _buttons.add(button);
     }

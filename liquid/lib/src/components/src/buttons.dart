@@ -233,6 +233,7 @@ class LButton extends StatefulWidget {
     ShapeBorder buttonShape,
     MaterialTapTargetSize materialTapTargetSize,
     LElementShape shape,
+    LElementSize size,
   }) =>
       LButton(
         type: this.type,
@@ -267,6 +268,7 @@ class LButton extends StatefulWidget {
         materialTapTargetSize:
             materialTapTargetSize ?? this.materialTapTargetSize,
         buttonShape: buttonShape ?? this.buttonShape,
+        size: size ?? this.size,
       );
 
   @override
@@ -722,7 +724,7 @@ class LFlatButton extends LButton {
         materialTapTargetSize:
             materialTapTargetSize ?? this.materialTapTargetSize,
         buttonShape: buttonShape ?? this.buttonShape,
-        size: this.size,
+        size: size ?? this.size,
       );
 }
 
@@ -1025,6 +1027,7 @@ class LOutlineButton extends LButton {
     ShapeBorder buttonShape,
     MaterialTapTargetSize materialTapTargetSize,
     LElementShape shape,
+    LElementSize size,
   }) =>
       LOutlineButton(
         type: this.type,
@@ -1061,7 +1064,7 @@ class LOutlineButton extends LButton {
         materialTapTargetSize:
             materialTapTargetSize ?? this.materialTapTargetSize,
         buttonShape: buttonShape ?? this.buttonShape,
-        size: this.size,
+        size: size ?? this.size,
       );
 }
 
@@ -1364,6 +1367,7 @@ class LRaisedButton extends LButton {
     ShapeBorder buttonShape,
     MaterialTapTargetSize materialTapTargetSize,
     LElementShape shape,
+    LElementSize size,
   }) =>
       LRaisedButton(
         type: this.type,
@@ -1400,7 +1404,7 @@ class LRaisedButton extends LButton {
         materialTapTargetSize:
             materialTapTargetSize ?? this.materialTapTargetSize,
         buttonShape: buttonShape ?? this.buttonShape,
-        size: this.size,
+        size: size ?? this.size,
         pushAction: this.pushAction,
       );
 }

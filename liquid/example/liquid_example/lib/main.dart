@@ -437,31 +437,31 @@ class _MyHomePageState extends State<MyHomePage> {
                     LButtonGroup(
                       direction: Axis.horizontal,
                       buttonShape: LElementShape.pill,
+                      size: LElementSize.small,
                       children: [
                         LOutlineButton.text(
                           text: "First",
                           onPressed: () {},
                           // pushAction: LRaisedButtonPushAction.pushDown,
-                          size: LElementSize.small,
+
                           type: LElementType.danger,
                         ),
                         LOutlineButton.text(
                           text: "Second",
                           onPressed: () {},
                           // pushAction: LRaisedButtonPushAction.pushDown,
-                          size: LElementSize.small,
+
                           type: LElementType.danger,
                         ),
                         LOutlineButton.text(
                           text: "Third",
                           onPressed: () {},
                           // pushAction: LRaisedButtonPushAction.pushDown,
-                          size: LElementSize.small,
+
                           type: LElementType.danger,
                         ),
                         LOutlineButton.text(
                           text: 'heee',
-                          size: LElementSize.small,
                           type: LElementType.danger,
                         ),
                       ],
