@@ -473,7 +473,7 @@ class LRow extends StatelessWidget {
   /// when `true`, [LResponsiveBuilder] will use Screen width instead of Parent Width
   /// for determining active [LBreakPoint]
   ///
-  /// default: `false`
+  /// default: `true`
   ///
   final bool useMediaQuery;
 

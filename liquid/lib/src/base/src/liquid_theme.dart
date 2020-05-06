@@ -1,220 +1,63 @@
 import 'package:flutter/material.dart';
 
-class LiquidAlertTextColors {
-  final Color primaryColor;
-  final Color secondaryColor;
-  final Color success;
-  final Color danger;
-  final Color warning;
-  final Color info;
-  final Color light;
-  final Color dark;
-
-  const LiquidAlertTextColors({
-    this.primaryColor = const Color(0xFF004085),
-    this.secondaryColor = const Color(0xFF383d41),
-    this.success = const Color(0xFF155724),
-    this.danger = const Color(0xFF721c24),
-    this.warning = const Color(0xFF856404),
-    this.info = const Color(0xFF0c5460),
-    this.light = const Color(0xFF818182),
-    this.dark = const Color(0xFF1b1e21),
-  });
+enum LElementType {
+  primary,
+  secondary,
+  success,
+  warning,
+  danger,
+  info,
+  light,
+  dark
 }
 
-class LiquidAlertBackgroundColors {
-  final Color primaryColor;
-  final Color secondaryColor;
-  final Color success;
-  final Color danger;
-  final Color warning;
-  final Color info;
-  final Color light;
-  final Color dark;
+enum LElementShape { standard, pill }
 
-  const LiquidAlertBackgroundColors({
-    this.primaryColor = const Color(0xFFcce5ff),
-    this.secondaryColor = const Color(0xFFe2e3e5),
-    this.success = const Color(0xFFd4edda),
-    this.danger = const Color(0xFFf8d7da),
-    this.warning = const Color(0xFFfff3cd),
-    this.info = const Color(0xFFd1ecf1),
-    this.light = const Color(0xFFfefefe),
-    this.dark = const Color(0xFFd6d8d9),
-  });
-}
+enum LElementSize { large, medium, normal, small }
 
 class LiquidAlertTheme {
-  final LiquidAlertTextColors textColors;
-  final LiquidAlertBackgroundColors backgroundColors;
   final EdgeInsets padding;
   final EdgeInsets margin;
   final EdgeInsets headingPadding;
 
   const LiquidAlertTheme({
-    this.textColors = const LiquidAlertTextColors(),
-    this.backgroundColors = const LiquidAlertBackgroundColors(),
     this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
     this.margin = const EdgeInsets.only(bottom: 12.0),
-    this.headingPadding = const EdgeInsets.only(bottom: 8.0),
-  });
-}
-
-class LiquidBadgeTextColors {
-  final Color primaryColor;
-  final Color secondaryColor;
-  final Color success;
-  final Color danger;
-  final Color warning;
-  final Color info;
-  final Color light;
-  final Color dark;
-
-  const LiquidBadgeTextColors({
-    this.primaryColor = const Color(0xFF004085),
-    this.secondaryColor = const Color(0xFF383d41),
-    this.success = const Color(0xFF155724),
-    this.danger = const Color(0xFF721c24),
-    this.warning = const Color(0xFF856404),
-    this.info = const Color(0xFF0c5460),
-    this.light = const Color(0xFF818182),
-    this.dark = const Color(0xFF1b1e21),
-  });
-}
-
-class LiquidBadgeBackgroundColors {
-  final Color primaryColor;
-  final Color secondaryColor;
-  final Color success;
-  final Color danger;
-  final Color warning;
-  final Color info;
-  final Color light;
-  final Color dark;
-
-  const LiquidBadgeBackgroundColors({
-    this.primaryColor = const Color(0xFFcce5ff),
-    this.secondaryColor = const Color(0xFFe2e3e5),
-    this.success = const Color(0xFFd4edda),
-    this.danger = const Color(0xFFf8d7da),
-    this.warning = const Color(0xFFfff3cd),
-    this.info = const Color(0xFFd1ecf1),
-    this.light = const Color(0xFFfefefe),
-    this.dark = const Color(0xFFd6d8d9),
+    this.headingPadding =
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
   });
 }
 
 class LiquidBadgeTheme {
-  final LiquidBadgeBackgroundColors backgroundColors;
-  final LiquidBadgeTextColors textColors;
   final EdgeInsets padding;
   final EdgeInsets margin;
+  final double defaultRadius;
 
   const LiquidBadgeTheme({
-    this.backgroundColors = const LiquidBadgeBackgroundColors(),
-    this.textColors = const LiquidBadgeTextColors(),
-    this.padding = const EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
-    this.margin = const EdgeInsets.only(bottom: 0.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 9.0, vertical: 5.0),
+    this.margin = EdgeInsets.zero,
+    this.defaultRadius = 4.0,
   });
+
+  Color getContentColor(LElementType type) {
+    if (type == LElementType.light) return Colors.black;
+    return Colors.white;
+  }
 }
 
 class LiquidButtonTheme {
-  final LiquidButtonColors buttonColors;
-  final LiquidTextColors textColors;
   final EdgeInsets padding;
-  final EdgeInsets smallPadding;
   final EdgeInsets margin;
-  final EdgeInsets smallMargin;
-  final MaterialTapTargetSize materialTapTargetSize;
-  final MaterialTapTargetSize smallMaterialTapTargetSize;
-  final TextStyle textStyle;
-  final TextStyle smallTextStyle;
-  final BoxConstraints constraints;
 
   const LiquidButtonTheme({
-    this.buttonColors = const LiquidButtonColors(),
-    this.textColors = const LiquidTextColors(),
-    this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-    this.smallPadding =
-        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-    this.margin = const EdgeInsets.all(1.0),
-    this.smallMargin = const EdgeInsets.all(3.0),
-    this.textStyle = const TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 14.0,
-    ),
-    this.smallTextStyle = const TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 12.0,
-    ),
-    this.constraints = const BoxConstraints(
-      minWidth: 88.0,
-      minHeight: 36.0,
-    ),
-    this.materialTapTargetSize = MaterialTapTargetSize.padded,
-    this.smallMaterialTapTargetSize = MaterialTapTargetSize.shrinkWrap,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 7.0),
+    this.margin = const EdgeInsets.symmetric(horizontal: 2.5, vertical: 5.0),
   });
 }
 
-class LiquidButtonColors {
-  final Color primaryColor;
-  final Color secondaryColor;
-  final Color success;
-  final Color danger;
-  final Color warning;
-  final Color info;
-  final Color light;
-  final Color dark;
-  final Color white;
-
-  const LiquidButtonColors({
-    this.primaryColor = const Color(0xFF007bff),
-    this.secondaryColor = const Color(0xFF6c757d),
-    this.success = const Color(0xFF28a745),
-    this.danger = const Color(0xFFdc3545),
-    this.warning = const Color(0xFFffc107),
-    this.info = const Color(0xFF17a2b8),
-    this.light = const Color(0xFFf8f9fa),
-    this.dark = const Color(0xFF343a40),
-    this.white = const Color(0xFFFFFFFF),
-  });
-}
-
-class LiquidTextColors {
-  final Color primaryColor;
-  final Color secondaryColor;
-  final Color success;
-  final Color danger;
-  final Color warning;
-  final Color info;
-  final Color light;
-  final Color dark;
-  final Color body;
-  final Color white;
-  final Color muted;
-  final Color black50;
-  final Color white50;
-
-  const LiquidTextColors({
-    this.primaryColor = const Color(0xFF007bff),
-    this.secondaryColor = const Color(0xFF6c757d),
-    this.success = const Color(0xFF28a745),
-    this.danger = const Color(0xFFdc3545),
-    this.warning = const Color(0xFFffc107),
-    this.info = const Color(0xFF17a2b8),
-    this.light = const Color(0xFFf8f9fa),
-    this.dark = const Color(0xFF343a40),
-    this.body = const Color(0xFF515457),
-    this.white = const Color(0xFFFFFFFF),
-    this.muted = const Color(0xFFb6bbbf),
-    this.black50 = const Color(0x80000000),
-    this.white50 = const Color(0x80FFFFFF),
-  });
-}
-
-class LiquidBackgroundColors {
-  final Color primaryColor;
-  final Color secondaryColor;
+class LiquidColors {
+  final Color primary;
+  final Color secondary;
   final Color success;
   final Color danger;
   final Color warning;
@@ -224,9 +67,9 @@ class LiquidBackgroundColors {
   final Color white;
   final Color transparent;
 
-  const LiquidBackgroundColors({
-    this.primaryColor = const Color(0xFF007bff),
-    this.secondaryColor = const Color(0xFF6c757d),
+  const LiquidColors({
+    this.primary = const Color(0xFF007bff),
+    this.secondary = const Color(0xFF6c757d),
     this.success = const Color(0xFF28a745),
     this.danger = const Color(0xFFdc3545),
     this.warning = const Color(0xFFffc107),
@@ -284,7 +127,7 @@ class LiquidGradients {
   });
 }
 
-class LiquidTypographyTheme {
+class LiquidTypography {
   final TextStyle h1;
   final TextStyle h2;
   final TextStyle h3;
@@ -301,7 +144,7 @@ class LiquidTypographyTheme {
   final TextStyle quote;
   final TextStyle quoteFooter;
 
-  const LiquidTypographyTheme({
+  const LiquidTypography({
     this.h1 = const TextStyle(
       fontSize: 40.0,
       fontWeight: FontWeight.w500,
@@ -449,27 +292,86 @@ class LiquidCollapseTheme {
 }
 
 class LiquidThemeData {
-  final LiquidTextColors textColors;
-  final LiquidBackgroundColors backgroundColors;
+  final LiquidColors colors;
   final LiquidGradients gradients;
   final LiquidAlertTheme alertTheme;
   final LiquidBadgeTheme badgeTheme;
   final LiquidButtonTheme buttonTheme;
-  final LiquidTypographyTheme typographyTheme;
+  final LiquidTypography typographyTheme;
   final LiquidDropdownTheme dropdownTheme;
   final LiquidCollapseTheme collapseTheme;
 
   const LiquidThemeData({
-    this.textColors = const LiquidTextColors(),
-    this.backgroundColors = const LiquidBackgroundColors(),
+    this.colors = const LiquidColors(),
     this.gradients = const LiquidGradients(),
     this.alertTheme = const LiquidAlertTheme(),
     this.badgeTheme = const LiquidBadgeTheme(),
     this.buttonTheme = const LiquidButtonTheme(),
-    this.typographyTheme = const LiquidTypographyTheme(),
+    this.typographyTheme = const LiquidTypography(),
     this.dropdownTheme = const LiquidDropdownTheme(),
     this.collapseTheme = const LiquidCollapseTheme(),
   });
+
+  Color getTypeColor(LElementType type) {
+    switch (type) {
+      case LElementType.secondary:
+        return colors.secondary;
+        break;
+      case LElementType.success:
+        return colors.success;
+        break;
+      case LElementType.danger:
+        return colors.danger;
+        break;
+      case LElementType.info:
+        return colors.info;
+        break;
+      case LElementType.warning:
+        return colors.warning;
+        break;
+      case LElementType.light:
+        return colors.light;
+        break;
+      case LElementType.dark:
+        return colors.dark;
+        break;
+      case LElementType.primary:
+      default:
+        return colors.primary;
+        break;
+    }
+  }
+
+  BorderRadius getElementShape({
+    LElementShape shape,
+    double radius,
+  }) {
+    switch (shape) {
+      case LElementShape.pill:
+        return BorderRadius.circular(1500);
+        break;
+      case LElementShape.standard:
+      default:
+        return BorderRadius.circular(radius ?? 4.0);
+    }
+  }
+
+  double getElementSizeFactor(LElementSize size) {
+    switch (size) {
+      case LElementSize.large:
+        return 1.5;
+        break;
+      case LElementSize.medium:
+        return 1.25;
+
+      case LElementSize.small:
+        return 0.75;
+
+      case LElementSize.normal:
+      default:
+        return 1.0;
+    }
+  }
 }
 
 class LiquidTheme extends InheritedWidget {

@@ -114,7 +114,7 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
               (e) => LFlatButton.text(
                 text: e,
                 onPressed: () => _scrollTo(e),
-                type: _activeID == e ? ButtonType.primary : ButtonType.dark,
+                type: _activeID == e ? LElementType.primary : LElementType.dark,
               ),
             )
             .toList(),
@@ -132,7 +132,7 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
             (e) => LFlatButton.text(
               text: e,
               onPressed: () => _scrollTo(e),
-              type: _activeID == e ? ButtonType.primary : ButtonType.dark,
+              type: _activeID == e ? LElementType.primary : LElementType.dark,
             ),
           )
           .toList(),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'buttons.dart';
 import '../../base/base.dart';
 
 // enum LCarouselAnimation { slide, fade }
@@ -441,16 +442,13 @@ class _LCarouselState extends State<LCarousel> {
                   left: 0,
                   bottom: 0,
                   top: 0,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: IconButton(
-                        icon: Icon(Icons.chevron_left),
-                        onPressed: _previousPage,
-                        iconSize: 26.0,
-                        color: Colors.white,
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: LIconButton(
+                      icon: Icon(Icons.chevron_left),
+                      onPressed: _previousPage,
+                      iconSize: 26.0,
+                      color: Colors.white,
                     ),
                   ),
                 )
@@ -460,16 +458,13 @@ class _LCarouselState extends State<LCarousel> {
                   right: 0,
                   bottom: 0,
                   top: 0,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: IconButton(
-                        icon: Icon(Icons.chevron_right),
-                        onPressed: _nextPage,
-                        iconSize: 26.0,
-                        color: Colors.white,
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: LIconButton(
+                      icon: Icon(Icons.chevron_right),
+                      onPressed: _nextPage,
+                      iconSize: 26.0,
+                      color: Colors.white,
                     ),
                   ),
                 )

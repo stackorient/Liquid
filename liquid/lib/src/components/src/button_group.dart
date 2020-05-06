@@ -20,11 +20,11 @@ class LButtonGroup extends StatelessWidget {
   /// * [LFlatButton]
   final List<LButton> children;
 
-  /// Select [ButtonShape]from
-  ///   * `ButtonShape.standard`
-  ///   * `ButtonShape.pill`
+  /// Select [LElementShape]from
+  ///   * `LElementShape.standard`
+  ///   * `LElementShape.pill`
   ///
-  final ButtonShape buttonShape;
+  final LElementShape buttonShape;
 
   final double _radius;
 
@@ -39,7 +39,7 @@ class LButtonGroup extends StatelessWidget {
   /// ...
   /// LButtonGroup(
   ///   direction: Axis.horizontal,
-  ///   buttonShape: ButtonShape.pill,
+  ///   buttonShape: LElementShape.pill,
   ///   children: [
   ///     LRaisedButton.text(
   ///       text: "First",
@@ -75,7 +75,7 @@ class LButtonGroup extends StatelessWidget {
     double radius = 3.0,
   })  : assert(children != null && children.length >= 2),
         assert(radius != null),
-        _radius = buttonShape == ButtonShape.pill ? 1000 : radius,
+        _radius = buttonShape == LElementShape.pill ? 1000 : radius,
         super(key: key);
 
   @override
@@ -115,7 +115,7 @@ class LButtonGroup extends StatelessWidget {
 
     return button.copyWith(
       margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
+      buttonShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(direction == Axis.vertical ? _radius : 0),
           topLeft: Radius.circular(_radius),
@@ -123,10 +123,7 @@ class LButtonGroup extends StatelessWidget {
         ),
         side: BorderSide.none,
       ),
-      materialTapTargetSize: button is LRaisedButton
-          ? MaterialTapTargetSize.padded
-          : MaterialTapTargetSize.shrinkWrap,
-      buttonShape: ButtonShape.standard,
+      shape: LElementShape.standard,
     );
   }
 
@@ -134,7 +131,7 @@ class LButtonGroup extends StatelessWidget {
     final button = children.last;
     return button.copyWith(
       margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
+      buttonShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(direction == Axis.vertical ? 0 : _radius),
           bottomRight: Radius.circular(_radius),
@@ -145,7 +142,7 @@ class LButtonGroup extends StatelessWidget {
       materialTapTargetSize: button is LRaisedButton
           ? MaterialTapTargetSize.padded
           : MaterialTapTargetSize.shrinkWrap,
-      buttonShape: ButtonShape.standard,
+      shape: LElementShape.standard,
     );
   }
 
@@ -155,14 +152,14 @@ class LButtonGroup extends StatelessWidget {
     for (int i = 1; i < children.length - 1; i++) {
       final button = children[i].copyWith(
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
+        buttonShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
           side: BorderSide.none,
         ),
         materialTapTargetSize: children[i] is LRaisedButton
             ? MaterialTapTargetSize.padded
             : MaterialTapTargetSize.shrinkWrap,
-        buttonShape: ButtonShape.standard,
+        shape: LElementShape.standard,
       );
       _buttons.add(button);
     }
