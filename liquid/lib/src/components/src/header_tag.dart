@@ -57,7 +57,7 @@ class LHeaderTag extends StatelessWidget {
           height: tagHeight ?? 20.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            color: tagColor ?? theme.backgroundColors.primaryColor,
+            color: tagColor ?? theme.colors.primary,
           ),
         ),
         Container(

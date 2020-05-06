@@ -1,45 +1,93 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'buttons.dart';
 
 import '../../base/base.dart';
 
-enum LAlertType {
-  primary,
-  secondary,
-  success,
-  warning,
-  danger,
-  info,
-  light,
-  dark
+class LAlertHeading extends StatelessWidget {
+  final String text;
+  final TextStyle style;
+  final EdgeInsets padding;
+  final Function onClose;
+
+  const LAlertHeading({
+    Key key,
+    this.text,
+    this.style,
+    this.padding,
+    this.onClose,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = LiquidTheme.of(context);
+    final alert = LAlert.of(context);
+    final _sizeFactor =
+        theme.getElementSizeFactor(alert.size ?? LElementSize.normal);
+
+    final _textStyle = theme.typographyTheme.h6
+        .weight(FontWeight.w700)
+        .withColor(Colors.white);
+
+    final _text = Text(
+      text,
+      style: style ??
+          _textStyle.copyWith(fontSize: _textStyle.fontSize * _sizeFactor),
+    );
+
+    return Container(
+      padding: padding ?? theme.alertTheme.headingPadding * _sizeFactor,
+      decoration: BoxDecoration(
+        color: theme.getTypeColor(alert?.type ?? LElementType.dark),
+      ),
+      child: onClose != null
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                _text,
+                LIconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: onClose,
+                  iconSize: 20.0 * _sizeFactor,
+                  color: Colors.white,
+                  fillColor: Colors.black12,
+                  margin: EdgeInsets.zero,
+                  splashThickness: 1.0,
+                ),
+              ],
+            )
+          : _text,
+    );
+  }
 }
 
 /// Create an alert box
 class LAlert extends StatelessWidget {
   /// defines alert type
-  final LAlertType type;
+  final LElementType type;
 
   /// defines alert description text
   final String text;
 
+  final Widget child;
+
   /// defines alert heading
-  final String heading;
+  ///
+  /// generally [LAlertHeading]
+  final Widget heading;
 
   /// list of url
   final List<Uri> urls;
 
   final EdgeInsets margin;
-
-  /// provides padding around heading of the alert [heading]
-  final EdgeInsets headingPadding;
-
-  /// To style the heading text
-  final TextStyle headingStyle;
+  final EdgeInsets contentPadding;
 
   /// To style the alert description text
   final TextStyle style;
 
-  /// List of widget to be aligned at bottom of alert [alert]
-  final List<Widget> bottom;
+  final BorderRadius radius;
+
+  final LElementSize size;
 
   /// Create an alert box
   ///
@@ -50,126 +98,99 @@ class LAlert extends StatelessWidget {
   /// LAlert(
   ///    "Aww yeah, you successfully read this important alert message.",
   ///    heading: "Well done!, @heyrjs and @heypnd",
-  ///    type: LAlertType.success,
+  ///    type: LElementType.success,
   ///  ),
   ///...
   ///
   ///```
   ///See Also:
-  ///* different type of `LAlertType`
+  ///* different type of `LElementType`
   ///
-  ///     * `LAlertType.primary`
-  ///     * `LAlertType.secondary`
-  ///     * `LAlertType.success`
-  ///     * `LAlertType.warning`
-  ///     * `LAlertType.danger`
-  ///     * `LAlertType.info`
-  ///     * `LAlertType.light`
-  ///     * `LAlertType.dark`
+  ///     * `primary`
+  ///     * `secondary`
+  ///     * `success`
+  ///     * `warning`
+  ///     * `danger`
+  ///     * `info`
+  ///     * `light`
+  ///     * `dark`
   ///
   ///
 
-  const LAlert(
-    this.text, {
-    this.heading,
+  const LAlert({
     Key key,
-    this.type = LAlertType.primary,
+    this.text,
+    this.child,
+    this.heading,
+    this.type = LElementType.primary,
     this.urls,
     this.margin,
-    this.headingPadding,
     this.style,
-    this.headingStyle,
-    this.bottom,
-  })  : assert(text != null),
+    this.radius,
+    this.size = LElementSize.normal,
+    this.contentPadding,
+  })  : assert(
+          (text != null && child == null) || (text == null && child != null),
+          "either text or child is required",
+        ),
+        assert(size != null),
         super(key: key);
 
-  List<Color> _getColors(LiquidThemeData themeData) {
-    final bg = themeData.alertTheme.backgroundColors;
-    final tc = themeData.alertTheme.textColors;
+  static LAlert of(BuildContext context) {
+    final _ = context.findAncestorWidgetOfExactType<LAlert>();
 
-    switch (type) {
-      case LAlertType.primary:
-        return [bg.primaryColor, tc.primaryColor];
-        break;
-      case LAlertType.secondary:
-        return [bg.secondaryColor, tc.secondaryColor];
-        break;
-      case LAlertType.success:
-        return [bg.success, tc.success];
-        break;
-      case LAlertType.danger:
-        return [bg.danger, tc.danger];
-        break;
-      case LAlertType.info:
-        return [bg.info, tc.info];
-        break;
-      case LAlertType.warning:
-        return [bg.warning, tc.warning];
-        break;
-      case LAlertType.light:
-        return [bg.light, tc.light];
-        break;
-      case LAlertType.dark:
-        return [bg.dark, tc.dark];
-        break;
-
-      default:
-        return [bg.primaryColor, tc.primaryColor];
-        break;
-    }
+    return _;
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
-    final colors = _getColors(theme);
-    return Container(
-      margin: margin ?? theme.alertTheme.margin,
-      padding: theme.alertTheme.padding,
-      decoration: BoxDecoration(
-        color: colors[0],
-        borderRadius: BorderRadius.circular(4.0),
-        border: Border.all(
-          width: 0.7,
-          style: BorderStyle.solid,
-          color: colors[1].withOpacity(0.1),
+    final _color = theme.getTypeColor(type);
+    return ClipRRect(
+      borderRadius: radius ??
+          BorderRadius.circular(5.0) * theme.getElementSizeFactor(size),
+      child: Container(
+        decoration: BoxDecoration(
+          color: _color.withOpacity(0.1),
+          border: Border(
+              left: heading != null
+                  ? BorderSide.none
+                  : BorderSide(width: 5.0, color: _color)),
         ),
+        child: _buildChild(theme),
       ),
-      child: _buildChild(theme, colors),
     );
   }
 
-  Widget _buildChild(LiquidThemeData theme, List<Color> colors) {
-    final _text = Text(
-      text,
-      style: style ?? theme.typographyTheme.p.withColor(colors[1]),
-      softWrap: true,
+  Widget _buildChild(LiquidThemeData theme) {
+    final _color = theme.getTypeColor(type).darken(0.1);
+    final _textStyle = theme.typographyTheme.p.withColor(_color);
+    final _sizeFactor = theme.getElementSizeFactor(size);
+
+    final _child = Container(
+      padding: contentPadding ?? theme.alertTheme.padding * _sizeFactor,
+      child: DefaultTextStyle(
+        style: style ??
+            _textStyle.copyWith(
+              fontSize: _textStyle.fontSize * _sizeFactor,
+            ),
+        child: child ?? Text(text),
+      ),
     );
 
-    if (heading != null || bottom != null) {
-      final _heading = heading != null
-          ? Padding(
-              padding: headingPadding ?? theme.alertTheme.headingPadding,
-              child: Text(
-                heading,
-                style: headingStyle ??
-                    theme.typographyTheme.h4.withColor(colors[1]),
-              ),
-            )
-          : Container();
-
+    if (heading != null) {
       final _childrens = <Widget>[
-        _heading ?? Container(),
-        _text,
+        heading,
+        _child,
       ];
 
       return Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: _childrens + (bottom ?? []),
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: _childrens,
       );
     } else {
-      return _text;
+      return _child;
     }
   }
 }
