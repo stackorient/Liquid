@@ -367,7 +367,7 @@ class LiquidApp extends StatelessWidget {
   /// ```
   /// {@end-tool}
   /// {@macro flutter.widgets.widgetsApp.actions.seeAlso}
-  final Map<LocalKey, ActionFactory> actions;
+  final Map<Type, Action<Intent>> actions;
 
   /// Turns on a [GridPaper] overlay that paints a baseline grid
   /// Material apps.
