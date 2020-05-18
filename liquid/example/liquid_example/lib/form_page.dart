@@ -1,5 +1,25 @@
+import 'dart:html';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:liquid/liquid.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final Map<String, LTextStyle> _style = {
+  "bold": LTextStyle(style: const TextStyle().weight(FontWeight.bold)),
+  "italic": LTextStyle(style: TextStyle(fontStyle: FontStyle.italic)),
+  "link": LTextStyle(
+    style: TextStyle(
+        color: Colors.blue[800], decoration: TextDecoration.underline),
+    recognizerHandler: (attrs) => TapGestureRecognizer()
+      ..onTap = () {
+        print(attrs.get("href", "https://example.com"));
+        launch(attrs.get("href", "https://example.com"));
+        // window.open(attrs['href'], "_blank");
+      },
+  )
+};
 
 class FormPage extends StatefulWidget {
   @override
@@ -13,37 +33,48 @@ class _FormPageState extends State<FormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        padding: const EdgeInsets.all(10.0),
-        child: LForm(
-          key: _formKey,
+      body: LTextStyleProvider(
+        styleMap: _style,
+        child: Container(
+          padding: const EdgeInsets.all(10.0),
           child: Column(
-            children: <Widget>[
-              LTextFormField(
-                name: "email",
-                validators: [
-                  LRequiredValidator(),
-                  LEmailValidator(
-                    invalidMessage: "Please enter correct email address",
-                  )
-                ],
+            children: [
+              LText(
+                "hello \l.bold.italic.link(href=https://google.com){world}",
               ),
-              LTextFormField(
-                name: "email2",
-                validators: [
-                  LRequiredValidator(),
-                  LEmailValidator(
-                      invalidMessage: "Please enter correct email address")
-                ],
+              LForm(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    LTextFormField(
+                      name: "email",
+                      validators: [
+                        LRequiredValidator(),
+                        LEmailValidator(
+                          invalidMessage: "Please enter correct email address",
+                        )
+                      ],
+                    ),
+                    LTextFormField(
+                      name: "email2",
+                      validators: [
+                        LRequiredValidator(),
+                        LEmailValidator(
+                            invalidMessage:
+                                "Please enter correct email address")
+                      ],
+                    ),
+                    LFlatButton.text(
+                      text: "Submit",
+                      onPressed: _submit,
+                    ),
+                    LFlatButton.text(
+                      text: "reset",
+                      onPressed: _reset,
+                    )
+                  ],
+                ),
               ),
-              LFlatButton.text(
-                text: "Submit",
-                onPressed: _submit,
-              ),
-              LFlatButton.text(
-                text: "reset",
-                onPressed: _reset,
-              )
             ],
           ),
         ),
