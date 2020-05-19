@@ -142,7 +142,6 @@ class LiquidTypography {
   final TextStyle display4;
   final TextStyle lead;
   final TextStyle quote;
-  final TextStyle quoteFooter;
 
   const LiquidTypography({
     this.h1 = const TextStyle(
@@ -183,7 +182,6 @@ class LiquidTypography {
     ),
     this.p = const TextStyle(
       fontSize: 14.0,
-      height: 1.5,
       color: Color(0xFF000000),
     ),
     this.small = const TextStyle(
@@ -223,10 +221,6 @@ class LiquidTypography {
     this.quote = const TextStyle(
       fontSize: 20.0,
       color: Color(0xFF000000),
-    ),
-    this.quoteFooter = const TextStyle(
-      fontSize: 16.0,
-      color: Color(0xFF6c757d),
     ),
   });
 }
