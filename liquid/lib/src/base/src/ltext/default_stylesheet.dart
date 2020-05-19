@@ -16,6 +16,9 @@ import 'transformer.dart';
 ///* `capitalize`
 ///* `uppercase`
 ///* `lowercase`
+///* `trim`
+///* `trim-left`
+///* `trim-right`
 ///* `color(hex=hex_color)`
 ///* `highlight(hex=hex_color)`
 final Map<String, LStyleBlock> kLiquidDefaultStyleSheet = {
@@ -52,6 +55,15 @@ final Map<String, LStyleBlock> kLiquidDefaultStyleSheet = {
   ),
   "lowercase": LStyleBlock(
     lazyStyle: (_) => LSpanStyle(textTransformers: [(_) => _.toLowerCase()]),
+  ),
+  "trim": LStyleBlock(
+    lazyStyle: (_) => LSpanStyle(textTransformers: [(_) => _.trim()]),
+  ),
+  "trim-left": LStyleBlock(
+    lazyStyle: (_) => LSpanStyle(textTransformers: [(_) => _.trimLeft()]),
+  ),
+  "trim-right": LStyleBlock(
+    lazyStyle: (_) => LSpanStyle(textTransformers: [(_) => _.trimRight()]),
   ),
   "color": LStyleBlock(
     lazyStyle: (args) {
