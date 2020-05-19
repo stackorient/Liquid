@@ -1,4 +1,5 @@
-class Parser {
+///Abstract Base class for all the Parser used by [LText]
+abstract class Parser {
   final String _subject;
   final RegExp _regExp;
 

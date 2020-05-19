@@ -1,23 +1,8 @@
-import 'package:flutter/gestures.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid/liquid.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-final Map<String, LTextStyle> _style = {
-  "bold": LTextStyle(style: const TextStyle().weight(FontWeight.bold)),
-  "italic": LTextStyle(style: TextStyle(fontStyle: FontStyle.italic)),
-  "link": LTextStyle(
-    style: TextStyle(
-        color: Colors.blue[800], decoration: TextDecoration.underline),
-    recognizerHandler: (attrs) => TapGestureRecognizer()
-      ..onTap = () {
-        print(attrs.get("href", "https://example.com"));
-        launch(attrs.get("href", "https://example.com"));
-        // window.open(attrs['href'], "_blank");
-      },
-  )
-};
 
 class FormPage extends StatefulWidget {
   @override
@@ -27,54 +12,63 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   GlobalKey<LFormState> _formKey = GlobalKey<LFormState>();
 
+  String link = '';
+  Timer _t;
+
+  @override
+  void initState() {
+    super.initState();
+    _t = Timer(Duration(seconds: 3), () {
+      setState(() {
+        link = 'link(href=https://google.com)';
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: LTextStyleProvider(
-        styleMap: _style,
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              LText(
-                "hello \l.bold.italic.link(href=https://google.com){world}",
+      body: Container(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            LText(
+              "Helo \l.blockquote.capitalize{  jai hind with world} and hello \l.color(hex=#f10435){raju}",
+            ),
+            LForm(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  LTextFormField(
+                    name: "email",
+                    validators: [
+                      LRequiredValidator(),
+                      LEmailValidator(
+                        invalidMessage: "Please enter correct email address",
+                      )
+                    ],
+                  ),
+                  LTextFormField(
+                    name: "email2",
+                    validators: [
+                      LRequiredValidator(),
+                      LEmailValidator(
+                          invalidMessage: "Please enter correct email address")
+                    ],
+                  ),
+                  LFlatButton.text(
+                    text: "Submit",
+                    onPressed: _submit,
+                  ),
+                  LFlatButton.text(
+                    text: "reset",
+                    onPressed: _reset,
+                  )
+                ],
               ),
-              LForm(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    LTextFormField(
-                      name: "email",
-                      validators: [
-                        LRequiredValidator(),
-                        LEmailValidator(
-                          invalidMessage: "Please enter correct email address",
-                        )
-                      ],
-                    ),
-                    LTextFormField(
-                      name: "email2",
-                      validators: [
-                        LRequiredValidator(),
-                        LEmailValidator(
-                            invalidMessage:
-                                "Please enter correct email address")
-                      ],
-                    ),
-                    LFlatButton.text(
-                      text: "Submit",
-                      onPressed: _submit,
-                    ),
-                    LFlatButton.text(
-                      text: "reset",
-                      onPressed: _reset,
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -98,5 +92,11 @@ class _FormPageState extends State<FormPage> {
     print("is pristine ${state.isPristine}");
     print("is valid ${state.isValid}");
     print("is invalid ${state.isInvalid}");
+  }
+
+  @override
+  void dispose() {
+    _t?.cancel();
+    super.dispose();
   }
 }

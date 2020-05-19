@@ -437,7 +437,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     LButtonGroup(
                       direction: Axis.horizontal,
                       buttonShape: LElementShape.pill,
-                      size: LElementSize.large,
+                      size: LElementSize.small,
                       children: [
                         LOutlineButton.text(
                           text: "First",
@@ -458,10 +458,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {},
                           // pushAction: LRaisedButtonPushAction.pushDown,
 
-                          type: LElementType.danger,
-                        ),
-                        LOutlineButton.text(
-                          text: 'heee',
                           type: LElementType.danger,
                         ),
                       ],
@@ -571,8 +567,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             LFlatButton.icon(
                               icon: Text("hello"),
+                              size: LElementSize.small,
                               label: LBadge.text(
                                 "3",
+                                size: LElementSize.small,
                                 shape: LElementShape.pill,
                                 type: LElementType.info,
                               ),
@@ -755,20 +753,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               type: LElementType.light,
                               shape: LElementShape.pill,
                               size: LElementSize.small,
-                            ),
-                            LRaisedButton.icon(
-                              icon: Icon(Icons.ac_unit),
-                              label: Text("Hello"),
-                              onPressed: () {},
-                              type: LElementType.light,
-                              shape: LElementShape.pill,
-                            ),
-                            LRaisedButton.icon(
-                              icon: Icon(Icons.ac_unit),
-                              label: Text("Hello"),
-                              onPressed: () {},
-                              type: LElementType.light,
-                              shape: LElementShape.pill,
                             ),
                           ],
                         ),
