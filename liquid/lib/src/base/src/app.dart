@@ -69,6 +69,9 @@ class LiquidApp extends StatelessWidget {
   ///* `capitalize`
   ///* `uppercase`
   ///* `lowercase`
+  ///* `trim`
+  ///* `trim-left`
+  ///* `trim-right`
   ///* `color(hex=hex_color)`
   ///* `highlight(hex=hex_color)`
   ///* `h1`
