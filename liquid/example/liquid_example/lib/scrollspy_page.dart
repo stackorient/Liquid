@@ -65,11 +65,11 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
           ),
           LColumn.child(
             expanded: true,
-            child: ScrollSpy(
+            child: LScrollSpy(
               controller: _controller,
               uniqueIdList: ids,
               itemBuilder: _buildItem,
-              itemLengthBuilder: (index) {
+              itemLengthBuilder: (index, id) {
                 final md = MediaQuery.of(context);
                 if (md.isXL) {
                   return 305.0;
@@ -114,7 +114,7 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
               (e) => LFlatButton.text(
                 text: e,
                 onPressed: () => _scrollTo(e),
-                type: _activeID == e ? ButtonType.primary : ButtonType.dark,
+                type: _activeID == e ? LElementType.primary : LElementType.dark,
               ),
             )
             .toList(),
@@ -132,7 +132,7 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
             (e) => LFlatButton.text(
               text: e,
               onPressed: () => _scrollTo(e),
-              type: _activeID == e ? ButtonType.primary : ButtonType.dark,
+              type: _activeID == e ? LElementType.primary : LElementType.dark,
             ),
           )
           .toList(),

@@ -35,68 +35,56 @@ class _MyHomePageState extends State<MyHomePage> {
   List<bool> isSelected = [false, false, false];
 
   void _showModel() {
-    showLModel(context,
-        positionTween: Tween(begin: Offset(0, 10.0), end: Offset.zero),
-        barrierDismissable: true, builder: (context) {
-      return LModel(
-        positon: MainAxisAlignment.end,
-        margin: EdgeInsets.all(20.0),
-        header: LModelHeader(
-          title: "Terms & Conditions",
-          onClose: () async {
-            setState(() {
-              result = "Canceled";
-            });
-          },
-        ),
-        body: LModelBody(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: SelectableText(
-                """Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesencibus dolor auctor.Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla."""),
+    showLModel(
+      context,
+      positionTween: Tween(
+        begin: Offset(10.0, 0.0),
+        end: Offset.zero,
+      ),
+      barrierDismissable: true,
+      builder: (context) {
+        return LModel(
+          positon: Alignment.bottomRight,
+          header: LModelHeader(
+            title: "Terms & Conditions",
+            onClose: () async {
+              print("Model Closed");
+              print("Terms Accepted: false");
+            },
           ),
-        ),
-        footer: LModelFooter(
-          actions: <Widget>[
-            LFlatButton.text(
-              text: "Cancel",
-              onPressed: () async {
-                final _ = await LiquidStateManager.of(context)
-                    .popModel<String>("Helllo world");
-                setState(() {
-                  result = _;
-                });
-              },
-              type: ButtonType.secondary,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              margin: const EdgeInsets.only(right: 5.0),
+          body: LModelBody(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: LText(
+                "Please Accept our \l.color(hex=#0000EE){Terms & Conditions}",
+              ),
             ),
-            LFlatButton.text(
-              text: "Accept",
-              onPressed: () async {
-                final _ = await LiquidStateManager.of(context)
-                    .popModel<String>("Terms Accepted");
-                setState(() {
-                  result = _;
-                });
-              },
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            ),
-          ],
-        ),
-      );
-    });
+          ),
+          footer: LModelFooter(
+            actions: <Widget>[
+              LFlatButton.text(
+                text: "Accept",
+                onPressed: () async {
+                  final _ =
+                      await LiquidStateManager.of(context).popModel<bool>(true);
+                  print("Terms Accepted: $_");
+                },
+                type: LElementType.primary,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   final GlobalKey<LDropdownState> _dropdown = GlobalKey<LDropdownState>();
-  final GlobalKey<LDropdownState> _dropdown2 = GlobalKey<LDropdownState>();
   final GlobalKey<LCollapseState> _collapse = GlobalKey<LCollapseState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Row(
           mainAxisSize: MainAxisSize.min,
@@ -122,6 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             LRow(
               // mode: LGridMode.ratio,
+              axis: LRowAxis(lg: Axis.vertical),
               columns: [
                 LColumn(
                   sm: 4,
@@ -130,15 +119,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 LColumn(
-                  sm: 8,
-                  visibility: LBoxVisibility.aboveXS(false),
+                  sm: 6,
                   children: <Widget>[
                     Container(height: 50.0, color: Colors.blue[800]),
                   ],
                 ),
                 LColumn(
-                  // visibility: LBoxVisibility.aboveXS(false),
-                  sm: 8,
+                  sm: 2,
                   children: <Widget>[
                     Container(height: 50.0, color: Colors.green[800]),
                   ],
@@ -149,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8.0),
               child: LProgressIndicator(
                 progress: 0.7,
-                barColor: LiquidTheme.of(context).backgroundColors.success,
+                barColor: LiquidTheme.of(context).colors.success,
                 barChild: Text(
                   "70%",
                   style: LiquidTheme.of(context)
@@ -178,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 progress: 0.6,
                 diameter: 70.0,
                 thickness: 6.0,
-                barColor: LiquidTheme.of(context).backgroundColors.primaryColor,
+                barColor: LiquidTheme.of(context).colors.primary,
                 child: Text(
                   "60%",
                   style: LiquidTheme.of(context).typographyTheme.small,
@@ -189,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8.0),
               child: LProgressIndicator(
                 progress: 0.5,
-                barColor: LiquidTheme.of(context).backgroundColors.primaryColor,
+                barColor: LiquidTheme.of(context).colors.primary,
               ),
             ),
             LRow(
@@ -213,9 +200,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         LFlatButton.icon(
-                          icon: LSpinner(color: Colors.white),
+                          icon: LSpinner(
+                            color: Colors.white,
+                            diameter: 10.0,
+                            thickness: 2.0,
+                          ),
                           label: Text("LOADING"),
-                          buttonShape: ButtonShape.pill,
+                          shape: LElementShape.pill,
+                          spacing: 10.0,
                           disabledColor: Colors.blue[300],
                           onPressed: () {},
                         ),
@@ -224,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.white,
                           ),
                           label: Text("LOADING"),
-                          buttonShape: ButtonShape.pill,
+                          shape: LElementShape.pill,
                           disabledColor: Colors.blue[300],
                           onPressed: () {},
                         ),
@@ -239,18 +231,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   LAlert(
-                    "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
-                    heading: "Well done!",
-                    type: LAlertType.success,
+                    text:
+                        "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.",
+                    heading: LAlertHeading(
+                      text: "Well done!",
+                      onClose: () {},
+                    ),
+                    type: LElementType.primary,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: LExpansionPanel(
                       caption: LBadge.icon(
-                        padding: EdgeInsets.all(3),
                         icon: Icon(Icons.warning),
                         label: Text("COVID-19 alert"),
-                        background: Colors.red,
+                        type: LElementType.danger,
+                        size: LElementSize.small,
                       ),
                       leading: CircleAvatar(
                         backgroundColor: Colors.black45,
@@ -284,15 +280,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   LHeaderTag(
                     child: Text('Header'),
-                    tagColor:
-                        LiquidTheme.of(context).backgroundColors.secondaryColor,
+                    tagColor: LiquidTheme.of(context).colors.secondary,
                   ),
                 ],
               ),
               LColumn(
-                visibility: LBoxVisibility(
-                  md: false,
-                ),
                 children: <Widget>[
                   LAnimatedBox(
                     height: LBoxDimension(
@@ -323,7 +315,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 text: "Accept",
                                 onPressed: _showModel,
                                 margin: const EdgeInsets.only(top: 10.0),
-                                small: true,
                               ),
                             ],
                           ),
@@ -352,8 +343,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 LColumn(
                   children: <Widget>[
                     LBadge(
-                      shape: BadgeShape.pills,
-                      type: BadgeType.info,
+                      shape: LElementShape.pill,
+                      type: LElementType.primary,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -382,8 +373,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       child: LBadge.text(
                         "Will hide in xs",
-                        shape: BadgeShape.standard,
-                        type: BadgeType.dark,
+                        shape: LElementShape.pill,
+                        type: LElementType.dark,
                       ),
                     ),
                     Tooltip(
@@ -394,10 +385,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       showDuration: Duration(seconds: 20),
                       child: LBadge.icon(
-                        label: Text('hey'),
-                        icon: Icon(Icons.ac_unit),
-                        shape: BadgeShape.standard,
-                        type: BadgeType.dark,
+                        icon: Icon(Icons.insert_chart),
+                        label: Text("Normal"),
+                        // shape: LElementShape.pill,
+                        type: LElementType.dark,
+                        size: LElementSize.small,
                       ),
                     ),
                   ],
@@ -430,27 +422,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     LButtonGroup(
                       direction: Axis.horizontal,
-                      buttonShape: ButtonShape.pill,
+                      buttonShape: LElementShape.pill,
+                      size: LElementSize.small,
                       children: [
-                        LRaisedButton.text(
+                        LOutlineButton.text(
                           text: "First",
                           onPressed: () {},
-                          small: true,
-                        ),
-                        LRaisedButton.text(
-                          text: "Second",
-                          onPressed: () {},
-                          small: true,
-                        ),
-                        LRaisedButton.text(
-                          text: "Third",
-                          onPressed: () {},
-                          small: true,
-                          type: ButtonType.dark,
+                          // pushAction: LRaisedButtonPushAction.pushDown,
+
+                          type: LElementType.danger,
                         ),
                         LOutlineButton.text(
-                          text: 'heee',
-                          small: true,
+                          text: "Second",
+                          onPressed: () {},
+                          // pushAction: LRaisedButtonPushAction.pushDown,
+
+                          type: LElementType.danger,
+                        ),
+                        LOutlineButton.text(
+                          text: "Third",
+                          onPressed: () {},
+                          // pushAction: LRaisedButtonPushAction.pushDown,
+
+                          type: LElementType.danger,
                         ),
                       ],
                     ),
@@ -473,17 +467,18 @@ class _MyHomePageState extends State<MyHomePage> {
                           Image.network("https://source.unsplash.com/random/"),
                     ),
                     LListGroup(
-                      borderColor: Colors.black12,
+                      // borderColor: Colors.black12,
                       borderWidth: 1,
                       direction: Axis.vertical,
-                      selectedTextColor: Colors.white,
-                      selectedBackgroundColor: Colors.blue[700],
-                      disabledBackgroundColor: Colors.grey[300],
+                      // selectedTextColor: Colors.white,
+                      // selectedBackgroundColor: Colors.blue[700],
+                      // disabledBackgroundColor: Colors.grey[300],
                       dense: true,
                       children: [
                         LListItem(
                           title: Text("Item 1"),
                           selected: true,
+                          onTap: () {},
                         ),
                         LListItem(
                           title: Text("Item 1"),
@@ -533,7 +528,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 else
                                   _collapse.currentState.close();
                               },
-                              type: ButtonType.primary,
+                              type: LElementType.primary,
                             ),
                             LFlatButton(
                               child: Text("ScrollSpy"),
@@ -545,26 +540,70 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 );
                               },
-                              type: ButtonType.secondary,
+                              type: LElementType.secondary,
                             ),
                           ],
                         ),
                         LColumn(
                           children: <Widget>[
-                            LFlatButton(
-                              child: Text("hello"),
-                              type: ButtonType.success,
-                              onPressed: () {},
+                            LFlatButton.text(
+                              text: "Accept Terms",
+                              onPressed: () => showLModel(
+                                context,
+                                positionTween: Tween(
+                                  begin: Offset(0.0, 10.0),
+                                  end: Offset.zero,
+                                ),
+                                barrierDismissable: true,
+                                builder: (context) {
+                                  return LModel(
+                                    positon: Alignment.bottomCenter,
+                                    header: LModelHeader(
+                                      title: "Terms & Conditions",
+                                      onClose: () async {
+                                        print("Model Closed");
+                                        print("Terms Accepted: false");
+                                      },
+                                    ),
+                                    body: LModelBody(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 16.0),
+                                        child: LText(
+                                          "Please Accept our \l.color(hex=#0000EE){Terms & Conditions}",
+                                        ),
+                                      ),
+                                    ),
+                                    footer: LModelFooter(
+                                      actions: <Widget>[
+                                        LFlatButton.text(
+                                          text: "Accept",
+                                          onPressed: () async {
+                                            final _ =
+                                                await LiquidStateManager.of(
+                                                        context)
+                                                    .popModel<bool>(true);
+                                            print("Terms Accepted: $_");
+                                          },
+                                          type: LElementType.primary,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                             LFlatButton.icon(
                               icon: Text("hello"),
+                              size: LElementSize.small,
                               label: LBadge.text(
                                 "3",
-                                type: BadgeType.danger,
-                                shape: BadgeShape.pills,
+                                size: LElementSize.small,
+                                shape: LElementShape.pill,
+                                type: LElementType.info,
                               ),
                               onPressed: () {},
-                              type: ButtonType.danger,
+                              type: LElementType.danger,
                             ),
                           ],
                         ),
@@ -577,12 +616,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               // backdrop: Colors.red.withOpacity(0.4),
                               elevation: 10.0,
                               trigger: LFlatButton.text(
-                                small: true,
                                 text: "Dropdown",
                                 onPressed: () {
                                   _dropdown.currentState.toggleDropdown();
                                 },
-                                type: ButtonType.warning,
+                                type: LElementType.warning,
                               ),
                               itemBuilder: (context) => [
                                 LDropdownItem.header(text: "Option 1"),
@@ -631,7 +669,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             LFlatButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.info,
+                              type: LElementType.info,
                             ),
                           ],
                         ),
@@ -640,14 +678,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             LFlatButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.dark,
-                              small: true,
+                              type: LElementType.dark,
                             ),
                             LFlatButton(
                               child: Icon(Icons.ac_unit),
                               onPressed: () {},
-                              type: ButtonType.light,
-                              buttonShape: ButtonShape.pill,
+                              type: LElementType.light,
+                              shape: LElementShape.pill,
                             ),
                           ],
                         ),
@@ -681,12 +718,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             LRaisedButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.primary,
+                              type: LElementType.primary,
                             ),
                             LRaisedButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.secondary,
+                              type: LElementType.secondary,
                             ),
                           ],
                         ),
@@ -700,12 +737,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     MaterialPageRoute(
                                         builder: (context) => FormPage()));
                               },
-                              type: ButtonType.success,
+                              type: LElementType.success,
                             ),
                             LRaisedButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.danger,
+                              type: LElementType.danger,
+                              size: LElementSize.small,
                             ),
                           ],
                         ),
@@ -714,13 +752,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             LRaisedButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.warning,
+                              type: LElementType.warning,
                             ),
                             LRaisedButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.info,
-                              buttonShape: ButtonShape.pill,
+                              type: LElementType.info,
+                              shape: LElementShape.pill,
                             ),
                           ],
                         ),
@@ -729,36 +767,20 @@ class _MyHomePageState extends State<MyHomePage> {
                             LRaisedButton.text(
                               text: "Hello",
                               onPressed: () {},
-                              type: ButtonType.dark,
+                              type: LElementType.dark,
                             ),
                             LRaisedButton.text(
                               text: "Hello",
                               onPressed: () {},
-                              type: ButtonType.dark,
+                              type: LElementType.dark,
                             ),
                             LRaisedButton.icon(
                               icon: Icon(Icons.ac_unit),
                               label: Text("Hello"),
                               onPressed: () {},
-                              type: ButtonType.light,
-                              buttonShape: ButtonShape.pill,
-                              small: true,
-                            ),
-                            LRaisedButton.icon(
-                              icon: Icon(Icons.ac_unit),
-                              label: Text("Hello"),
-                              onPressed: () {},
-                              type: ButtonType.light,
-                              buttonShape: ButtonShape.pill,
-                              small: true,
-                            ),
-                            LRaisedButton.icon(
-                              icon: Icon(Icons.ac_unit),
-                              label: Text("Hello"),
-                              onPressed: () {},
-                              type: ButtonType.light,
-                              buttonShape: ButtonShape.pill,
-                              small: true,
+                              type: LElementType.light,
+                              shape: LElementShape.pill,
+                              size: LElementSize.small,
                             ),
                           ],
                         ),
@@ -782,29 +804,21 @@ class _MyHomePageState extends State<MyHomePage> {
                         LColumn(
                           xs: 3,
                           children: <Widget>[
-                            LOutlineButton(
+                            OutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.primary,
+                              highlightedBorderColor: Colors.black,
                             ),
                             LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.secondary,
-                            ),
-                          ],
-                        ),
-                        LColumn(
-                          children: <Widget>[
-                            LOutlineButton(
-                              child: Text("hello"),
-                              onPressed: () {},
-                              type: ButtonType.success,
+                              type: LElementType.primary,
+                              size: LElementSize.large,
                             ),
                             LOutlineButton(
                               child: Text("hello"),
-                              onPressed: () {},
-                              type: ButtonType.danger,
+                              // onPressed: () {},
+                              type: LElementType.secondary,
                             ),
                           ],
                         ),
@@ -813,14 +827,28 @@ class _MyHomePageState extends State<MyHomePage> {
                             LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.warning,
-                              fillMode: FillMode.transparent,
-                              buttonShape: ButtonShape.pill,
+                              type: LElementType.success,
                             ),
                             LOutlineButton(
                               child: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.info,
+                              type: LElementType.danger,
+                            ),
+                          ],
+                        ),
+                        LColumn(
+                          children: <Widget>[
+                            LOutlineButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: LElementType.warning,
+                              // fillMode: FillMode.transparent,
+                              shape: LElementShape.pill,
+                            ),
+                            LOutlineButton(
+                              child: Text("hello"),
+                              onPressed: () {},
+                              type: LElementType.info,
                             ),
                           ],
                         ),
@@ -829,15 +857,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             LOutlineButton(
                               child: Text("Hello"),
                               onPressed: () {},
-                              type: ButtonType.dark,
+                              type: LElementType.dark,
                               fillMode: FillMode.transparent,
-                              buttonShape: ButtonShape.pill,
+                              shape: LElementShape.pill,
                             ),
                             LOutlineButton.icon(
                               icon: Icon(Icons.ac_unit),
                               label: Text("hello"),
                               onPressed: () {},
-                              type: ButtonType.light,
+                              type: LElementType.light,
                               direction: Axis.vertical,
                               // small: true,
                               fillMode: FillMode.transparent,
@@ -881,7 +909,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         LOutlineButton.text(
                           text: "Cancel",
                           onPressed: () {},
-                          type: ButtonType.primary,
+                          type: LElementType.primary,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10.0),
                           margin: const EdgeInsets.only(right: 5.0),
@@ -917,7 +945,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       title: "Hello",
                       child: LOutlineButton.text(
                         text: "welcome",
-                        type: ButtonType.dark,
+                        type: LElementType.dark,
                       ),
                     ),
                   ),

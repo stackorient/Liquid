@@ -1,23 +1,7 @@
 import 'package:flutter/material.dart';
+import 'theme_ext/theme_ext.dart';
 
 import '../../base/base.dart';
-
-enum BadgeType {
-  primary,
-  secondary,
-  success,
-  warning,
-  danger,
-  info,
-  light,
-  dark
-}
-
-enum BadgeShape {
-  standard,
-
-  pills
-}
 
 /// Creates a badge of Widget type
 class LBadge extends StatelessWidget {
@@ -26,15 +10,17 @@ class LBadge extends StatelessWidget {
   /// `primary`, `secondary`, `success`, `warning`,
   /// `danger`, `dark`, `info`, `light`, `dark`
   ///
-  /// see: [BadgeType]
-  final BadgeType type;
+  /// see: [LElementType]
+  final LElementType type;
+
+  final LElementSize size;
 
   /// defines the badge shape
   ///
-  /// `standard`, `pills`
+  /// `standard`, `pill`
   ///
-  /// see: [BadgeShape]
-  final BadgeShape shape;
+  /// see: [LElementShape]
+  final LElementShape shape;
 
   final Widget child;
 
@@ -47,6 +33,14 @@ class LBadge extends StatelessWidget {
   /// defines the background color of the badge
   final Color background;
 
+  final TextStyle textStyle;
+
+  final double iconSize;
+
+  final Color iconColor;
+
+  final BorderRadius radius;
+
   /// Creates a badge of Widget type
   ///
   ///
@@ -56,8 +50,8 @@ class LBadge extends StatelessWidget {
   ///
   /// ...
   /// LBadge(
-  ///   shape: BadgeShape.pills,
-  ///   type: BadgeType.info,
+  ///   shape: LElementShape.pill,
+  ///   type: LElementType.info,
   ///   child: Row(
   ///        mainAxisSize: MainAxisSize.min,
   ///        children: <Widget>[
@@ -85,61 +79,20 @@ class LBadge extends StatelessWidget {
   /// *`LBadge.icon()` holds for icon as child
   const LBadge({
     Key key,
-    this.type = BadgeType.primary,
-    this.shape = BadgeShape.standard,
+    this.type = LElementType.primary,
+    this.shape = LElementShape.standard,
     this.margin,
     this.padding,
     this.child,
     this.background,
+    this.textStyle,
+    this.iconColor,
+    this.iconSize,
+    this.size = LElementSize.normal,
+    this.radius,
   })  : assert(child != null),
+        assert(size != null),
         super(key: key);
-
-  List<Color> _getColors(LiquidThemeData themeData) {
-    final bg = themeData.badgeTheme.backgroundColors;
-    final tc = themeData.badgeTheme.textColors;
-
-    switch (type) {
-      case BadgeType.primary:
-        return [bg.primaryColor, tc.primaryColor];
-        break;
-      case BadgeType.secondary:
-        return [bg.secondaryColor, tc.secondaryColor];
-        break;
-      case BadgeType.success:
-        return [bg.success, tc.success];
-        break;
-      case BadgeType.danger:
-        return [bg.danger, tc.danger];
-        break;
-      case BadgeType.info:
-        return [bg.info, tc.info];
-        break;
-      case BadgeType.warning:
-        return [bg.warning, tc.warning];
-        break;
-      case BadgeType.light:
-        return [bg.light, tc.light];
-        break;
-      case BadgeType.dark:
-        return [bg.dark, tc.dark];
-        break;
-
-      default:
-        return [bg.primaryColor, tc.primaryColor];
-        break;
-    }
-  }
-
-  BorderRadius _getShape(LiquidThemeData themeData) {
-    switch (shape) {
-      case BadgeShape.pills:
-        return BorderRadius.circular(15.0);
-        break;
-      case BadgeShape.standard:
-      default:
-        return BorderRadius.circular(4.0);
-    }
-  }
 
   /// defines text instead of widget [child] in LBadge
   ///
@@ -154,28 +107,22 @@ class LBadge extends StatelessWidget {
   ///...
   ///```
   ///
-  factory LBadge.text(
+  LBadge.text(
     String text, {
-    TextStyle style,
-    BadgeType type,
-    BadgeShape shape,
-    EdgeInsets margin,
-    EdgeInsets padding,
-    Color background,
-  }) {
-    assert(text != null);
-    return LBadge(
-      type: type,
-      shape: shape,
-      margin: margin,
-      padding: padding,
-      background: background,
-      child: Text(
-        text,
-        style: style,
-      ),
-    );
-  }
+    Key key,
+    this.type = LElementType.primary,
+    this.shape = LElementShape.standard,
+    this.margin,
+    this.padding,
+    this.background,
+    this.textStyle,
+    this.iconColor,
+    this.iconSize,
+    this.size = LElementSize.normal,
+    this.radius,
+  })  : assert(text != null),
+        child = Text(text),
+        super(key: key);
 
   /// defines icon instead of widget [child] in LBadge
   ///
@@ -198,58 +145,63 @@ class LBadge extends StatelessWidget {
   ///```
   ///
   ///
-  factory LBadge.icon({
+  LBadge.icon({
+    Key key,
+    this.type = LElementType.primary,
+    this.shape = LElementShape.standard,
+    this.margin,
+    this.padding,
+    this.background,
     @required Widget icon,
     @required Widget label,
-    TextStyle style,
-    double iconSize,
-    Color color = Colors.white,
-    double spacing,
-    BadgeType type,
-    BadgeShape shape,
-    EdgeInsets margin,
-    EdgeInsets padding,
-    Color background,
-  }) {
-    assert(icon != null, label != null);
-    return LBadge(
-      type: type,
-      shape: shape,
-      margin: margin,
-      padding: padding,
-      background: background,
-      child: DefaultTextStyle(
-        style: (TextStyle(fontSize: 12.0) ?? style).withColor(color),
-        child: IconTheme(
-          data: IconThemeData.fallback()
-              .copyWith(color: color, size: iconSize ?? 16.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              icon,
-              SizedBox(width: spacing ?? 5.0),
-              label,
-            ],
-          ),
+    this.textStyle,
+    this.iconColor,
+    this.iconSize,
+    double spacing = 3.0,
+    this.radius,
+    this.size = LElementSize.normal,
+  })  : assert(icon != null, label != null),
+        assert(spacing != null && spacing >= 0.0),
+        child = Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            icon,
+            SizedBox(width: spacing),
+            label,
+          ],
         ),
-      ),
-    );
-  }
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = LiquidTheme.of(context);
-    final colors = _getColors(theme);
-    final _shape = _getShape(theme);
-    return Material(
-      color: background ?? colors[0],
-      borderRadius: _shape,
-      child: Container(
-        margin: margin ?? theme.badgeTheme.margin,
-        padding: padding ?? theme.badgeTheme.padding,
-        child: child,
+    final LiquidThemeData theme = LiquidTheme.of(context);
+    final badgeTheme = theme.badgeTheme;
+    final _contentColor = badgeTheme.getContentColor(type);
+    final _textStyle = theme.typographyTheme.small.withColor(_contentColor);
+    final _sizeFactor = LiquidThemeData().getElementSizeFactor(size);
+
+    return DefaultTextStyle(
+      style: textStyle ?? _textStyle.size(_textStyle.fontSize * _sizeFactor),
+      child: IconTheme(
+        data: IconThemeData(
+          color: iconColor ?? _contentColor,
+          size: iconSize ?? 16.0 * _sizeFactor,
+        ),
+        child: Container(
+          margin: margin ?? badgeTheme.margin * _sizeFactor,
+          padding: padding ?? badgeTheme.padding * _sizeFactor,
+          decoration: BoxDecoration(
+            color: background ?? theme.getTypeColor(type),
+            borderRadius: radius ??
+                theme.getElementShape(
+                  shape: shape,
+                  radius: badgeTheme.defaultRadius,
+                ),
+          ),
+          child: child,
+        ),
       ),
     );
   }

@@ -9,6 +9,115 @@ const kLGBreakPoint = 992.0;
 const kMDBreakPoint = 768.0;
 const kSMBreakPoint = 576.0;
 
+/// used in [LRow] for deciding the flex direction for the columns
+/// on each [LBreakPoint]
+class LRowAxis {
+  final Axis xs;
+  final Axis sm;
+  final Axis md;
+  final Axis lg;
+  final Axis xl;
+
+  /// used in [LRow] for deciding the flex direction for the columns
+  /// on each [LBreakPoint]
+  const LRowAxis({
+    this.xs = Axis.vertical,
+    this.sm = Axis.horizontal,
+    this.md = Axis.horizontal,
+    this.lg = Axis.horizontal,
+    this.xl = Axis.horizontal,
+  })  : assert(xs != null),
+        assert(sm != null),
+        assert(md != null),
+        assert(lg != null),
+        assert(xl != null);
+
+  const LRowAxis.all(Axis value)
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
+
+  const LRowAxis.aboveXS(Axis value)
+      : xs = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
+
+  const LRowAxis.aboveSM(Axis value)
+      : xs = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        sm = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        md = value,
+        lg = value,
+        xl = value;
+
+  const LRowAxis.aboveMD(Axis value)
+      : xs = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        sm = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        md = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        lg = value,
+        xl = value;
+
+  const LRowAxis.belowXL(Axis value)
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value == Axis.vertical ? Axis.horizontal : Axis.vertical;
+  const LRowAxis.belowLG(Axis value)
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        xl = value == Axis.vertical ? Axis.horizontal : Axis.vertical;
+
+  const LRowAxis.belowMD(Axis value)
+      : xs = value,
+        sm = value,
+        md = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        lg = value == Axis.vertical ? Axis.horizontal : Axis.vertical,
+        xl = value == Axis.vertical ? Axis.horizontal : Axis.vertical;
+
+  /// helper method for getting the active axis based on [LBreakPoint]
+  Axis getActiveAxis(LBreakPoint breakPoint) {
+    switch (breakPoint) {
+      case LBreakPoint.xl:
+        return xl;
+
+      case LBreakPoint.lg:
+        return lg;
+
+      case LBreakPoint.md:
+        return md;
+
+      case LBreakPoint.sm:
+        return sm;
+
+      case LBreakPoint.xs:
+      default:
+        return xs;
+    }
+  }
+
+  LRowAxis copyWith({
+    Axis xs,
+    Axis sm,
+    Axis md,
+    Axis lg,
+    Axis xl,
+  }) {
+    return LRowAxis(
+      xs: xs ?? this.xs,
+      sm: sm ?? this.sm,
+      md: md ?? this.md,
+      lg: lg ?? this.lg,
+      xl: xl ?? this.xl,
+    );
+  }
+}
+
 class LRowRaw extends Flex {
   final Axis direction;
 
@@ -65,6 +174,35 @@ class LColumnRaw extends Flex {
   final int xs, sm, md, lg, xl;
 }
 
+/// Creates a widget that builds according to breakpoint.
+///
+/// if `useMediaQuery` is `true`,
+/// Widget creation deferred until the layout.
+///
+/// if `useMediaQuery` is `false`,
+/// Widget creation not deferred until the layout.
+///
+/// **Note:** if builder is not defined for particular [BreakPoint]
+/// `onXS` builder will be used instead
+///
+/// The `onXS` argument must not be null.
+///
+/// =========================================
+///
+/// `onXS` builder for `xs` [LBreakPoint]
+///
+/// `onSM` builder for `sm` [LBreakPoint]
+///
+/// `onMD` builder for `md` [LBreakPoint]
+///
+/// `onLG` builder for `lg` [LBreakPoint]
+///
+/// `onXL` builder for `xl` [LBreakPoint]
+///
+/// See Also:
+///
+/// * [LBox], a class which uses [LResponsiveBuilder]
+///    to build its child on each [BreakPoint].
 class LResponsiveBuilder extends StatelessWidget {
   /// when `true`, [LResponsiveBuilder] will use Screen width instead of Parent Width
   /// for determining active [LBreakPoint]
@@ -157,6 +295,9 @@ class LResponsiveBuilder extends StatelessWidget {
   }
 }
 
+/// used in [LBox] and [LColumn] for `hiding (false)` or `showing(true)`
+/// of the child and children respectively
+/// on each [LBreakPoint]
 class LBoxVisibility {
   final bool xs;
   final bool sm;
@@ -179,60 +320,69 @@ class LBoxVisibility {
         assert(lg != null),
         assert(xl != null);
 
-  factory LBoxVisibility.all(bool value) => LBoxVisibility(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  LBoxVisibility.all(bool value)
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxVisibility.aboveXS(bool value) => LBoxVisibility(
-        xs: !value,
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  LBoxVisibility.aboveXS(bool value)
+      : xs = !value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxVisibility.aboveSM(bool value) => LBoxVisibility(
-        xs: !value,
-        sm: !value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  LBoxVisibility.aboveSM(bool value)
+      : xs = !value,
+        sm = !value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxVisibility.aboveMD(bool value) => LBoxVisibility(
-        xs: !value,
-        sm: !value,
-        md: !value,
-        lg: value,
-        xl: value,
-      );
+  LBoxVisibility.aboveMD(bool value)
+      : xs = !value,
+        sm = !value,
+        md = !value,
+        lg = value,
+        xl = value;
 
-  factory LBoxVisibility.belowXL(bool value) => LBoxVisibility(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-        xl: !value,
-      );
-  factory LBoxVisibility.belowLG(bool value) => LBoxVisibility(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: !value,
-        xl: !value,
-      );
+  LBoxVisibility.belowXL(bool value)
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = !value;
+  LBoxVisibility.belowLG(bool value)
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = !value,
+        xl = !value;
 
-  factory LBoxVisibility.belowMD(bool value) => LBoxVisibility(
-        xs: value,
-        sm: value,
-        md: !value,
-        lg: !value,
-        xl: !value,
-      );
+  LBoxVisibility.belowMD(bool value)
+      : xs = value,
+        sm = value,
+        md = !value,
+        lg = !value,
+        xl = !value;
+
+  LBoxVisibility copyWith({
+    bool xs,
+    bool sm,
+    bool md,
+    bool lg,
+    bool xl,
+  }) {
+    return LBoxVisibility(
+      xs: xs ?? this.xs,
+      sm: sm ?? this.sm,
+      md: md ?? this.md,
+      lg: lg ?? this.lg,
+      xl: xl ?? this.xl,
+    );
+  }
 }
 
 /// BreakPoint
@@ -377,7 +527,8 @@ class LColumn extends StatelessWidget {
   /// #### NOTE:
   /// * By `default`, each breakpoint value will be auto determined to take equal width.
   /// * If any breakpoint not specified in [LColumn], `mode` is ignored for that breakpoint.
-  /// * By `default`, columns are `vertical` on `xs` unless column has `xs` defined
+  /// * By `default`, columns are `vertical` on `xs`. To Change this use `axis` property of
+  ///   [LRow] to decide Columns rendering direction in [LRow]
   ///
   /// See Also:
   /// * [LRow], A Responsive Row that uses [LColumn] as its children
@@ -470,6 +621,16 @@ enum LGridMode {
 }
 
 class LRow extends StatelessWidget {
+  /// when `true`, [LResponsiveBuilder] will use Screen width instead of Parent Width
+  /// for determining active [LBreakPoint]
+  ///
+  /// default: `true`
+  ///
+  final bool useMediaQuery;
+
+  /// Direction in which columns should be render.
+  final LRowAxis axis;
+
   /// No. of columns allowed
   final int columnCount = _kColumnCount;
 
@@ -614,6 +775,8 @@ class LRow extends StatelessWidget {
   const LRow({
     Key key,
     this.columns = const <LColumn>[],
+    this.useMediaQuery = true,
+    this.axis = const LRowAxis(),
     // this.cols,
     this.gutter,
     this.margin,
@@ -629,6 +792,7 @@ class LRow extends StatelessWidget {
             "You need to add atleast one column to the LRow"),
         assert(columns.length <= _kColumnCount,
             "Only $_kColumnCount Columns are allowed in each LRow"),
+        assert(useMediaQuery != null),
         super(key: key);
 
   @override
@@ -636,6 +800,7 @@ class LRow extends StatelessWidget {
     return Container(
       margin: margin ?? EdgeInsets.symmetric(vertical: (gutter ?? 5) / 2),
       child: LResponsiveBuilder(
+        useMediaQuery: useMediaQuery,
         onXS: (context) => _buildChildrens(context, LBreakPoint.xs),
         onSM: (context) => _buildChildrens(context, LBreakPoint.sm),
         onMD: (context) => _buildChildrens(context, LBreakPoint.md),
@@ -670,15 +835,13 @@ class LRow extends StatelessWidget {
     }
   }
 
-  List<dynamic> _preProcess(LBreakPoint breakPoint) {
+  List<int> _preProcess(LBreakPoint breakPoint) {
     final List<int> bp = [];
-    bool _ = false;
     columns.forEach((element) {
       bp.add(_getFlex(element, breakPoint));
-      if (!_) _ = element.xs != null;
     });
 
-    return [bp, _];
+    return bp;
   }
 
   List<int> _fillEmpty(List<int> bps) {
@@ -763,10 +926,9 @@ class LRow extends StatelessWidget {
   Widget _buildChildrens(BuildContext context, LBreakPoint breakPoint) {
     int currentIndex = 0;
     final _processed = _preProcess(breakPoint);
-    final _flexes = _fillEmpty(_processed[0] as List<int>);
+    final _flexes = _fillEmpty(_processed);
 
-    final vertical =
-        _processed[1] ? false : (breakPoint == LBreakPoint.xs ? true : false);
+    final vertical = axis.getActiveAxis(breakPoint) == Axis.vertical;
     final lastchild = columns.last;
     final firstChild = columns.first;
     return LRowRaw(

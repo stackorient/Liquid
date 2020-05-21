@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-const Duration _kUnconfirmedSplashDuration = const Duration(milliseconds: 450);
-const Duration _kSplashFadeDuration = const Duration(milliseconds: 650);
+const Duration _kUnconfirmedSplashDuration = const Duration(milliseconds: 600);
+const Duration _kSplashFadeDuration = const Duration(milliseconds: 730);
 
 const double _kSplashInitialSize = 0.0; // logical pixels
-const double _kSplashConfirmedVelocity = 0.28;
+const double _kSplashConfirmedVelocity = 0.35;
 
-class LFastSplashFactory extends InteractiveInkFeatureFactory {
-  const LFastSplashFactory();
+class LSmoothSplashFactory extends InteractiveInkFeatureFactory {
+  const LSmoothSplashFactory();
 
   @override
   InteractiveInkFeature create({
@@ -42,7 +42,7 @@ class _CustomSplash extends InteractiveInkFeature {
   /// Used to specify this type of ink splash for an [InkWell], [InkResponse]
   /// or material [Theme].
   static const InteractiveInkFeatureFactory splashFactory =
-      const LFastSplashFactory();
+      const LSmoothSplashFactory();
 
   /// Begin a splash, centered at position relative to [referenceBox].
   ///

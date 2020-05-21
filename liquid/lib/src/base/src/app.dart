@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liquid/src/base/src/ltext/ltext.dart';
 
 import 'liquid_splash_factory.dart';
 import 'liquid_theme.dart';
@@ -37,6 +38,7 @@ class LiquidApp extends StatelessWidget {
     this.debugShowCheckedModeBanner = true,
     this.shortcuts,
     this.actions,
+    this.styleSheet = const {},
   })  : assert(routes != null),
         assert(navigatorObservers != null),
         assert(title != null),
@@ -46,12 +48,52 @@ class LiquidApp extends StatelessWidget {
         assert(checkerboardOffscreenLayers != null),
         assert(showSemanticsDebugger != null),
         assert(debugShowCheckedModeBanner != null),
+        assert(styleSheet != null),
         super(key: key);
 
   final GlobalKey<NavigatorState> navigatorKey;
 
   final LiquidThemeData liquidTheme;
   final LiquidThemeData liquidDarkTheme;
+
+  /// App wide StyleSheet for [LText]
+  ///
+  ///**By Default Liquid provides some common styleClasses**
+  ///
+  ///**Available styleClasses**
+  ///* `bold`
+  ///* `italic`
+  ///* `underline`
+  ///* `strikethrough`
+  ///* `overline`
+  ///* `capitalize`
+  ///* `uppercase`
+  ///* `lowercase`
+  ///* `trim`
+  ///* `trim-left`
+  ///* `trim-right`
+  ///* `color(hex=hex_color)`
+  ///* `highlight(hex=hex_color)`
+  ///* `h1`
+  ///* `h2`
+  ///* `h3`
+  ///* `h4`
+  ///* `h5`
+  ///* `h6`
+  ///* `small`
+  ///* `p`
+  ///* `display1`
+  ///* `display2`
+  ///* `display3`
+  ///* `display4`
+  ///* `lead`
+  ///* `blockquote`
+  ///
+  /// **Example:** Hello, World with `World` in `bold` and `dodgerblue color`
+  /// ```dart
+  ///  LText("Hello, \l.bold.color(hex=#0980ff){Liquid}")
+  /// ```
+  final Map<String, LStyleBlock> styleSheet;
 
   /// {@macro flutter.widgets.widgetsApp.home}
   final Widget home;
@@ -367,7 +409,7 @@ class LiquidApp extends StatelessWidget {
   /// ```
   /// {@end-tool}
   /// {@macro flutter.widgets.widgetsApp.actions.seeAlso}
-  final Map<LocalKey, ActionFactory> actions;
+  final Map<Type, Action<Intent>> actions;
 
   /// Turns on a [GridPaper] overlay that paints a baseline grid
   /// Material apps.
@@ -384,37 +426,46 @@ class LiquidApp extends StatelessWidget {
     return LiquidStateManager(
       child: LiquidTheme(
         theme: liquidTheme,
-        child: MaterialApp(
-          navigatorKey: navigatorKey,
-          home: home,
-          routes: routes,
-          initialRoute: initialRoute,
-          onGenerateRoute: onGenerateRoute,
-          onGenerateInitialRoutes: onGenerateInitialRoutes,
-          onUnknownRoute: onUnknownRoute,
-          navigatorObservers: navigatorObservers,
-          builder: builder,
-          title: title,
-          onGenerateTitle: onGenerateTitle,
-          color: color,
-          theme: Theme.of(context).copyWith(
-            splashFactory: LFastSplashFactory(),
+        child: LTextStyleProvider(
+          styleMap: {
+            ...kLiquidDefaultStyleSheet,
+            ...buildTypographyStyleBlocks(liquidTheme.typographyTheme),
+            ...styleSheet,
+          },
+          child: MaterialApp(
+            navigatorKey: navigatorKey,
+            home: home,
+            routes: routes,
+            initialRoute: initialRoute,
+            onGenerateRoute: onGenerateRoute,
+            onGenerateInitialRoutes: onGenerateInitialRoutes,
+            onUnknownRoute: onUnknownRoute,
+            navigatorObservers: navigatorObservers,
+            builder: builder,
+            title: title,
+            onGenerateTitle: onGenerateTitle,
+            color: color,
+            theme: (theme ?? Theme.of(context)).copyWith(
+              splashFactory: LSmoothSplashFactory(),
+            ),
+            darkTheme: (darkTheme ?? Theme.of(context)).copyWith(
+              splashFactory: LSmoothSplashFactory(),
+            ),
+            themeMode: themeMode,
+            locale: locale,
+            localizationsDelegates: localizationsDelegates,
+            localeListResolutionCallback: localeListResolutionCallback,
+            localeResolutionCallback: localeResolutionCallback,
+            supportedLocales: supportedLocales,
+            debugShowMaterialGrid: debugShowMaterialGrid,
+            showPerformanceOverlay: showPerformanceOverlay,
+            checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+            checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+            showSemanticsDebugger: showSemanticsDebugger,
+            debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+            shortcuts: shortcuts,
+            actions: actions,
           ),
-          darkTheme: darkTheme,
-          themeMode: themeMode,
-          locale: locale,
-          localizationsDelegates: localizationsDelegates,
-          localeListResolutionCallback: localeListResolutionCallback,
-          localeResolutionCallback: localeResolutionCallback,
-          supportedLocales: supportedLocales,
-          debugShowMaterialGrid: debugShowMaterialGrid,
-          showPerformanceOverlay: showPerformanceOverlay,
-          checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-          checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-          showSemanticsDebugger: showSemanticsDebugger,
-          debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-          shortcuts: shortcuts,
-          actions: actions,
         ),
       ),
     );

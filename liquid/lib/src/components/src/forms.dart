@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../../core.dart';
+import '../../core/core.dart';
+
+/// An Effecient way for getting [LFormState]
+///
+/// Instead of using GlobalKey to access FormState use [LFormManager]
+///
+///
+class LFormManager {
+  LFormState _formState;
+  _setup(LFormState formState) => _formState = formState;
+
+  LFormState get formState => _formState;
+}
 
 /// Creates a container for form fields.
 ////// An optional container for grouping together multiple form field widgets
@@ -25,38 +37,43 @@ class LForm extends StatefulWidget {
   /// ![](https://flutter.github.io/assets-for-api-docs/assets/widgets/form.png)
   ///
   /// ```dart
-  /// final _formKey = GlobalKey<FormState>();
+  /// final _manager = FormManager(); // An effecient replacement of GlobalKey<LFormState>
   ///
   /// @override
   /// Widget build(BuildContext context) {
-  ///   return Form(
-  ///     key: _formKey,
+  ///   return LForm(
+  ///     manager: _manager,
   ///     child: Column(
   ///       crossAxisAlignment: CrossAxisAlignment.start,
   ///       children: <Widget>[
-  ///         TextFormField(
+  ///         LTextFormField(
+  ///           name: "email", // for serialization
   ///           decoration: const InputDecoration(
   ///             hintText: 'Enter your email',
   ///           ),
-  ///           validator: (value) {
-  ///             if (value.isEmpty) {
-  ///               return 'Please enter some text';
-  ///             }
-  ///             return null;
-  ///           },
+  ///           initialValue: 'xyz@xyz.com',
+  ///           validators: [
+  ///             LRequiredValidator(),
+  ///             LEmailValidator(
+  ///                 invalidMessage: "Please enter correct email address")
+  ///           ],
   ///         ),
-  ///         Padding(
-  ///           padding: const EdgeInsets.symmetric(vertical: 16.0),
-  ///           child: RaisedButton(
-  ///             onPressed: () {
-  ///               // Validate will return true if the form is valid, or false if
-  ///               // the form is invalid.
-  ///               if (_formKey.currentState.validate()) {
-  ///                 // Process data.
-  ///               }
-  ///             },
-  ///             child: Text('Submit'),
-  ///           ),
+  ///         LRaisedButton.text(
+  ///           text: "Submit",
+  ///           margin: const EdgeInsets.symmetric(vertical: 16.0),
+  ///           onPressed: () {
+  ///             // Validate will return true if the form is valid, or false if
+  ///             // the form is invalid.
+  ///
+  ///             print(_manager.formState.isDirty); // print if form is dirty
+  ///
+  ///             if (_manager.formState.validate()) {
+  ///               // Get Serialized Data
+  ///               final data = _manager.formState.serialize();
+  ///               print(data); // {'email': 'xyz@xyz.com'}
+  ///
+  ///             }
+  ///           },
   ///         ),
   ///       ],
   ///     ),
@@ -67,18 +84,22 @@ class LForm extends StatefulWidget {
   ///
   /// See also:
   ///
-  ///  * [GlobalKey], a key that is unique across the entire app.
+  ///  * [LFormManager], an effecient replacement of [GlobalKey<LFormState>]
   ///  * [LFormField], a single form field widget that maintains the current state.
   ///  * [LTextFormField], a convenience widget that wraps a [TextField] widget in a [LFormField].
-
   const LForm({
     Key key,
     @required this.child,
+    this.manager,
     this.autovalidate = false,
     this.onWillPop,
     this.onChanged,
+    this.onSubmit,
   })  : assert(child != null),
         super(key: key);
+
+  /// Use this instead of [GlobalKey<LFormState>] for accessing [LFormState]
+  final LFormManager manager;
 
   /// Returns the closest [LFormState] which encloses the given context.
   ///
@@ -124,8 +145,15 @@ class LForm extends StatefulWidget {
   /// will rebuild.
   final VoidCallback onChanged;
 
+  /// Called when form is submitted
+  final VoidCallback onSubmit;
+
   @override
-  LFormState createState() => LFormState();
+  LFormState createState() {
+    final state = LFormState();
+    if (manager != null) manager._setup(state);
+    return state;
+  }
 }
 
 /// State associated with a [LForm] widget.
@@ -147,10 +175,28 @@ class LFormState extends State<LForm> {
     _submitted = false;
   }
 
+  /// True if the form has not been modified.
   bool get isPristine => !_dirty;
+
+  /// True if the form has been modified.
   bool get isDirty => _dirty;
+
+  /// True if the current values are valid.
+  /// change when [validate] method is called
+  ///
+  /// **PRO tip**: Use this instead on `validate` when `autovalidate` is
+  /// enabled
   bool get isValid => _valid;
+
+  /// True if the current values are invalid.
+  /// change when [validate] method is called
+  ///
+  /// **PRO tip**: Use this instead on `validate` when `autovalidate` is
+  /// enabled
   bool get isInvalid => _valid != null ? !_valid : null;
+
+  /// True if the current value is invalid.
+  /// change when [validate] method is called
   bool get isSubmitted => _submitted;
 
   final Set<LFormFieldState<dynamic>> _fields = <LFormFieldState<dynamic>>{};
@@ -224,6 +270,15 @@ class LFormState extends State<LForm> {
     for (final LFormFieldState<dynamic> field in _fields) field.save();
   }
 
+  /// Submit [LFormField], this will make `isSubmitted` flag to true
+  /// and calls `onSubmit` of [LForm]
+  void submit() {
+    setState(() {
+      _submitted = true;
+    });
+    if (widget.onSubmit != null) widget.onSubmit();
+  }
+
   /// Resets every [LFormField] that is a descendant of this [LForm] back to its
   /// [LFormField.initialValue].
   ///
@@ -234,6 +289,7 @@ class LFormState extends State<LForm> {
   void reset() {
     for (final LFormFieldState<dynamic> field in _fields) field.reset();
     _valid = null;
+    _submitted = false;
     _fieldDidChange(dirty: false);
   }
 
@@ -397,16 +453,19 @@ class LFormField<T> extends StatefulWidget {
 /// The current state of a [LFormField]. Passed to the [LFormFieldBuilder] method
 /// for use in constructing the form field's widget.
 class LFormFieldState<T> extends State<LFormField<T>> {
+  bool _enabled;
   T _value;
   String _errorText;
   bool _dirty;
   bool _valid;
   bool _touched;
 
-  /// True if the field has not been modified yet.
+  bool get isEnabled => _enabled;
+
+  /// True if the field has not been modified.
   bool get isPristine => !_dirty;
 
-  /// True if the field has been modified yet.
+  /// True if the field has been modified.
   bool get isDirty => _dirty;
 
   /// True if the current value is valid.
@@ -562,6 +621,7 @@ class LFormFieldState<T> extends State<LFormField<T>> {
   void initState() {
     super.initState();
     _value = widget.initialValue;
+    _enabled = widget.enabled;
     _dirty = false;
     _touched = false;
   }
@@ -572,10 +632,22 @@ class LFormFieldState<T> extends State<LFormField<T>> {
     super.deactivate();
   }
 
+  void disable() {
+    setState(() {
+      _enabled = false;
+    });
+  }
+
+  void enable() {
+    setState(() {
+      _enabled = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Only autovalidate if the widget is also enabled
-    if (widget.autovalidate && widget.enabled) _validate();
+    if (widget.autovalidate && _enabled) _validate();
     LForm.of(context)?._register(this);
     return widget.builder(this);
   }

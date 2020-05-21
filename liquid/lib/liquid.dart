@@ -1,5 +1,5 @@
 library liquid;
 
-export 'base.dart';
-export 'components.dart';
-export 'core.dart';
+export 'src/base/base.dart';
+export 'src/components/components.dart';
+export 'src/core/core.dart';

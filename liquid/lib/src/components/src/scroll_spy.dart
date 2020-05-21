@@ -1,16 +1,26 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
+/// A Controller for [LScrollSpy] which is necessary to handle scroll
+/// position or scrolling to a particular child id
 class ScrollSpyController extends ScrollController {
+  /// Duration in which [ScrollSpy] move from one child to another
   final Duration duration;
+
+  /// Scroll animation curve
   final Curve curve;
-  double Function(int) _lengthHandler;
+
+  /// [ScrollSpy] child height
+  double Function(int index, String id) _lengthHandler;
+
+  /// [ScrollSpy] childs ids for determinig child position
   List<String> _uniqueIdList;
 
   List<double> _heightList;
 
   String _activeId;
 
+  /// Currently active [ScrollSpy]'s child id
   String get activeID => _activeId;
 
   ScrollSpyController({
@@ -33,7 +43,7 @@ class ScrollSpyController extends ScrollController {
     _heightList = [];
     for (int i = 0; i < _uniqueIdList.length; i++) {
       _heightList.add(_offset);
-      _offset += _lengthHandler(i);
+      _offset += _lengthHandler(i, _uniqueIdList[i]);
     }
   }
 
@@ -61,13 +71,21 @@ class ScrollSpyController extends ScrollController {
   }
 }
 
-class ScrollSpy extends StatelessWidget {
-  final Duration duration;
-  final Curve curve;
+/// [LScrollSpy] can help in tracking certain elements and
+/// which element the user's screen is currently centered on.
+///
+/// ### Example
+/// In this example we are will update the button color when a
+///  certain element comes in view
+///
+/// ```dart
+///
+/// ```
+class LScrollSpy extends StatelessWidget {
   final ScrollSpyController controller;
   final List<String> uniqueIdList;
   final double itemExtent;
-  final double Function(int) itemLengthBuilder;
+  final double Function(int, String) itemLengthBuilder;
   final Widget Function(BuildContext, int) itemBuilder;
   final int itemCount;
   final bool addAutomaticKeepAlives;
@@ -84,13 +102,11 @@ class ScrollSpy extends StatelessWidget {
 
   final DragStartBehavior dragStartBehavior;
 
-  const ScrollSpy({
+  const LScrollSpy({
     Key key,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     @required this.controller,
-    this.duration,
-    this.curve,
     this.primary,
     this.physics,
     this.shrinkWrap = false,
@@ -110,10 +126,11 @@ class ScrollSpy extends StatelessWidget {
         assert(itemCount != null),
         assert(uniqueIdList.length == itemCount),
         assert(controller != null),
+        assert(itemLengthBuilder != null),
         super(key: key);
 
   Widget _builder(BuildContext context, int index) {
-    final _length = itemLengthBuilder(index);
+    final _length = itemLengthBuilder(index, uniqueIdList[index]);
 
     return Container(
       height: scrollDirection == Axis.vertical ? _length : null,
