@@ -69,7 +69,7 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
               controller: _controller,
               uniqueIdList: ids,
               itemBuilder: _buildItem,
-              itemLengthBuilder: (index, id) {
+              itemExtentBuilder: (index, id) {
                 final md = MediaQuery.of(context);
                 if (md.isXL) {
                   return 305.0;

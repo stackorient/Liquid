@@ -11,8 +11,9 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   LFormManager manager = LFormManager();
-  ScrollSpyController _controller = ScrollSpyController();
+  ScrollSpyController _controller;
   List<String> ids = ["0", "1", "2", "3", "4", "5"];
+  String activeId;
 
   String link = '';
   Timer _t;
@@ -25,6 +26,15 @@ class _FormPageState extends State<FormPage> {
         link = 'link(href=https://google.com)';
       });
     });
+
+    _controller = ScrollSpyController()
+      ..addListener(() {
+        setState(() {
+          activeId = _controller.activeID;
+        });
+      });
+
+    activeId = _controller.activeID;
   }
 
   @override
@@ -38,58 +48,46 @@ class _FormPageState extends State<FormPage> {
             LText(
               "Helo \l.h1.capitalize.bold{jai hind with ${4 + 32}} and hello \l.color(hex=#f10435){raju}",
             ),
-            Container(
-              width: 400.0,
-              height: 300.0,
-              color: Colors.black38,
-              child: LRow(
-                useMediaQuery: false,
-                axis: LRowAxis(xs: Axis.horizontal),
-                columns: [
-                  LColumn(
-                    sm: 2,
-                    children: [
-                      LFlatButton.text(
-                        text: "First",
-                        onPressed: () => _controller.scrollTo(ids[0]),
-                      ),
-                      LFlatButton.text(
-                        text: "Second",
-                        onPressed: () => _controller.scrollTo(ids[1]),
-                      ),
-                      LFlatButton.text(
-                        text: "Third",
-                        onPressed: () => _controller.scrollTo(ids[2]),
-                      ),
-                      LFlatButton.text(
-                        text: "Fourth",
-                        onPressed: () => _controller.scrollTo(ids[3]),
-                      ),
-                      LFlatButton.text(
-                        text: "Fifth",
-                        onPressed: () => _controller.scrollTo(ids[4]),
-                      ),
-                      LFlatButton.text(
-                        text: "Sixth",
-                        onPressed: () => _controller.scrollTo(ids[5]),
-                      ),
-                    ],
-                  ),
-                  LColumn(
-                    sm: 10,
-                    xl: 10,
-                    children: [
-                      LScrollSpy(
-                          controller: _controller,
-                          uniqueIdList: ids,
-                          itemBuilder: (context, index) => Container(
-                                color: Colors.blue[(index + 2) * 100],
-                              ),
-                          itemLengthBuilder: (index, id) => 200.0,
-                          itemCount: ids.length),
-                    ],
-                  )
-                ],
+            LCard(
+              width: 450.0,
+              body: LCardBody(
+                child: LRow(
+                  useMediaQuery: false,
+                  axis: LRowAxis(xs: Axis.horizontal),
+                  columns: [
+                    LColumn(
+                      xs: 3,
+                      children: [
+                        for (final id in ids)
+                          LFlatButton.text(
+                            text: (int.parse(id) + 1).toString(),
+                            type: activeId == id
+                                ? LElementType.warning
+                                : LElementType.primary,
+                            onPressed: () => _controller.scrollTo(id),
+                          )
+                      ],
+                    ),
+                    LColumn(
+                      children: [
+                        Container(
+                          height: 270.0,
+                          child: LScrollSpy(
+                              controller: _controller,
+                              uniqueIdList: ids,
+                              itemBuilder: (context, index) => Container(
+                                    color: Colors.blue[(index + 2) * 100],
+                                    alignment: Alignment.center,
+                                    child: LText(" \l.h1{ ${index + 1} }"),
+                                  ),
+                              itemExtent: 270.0,
+                              itemExtentBuilder: null,
+                              itemCount: ids.length),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
             LForm(
