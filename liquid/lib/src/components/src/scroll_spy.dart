@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 /// A Controller for [LScrollSpy] which is necessary to handle scroll
 /// position or scrolling to a particular child id
-class ScrollSpyController extends ScrollController {
+class LScrollSpyController extends ScrollController {
   /// Duration in which [ScrollSpy] move from one child to another
   final Duration duration;
 
@@ -23,7 +23,7 @@ class ScrollSpyController extends ScrollController {
   /// Currently active [ScrollSpy]'s child id
   String get activeID => _activeId;
 
-  ScrollSpyController({
+  LScrollSpyController({
     this.duration = const Duration(milliseconds: 350),
     this.curve = Curves.fastLinearToSlowEaseIn,
     double initialScrollOffset = 0.0,
@@ -143,12 +143,16 @@ typedef ItemExtentBuilder = double Function(int, String);
 ///
 ///...
 /// ```
+///
+/// See Also:
+/// * [LScrollSpyController], A Controller for [LScrollSpy] which is necessary
+///  to handle scroll position or scrolling to a particular child id
 class LScrollSpy extends StatelessWidget {
   /// [LScrollSpyController] will handle the state of
   /// [LScrollSpy], listen to this to get `activeID` (child's id)
   ///
   /// * use `scrollTo` method to scroll to a particular child
-  final ScrollSpyController controller;
+  final LScrollSpyController controller;
 
   /// Each child in [LScrollSpy] is uniquely determined by these `id`
   ///

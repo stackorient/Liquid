@@ -22,7 +22,7 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
 
   String _activeID = 'one';
 
-  final ScrollSpyController _controller = ScrollSpyController();
+  final LScrollSpyController _controller = LScrollSpyController();
 
   void _scrollTo(String id) {
     _controller.scrollTo(id);

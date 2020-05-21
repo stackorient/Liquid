@@ -11,7 +11,7 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   LFormManager manager = LFormManager();
-  ScrollSpyController _controller;
+  LScrollSpyController _controller;
   List<String> ids = ["0", "1", "2", "3", "4", "5"];
   String activeId;
 
@@ -27,7 +27,7 @@ class _FormPageState extends State<FormPage> {
       });
     });
 
-    _controller = ScrollSpyController()
+    _controller = LScrollSpyController()
       ..addListener(() {
         setState(() {
           activeId = _controller.activeID;
