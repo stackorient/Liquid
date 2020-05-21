@@ -27,7 +27,7 @@ class _FormPageState extends State<FormPage> {
       });
     });
 
-    _controller = LScrollSpyController()
+    _controller = LScrollSpyController(activeCheckOffset: 150.0)
       ..addListener(() {
         setState(() {
           activeId = _controller.activeID;
@@ -80,7 +80,7 @@ class _FormPageState extends State<FormPage> {
                                     alignment: Alignment.center,
                                     child: LText(" \l.h1{ ${index + 1} }"),
                                   ),
-                              itemExtent: 270.0,
+                              itemExtent: 230.0,
                               itemExtentBuilder: null,
                               itemCount: ids.length),
                         ),

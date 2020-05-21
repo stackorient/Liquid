@@ -20,6 +20,12 @@ class LScrollSpyController extends ScrollController {
 
   String _activeId;
 
+  /// The minimum distance from the next
+  /// child for which `activeID` should be updated
+  ///
+  /// default: `20.0`
+  final double activeCheckOffset;
+
   /// Currently active [ScrollSpy]'s child id
   String get activeID => _activeId;
 
@@ -29,10 +35,12 @@ class LScrollSpyController extends ScrollController {
     double initialScrollOffset = 0.0,
     bool keepScrollOffset = true,
     String debugLabel,
+    this.activeCheckOffset = 20.0,
   })  : assert(initialScrollOffset != null),
         assert(keepScrollOffset != null),
         assert(duration != null),
         assert(curve != null),
+        assert(activeCheckOffset != null),
         super(
             initialScrollOffset: initialScrollOffset,
             keepScrollOffset: keepScrollOffset,
@@ -54,7 +62,7 @@ class LScrollSpyController extends ScrollController {
   }
 
   bool _onScroll(ScrollNotification notification) {
-    final _offset = notification.metrics.pixels + 20.0;
+    final _offset = notification.metrics.pixels + activeCheckOffset;
 
     for (int i = 0; i < _heightList.length; i++) {
       final _firstOffset = _heightList[i];
