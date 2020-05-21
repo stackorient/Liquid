@@ -143,7 +143,7 @@ typedef ItemExtentBuilder = double Function(int, String);
 ///                       alignment: Alignment.center,
 ///                       child: LText(" \l.h1{ ${index + 1} }"),
 ///                     ),
-///                 itemLengthBuilder: (index, id) => 270.0,
+///                 itemExtentBuilder: (index, id) => 270.0,
 ///                 itemCount: ids.length),
 ///            ),
 ///          ],
