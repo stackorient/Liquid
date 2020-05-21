@@ -3,6 +3,7 @@ import 'buttons.dart';
 
 import '../../base/base.dart';
 
+/// Heading for [LAlert]
 class LAlertHeading extends StatelessWidget {
   final String text;
   final TextStyle style;

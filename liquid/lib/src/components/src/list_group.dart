@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../base/base.dart';
 
-///The most basic list group is an unordered list with list items [LListItem]
-/// and the proper classes.
+/// A Wrapper around [ListTile] to get additional features
 class LListItem extends StatelessWidget {
   ///Add widget at the left-most position of [LListItem].
   final Widget leading;

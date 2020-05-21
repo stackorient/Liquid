@@ -2,21 +2,98 @@ import 'package:flutter/material.dart';
 
 import '../../base/base.dart';
 
+/// An expansion panel. It has a `title`, `leading`, `subtitle`, `caption`  and a `collapseChild` and can be either
+/// expanded or collapsed. The body of the panel is only visible when it is
+/// expanded.
+///
+/// [LExpansionPanel] is built using [LCollapse] and [ListTile]
+///
+/// See Also:
+/// * [LCollapse], A Collapsable widget that is hidden when collapsed
 class LExpansionPanel extends StatefulWidget {
+  /// Collapsing duration
   final Duration duration = const Duration(milliseconds: 200);
+
+  /// A widget that should be render on top left corner of
+  /// [LExpansionPanel] body or above `leading`/ `title`
+  ///
+  /// Generally an [LBadge]
+  ///
   final Widget caption;
+
+  /// Add widget at the left-most position of [LExpansionPanel]
   final Widget leading;
+
+  /// text widget for the `title` position
   final Widget title;
+
+  /// style for the `title`
+  ///
+  /// default: [LiquidCollapseTheme.titleStyle] of [LiquidTheme]
   final TextStyle titleStyle;
+
+  /// A widget for the `subtitle` position
   final Widget subtitle;
+
+  /// text style for the `subtitle`
+  ///
+  /// default: [LiquidCollapseTheme.subtitleStyle] of [LiquidTheme]
   final TextStyle subTitleStyle;
+
+  /// Spacing inside the [LExpansionPanel]
   final EdgeInsets padding;
+
+  /// Background color of [LExpansionPanel]
   final Color background;
+
+  /// [LExpansionPanel]'s radius
   final double radius;
+
+  /// A child which is collapsable
   final Widget collapseChild;
+
+  /// background color of the collapsable child body
   final Color collapseBackground;
+
+  /// Shadow below the [LExpansionPanel]
   final double elevation;
 
+  /// Whether this [LExpansionPanel] initially collapsed
+  ///
+  /// default: `true`
+  final bool initiallyCollapsed;
+
+  /// Border around the [LExpansionPanel]
+  final BorderSide borderSide;
+
+  /// An expansion panel. It has a `title`, `leading`, `subtitle`, `caption`  and a `collapseChild` and can be either
+  /// expanded or collapsed. The body of the panel is only visible when it is
+  /// expanded.
+  ///
+  /// ### Example
+  /// ```dart
+  /// LExpansionPanel(
+  ///   caption: LBadge.icon(
+  ///     icon: Icon(Icons.warning),
+  ///     label: Text("Latest"),
+  ///     type: LElementType.warning,
+  ///     size: LElementSize.small,
+  ///   ),
+  ///   leading: CircleAvatar(
+  ///     backgroundColor: Colors.black45,
+  ///   ),
+  ///   title: Text("Liquid for flutter"),
+  ///   subtitle: Text("Get the latest information"),
+  ///   collapseChild: Center(
+  ///     child: LFlatButton.text(text: "This was collapsed."),
+  ///   ),
+  /// ),
+  /// ```
+  ///
+  /// [LExpansionPanel] is built using [LCollapse] and [ListTile]
+  ///
+  /// See Also:
+  /// * [LCollapse], A Collapsable widget that is hidden when collapsed
   const LExpansionPanel({
     Key key,
     this.padding,
@@ -28,9 +105,11 @@ class LExpansionPanel extends StatefulWidget {
     this.subTitleStyle,
     this.background = Colors.white,
     this.radius,
-    this.elevation = 6.0,
+    this.elevation = 3.0,
     @required this.collapseChild,
     this.collapseBackground = Colors.white,
+    this.initiallyCollapsed,
+    this.borderSide,
   })  : assert(collapseChild != null),
         super(key: key);
 
@@ -41,7 +120,7 @@ class LExpansionPanel extends StatefulWidget {
 class _LExpansionPanelState extends State<LExpansionPanel>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
-  bool _isCollapsed = true;
+  bool _isCollapsed;
   GlobalKey<LCollapseState> _collapseKey = GlobalKey<LCollapseState>();
 
   @override
@@ -51,6 +130,7 @@ class _LExpansionPanelState extends State<LExpansionPanel>
       vsync: this,
       duration: widget.duration,
     );
+    _isCollapsed = widget.initiallyCollapsed ?? true;
   }
 
   @override
@@ -63,6 +143,7 @@ class _LExpansionPanelState extends State<LExpansionPanel>
       color: widget.collapseBackground,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(widget.radius ?? 10.0),
+        side: widget.borderSide ?? BorderSide.none,
       ),
       child: Column(
         children: <Widget>[
@@ -163,15 +244,70 @@ class _LExpansionPanelState extends State<LExpansionPanel>
   }
 }
 
+/// A widget that can toggle the visibility of content/child
+/// and can be controlled programmatically
+///
+/// See Also:
+/// * [LExpansionPanel], An expansion panel built using [LCollapse]
 class LCollapse extends StatefulWidget {
+  /// Collapsing animation duration
   final Duration duration;
+
+  /// Collapsing animation curve
   final Curve curve;
+
+  /// Spacing around the child of [LCollapse]
   final EdgeInsets padding;
+
+  /// Note: this is a utility for decoration border radius
   final double radius;
+
+  /// widget that can be collapsed
   final Widget child;
+
+  /// background color of the collapsable
+  ///
+  /// Note: this is a utility for decoration color
   final Color background;
+
+  /// decoration for the [LCollapse]
   final Decoration decoration;
 
+  /// A widget that can toggle the visibility of content
+  /// and can be controlled programmatically
+  ///
+  /// ### Example:
+  /// A collapsable section which can be collapse/uncollapse
+  /// using a button press
+  ///
+  /// ```dart
+  /// final GlobalKey<LCollapseState> _collapseKey = GlobalKey<LCollapseState>();
+  ///
+  /// LFlatButton.text(
+  ///   text: "Toggle Collapse",
+  ///   onPressed: () {
+  ///     if (_collapseKey.currentState.isCollapsed)
+  ///       _collapseKey.currentState.open();
+  ///     else
+  ///       _collapseKey.currentState.close();
+  ///   }
+  /// )
+  ///
+  /// ...
+  ///
+  /// child: LCollapse(
+  ///   key: _collapseKey,
+  ///   // duration: Duration(seconds: 10),
+  ///   child: Center(
+  ///     child: LText("Hey I am \l.uppercase.bold{visible} now...")
+  ///   ),
+  ///   background: Colors.green[300],
+  /// ),
+  ///
+  /// ```
+  ///
+  /// See Also:
+  /// * [LExpansionPanel], An expansion panel built using [LCollapse]
   const LCollapse({
     @required Key key,
     this.padding,
@@ -225,8 +361,10 @@ class LCollapseState extends State<LCollapse>
     );
   }
 
+  /// check if [LCollapse] is currently in collapsed state
   bool get isCollapsed => _isCollapsed;
 
+  /// uncollapse the associated [LCollapse]
   open() {
     setState(() {
       _isCollapsed = false;
@@ -234,6 +372,7 @@ class LCollapseState extends State<LCollapse>
     _controller.forward();
   }
 
+  /// collapse the associated [LCollapse]
   close() {
     setState(() {
       _isCollapsed = true;
