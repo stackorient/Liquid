@@ -3,7 +3,7 @@ import 'custom_paints/custom_paints.dart';
 
 /// Repeatedly growing spinner.
 ///
-/// If you don’t fancy a border spinner, switch to the grow spinner.
+/// If you want a fancy  border spinner, switch to the grow spinner.
 /// While it doesn’t technically spin, it does repeatedly grow!
 ///
 class LGrowSpinner extends StatefulWidget {
@@ -14,7 +14,7 @@ class LGrowSpinner extends StatefulWidget {
   ///
   /// Repeatedly growing spinner.
   ///
-  /// If you don’t fancy a border spinner, switch to the grow spinner.
+  /// If you want a fancy border spinner, switch to the grow spinner.
   /// While it doesn’t technically spin, it does repeatedly grow!
   ///
   /// Example:
