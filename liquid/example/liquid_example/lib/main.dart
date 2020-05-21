@@ -35,63 +35,50 @@ class _MyHomePageState extends State<MyHomePage> {
   List<bool> isSelected = [false, false, false];
 
   void _showModel() {
-    showLModel(context,
-        positionTween: Tween(begin: Offset(0, 10.0), end: Offset.zero),
-        barrierDismissable: true, builder: (context) {
-      return LModel(
-        positon: MainAxisAlignment.end,
-        margin: EdgeInsets.all(20.0),
-        header: LModelHeader(
-          title: "Terms & Conditions",
-          onClose: () async {
-            setState(() {
-              result = "Canceled";
-            });
-          },
-        ),
-        body: LModelBody(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: SelectableText(
-                """Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesencibus dolor auctor.Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla."""),
+    showLModel(
+      context,
+      positionTween: Tween(
+        begin: Offset(10.0, 0.0),
+        end: Offset.zero,
+      ),
+      barrierDismissable: true,
+      builder: (context) {
+        return LModel(
+          positon: Alignment.bottomRight,
+          header: LModelHeader(
+            title: "Terms & Conditions",
+            onClose: () async {
+              print("Model Closed");
+              print("Terms Accepted: false");
+            },
           ),
-        ),
-        footer: LModelFooter(
-          actions: <Widget>[
-            LFlatButton.text(
-              text: "Cancel",
-              onPressed: () async {
-                final _ = await LiquidStateManager.of(context)
-                    .popModel<String>("Helllo world");
-                setState(() {
-                  result = _;
-                });
-              },
-              type: LElementType.secondary,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              margin: const EdgeInsets.only(right: 5.0),
+          body: LModelBody(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: LText(
+                "Please Accept our \l.color(hex=#0000EE){Terms & Conditions}",
+              ),
             ),
-            LFlatButton.text(
-              text: "Accept",
-              onPressed: () async {
-                final _ = await LiquidStateManager.of(context)
-                    .popModel<String>("Terms Accepted");
-                setState(() {
-                  result = _;
-                });
-              },
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            ),
-          ],
-        ),
-      );
-    });
+          ),
+          footer: LModelFooter(
+            actions: <Widget>[
+              LFlatButton.text(
+                text: "Accept",
+                onPressed: () async {
+                  final _ =
+                      await LiquidStateManager.of(context).popModel<bool>(true);
+                  print("Terms Accepted: $_");
+                },
+                type: LElementType.primary,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   final GlobalKey<LDropdownState> _dropdown = GlobalKey<LDropdownState>();
-  final GlobalKey<LDropdownState> _dropdown2 = GlobalKey<LDropdownState>();
   final GlobalKey<LCollapseState> _collapse = GlobalKey<LCollapseState>();
 
   @override
@@ -123,6 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             LRow(
               // mode: LGridMode.ratio,
+              axis: LRowAxis(lg: Axis.vertical),
               columns: [
                 LColumn(
                   sm: 4,
@@ -131,15 +119,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 LColumn(
-                  sm: 8,
-                  visibility: LBoxVisibility.aboveXS(false),
+                  sm: 6,
                   children: <Widget>[
                     Container(height: 50.0, color: Colors.blue[800]),
                   ],
                 ),
                 LColumn(
-                  // visibility: LBoxVisibility.aboveXS(false),
-                  sm: 8,
+                  sm: 2,
                   children: <Widget>[
                     Container(height: 50.0, color: Colors.green[800]),
                   ],
@@ -560,10 +546,52 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         LColumn(
                           children: <Widget>[
-                            LFlatButton(
-                              child: Text("hello"),
-                              type: LElementType.success,
-                              onPressed: () {},
+                            LFlatButton.text(
+                              text: "Accept Terms",
+                              onPressed: () => showLModel(
+                                context,
+                                positionTween: Tween(
+                                  begin: Offset(0.0, 10.0),
+                                  end: Offset.zero,
+                                ),
+                                barrierDismissable: true,
+                                builder: (context) {
+                                  return LModel(
+                                    positon: Alignment.bottomCenter,
+                                    header: LModelHeader(
+                                      title: "Terms & Conditions",
+                                      onClose: () async {
+                                        print("Model Closed");
+                                        print("Terms Accepted: false");
+                                      },
+                                    ),
+                                    body: LModelBody(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 16.0),
+                                        child: LText(
+                                          "Please Accept our \l.color(hex=#0000EE){Terms & Conditions}",
+                                        ),
+                                      ),
+                                    ),
+                                    footer: LModelFooter(
+                                      actions: <Widget>[
+                                        LFlatButton.text(
+                                          text: "Accept",
+                                          onPressed: () async {
+                                            final _ =
+                                                await LiquidStateManager.of(
+                                                        context)
+                                                    .popModel<bool>(true);
+                                            print("Terms Accepted: $_");
+                                          },
+                                          type: LElementType.primary,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                             LFlatButton.icon(
                               icon: Text("hello"),

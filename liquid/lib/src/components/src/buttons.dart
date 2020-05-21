@@ -1462,7 +1462,7 @@ class LIconButton extends StatelessWidget {
     this.disabledColor,
     this.splashColor,
     this.color,
-    this.fillColor = Colors.transparent,
+    this.fillColor,
     this.focusColor,
     this.hoverColor,
     this.highlightColor,
@@ -1483,7 +1483,7 @@ class LIconButton extends StatelessWidget {
         borderRadius:
             BorderRadius.circular(radius ?? iconSize + splashThickness),
         type: MaterialType.button,
-        color: fillColor,
+        color: fillColor ?? Colors.transparent,
         child: IconTheme(
           data: IconThemeData.fallback().copyWith(
               size: iconSize,

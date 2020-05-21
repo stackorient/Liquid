@@ -65,11 +65,11 @@ class _ScrollSpyPageState extends State<ScrollSpyPage> {
           ),
           LColumn.child(
             expanded: true,
-            child: ScrollSpy(
+            child: LScrollSpy(
               controller: _controller,
               uniqueIdList: ids,
               itemBuilder: _buildItem,
-              itemLengthBuilder: (index) {
+              itemLengthBuilder: (index, id) {
                 final md = MediaQuery.of(context);
                 if (md.isXL) {
                   return 305.0;

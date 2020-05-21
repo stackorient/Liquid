@@ -106,13 +106,59 @@ import '../forms.dart';
 /// See also:
 ///
 ///  * <https://material.io/design/components/text-fields.html>
-///  * [TextField], which is the underlying text field without the [Form]
+///  * [TextField], which is the underlying text field without the [LForm]
 ///    integration.
 ///  * [InputDecorator], which shows the labels and other visual elements that
 ///    surround the actual text editing widget.
 ///  * Learn how to use a [TextEditingController] in one of our [cookbook recipe]s.(https://flutter.dev/docs/cookbook/forms/text-field-changes#2-use-a-texteditingcontroller)
 class LTextFormField extends LFormField<String> {
-  /// Creates a [FormField] that contains a [TextField].
+  /// Creates a [LFormField] that contains a [TextField].
+  ///
+  /// [LTextFormField] uses Liquid's [LForm] for providing
+  /// * serialized data if `name` argument is not null
+  /// * `name` argument also enables to access this field directly from
+  ///   [LFormState]'s fields getter
+  /// * you can access this field states such as `dirty`, `pristine`, `touched`, etc
+  ///
+  /// ```dart
+  /// // How to check if field is a particular field is dirty or not
+  ///
+  /// final LFormManager manager = LFormManager();
+  ///
+  /// LForm(
+  ///   manager: manager,
+  ///   child: Column(
+  ///     children: [
+  ///       LTextFormField(
+  ///         name: "email", // for accesing this field from LFormState
+  ///         decoration: const InputDecoration(
+  ///           hintText: 'Enter your email',
+  ///         ),
+  ///         initialValue: 'xyz@xyz.com',
+  ///         validators: [
+  ///           LRequiredValidator(),
+  ///           LEmailValidator(
+  ///               invalidMessage: "Please enter correct email address")
+  ///         ],
+  ///       ),
+  ///       LRaisedButton.text(
+  ///         text: "Submit",
+  ///         margin: const EdgeInsets.symmetric(vertical: 16.0),
+  ///         onPressed: () {
+  ///           // get email field state
+  ///           final emailFieldState = manager.formState.fields.get("email");
+  ///
+  ///           // Print email field value
+  ///           print(emalField.value);
+  ///
+  ///           // check if field is touched
+  ///           print(emailField.isTouched);
+  ///         },
+  ///     ]
+  ///   )
+  /// )
+  ///
+  /// ```
   ///
   /// When a [controller] is specified, [initialValue] must be null (the
   /// default). If [controller] is null, then a [TextEditingController]
@@ -133,6 +179,7 @@ class LTextFormField extends LFormField<String> {
     TextCapitalization textCapitalization = TextCapitalization.none,
     TextInputAction textInputAction,
     TextStyle style,
+    TextStyle disabledStyle,
     StrutStyle strutStyle,
     TextDirection textDirection,
     TextAlign textAlign = TextAlign.start,
@@ -221,7 +268,7 @@ class LTextFormField extends LFormField<String> {
                   effectiveDecoration.copyWith(errorText: field.errorText),
               keyboardType: keyboardType,
               textInputAction: textInputAction,
-              style: style,
+              style: field.isEnabled ? style : disabledStyle,
               strutStyle: strutStyle,
               textAlign: textAlign,
               textAlignVertical: textAlignVertical,
@@ -252,7 +299,7 @@ class LTextFormField extends LFormField<String> {
               onEditingComplete: onEditingComplete,
               onSubmitted: onFieldSubmitted,
               inputFormatters: inputFormatters,
-              enabled: enabled,
+              enabled: field.isEnabled,
               cursorWidth: cursorWidth,
               cursorRadius: cursorRadius,
               cursorColor: cursorColor,
