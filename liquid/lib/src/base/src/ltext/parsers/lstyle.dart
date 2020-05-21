@@ -81,7 +81,7 @@ class LSpanStyle {
     this.style,
     this.recognizerHandler,
     this.semanticsLabel,
-    this.textTransformers,
+    this.textTransformers = const [],
   });
 
   LSpanStyle operator +(LSpanStyle other) {

@@ -19,48 +19,70 @@ class LBoxDimension {
     this.xl,
   });
 
-  factory LBoxDimension.all(double value) => LBoxDimension(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxDimension.all(double value, [double d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxDimension.aboveXS(double value) => LBoxDimension(
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxDimension.aboveXS(double value, [double d])
+      : xs = d,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxDimension.aboveSM(double value) => LBoxDimension(
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxDimension.aboveSM(double value, [double d])
+      : xs = d,
+        sm = d,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxDimension.aboveMD(double value) => LBoxDimension(
-        lg: value,
-        xl: value,
-      );
+  const LBoxDimension.aboveMD(double value, [double d])
+      : xs = d,
+        sm = d,
+        md = d,
+        lg = value,
+        xl = value;
 
-  factory LBoxDimension.belowXL(double value) => LBoxDimension(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-      );
-  factory LBoxDimension.belowLG(double value) => LBoxDimension(
-        xs: value,
-        sm: value,
-        md: value,
-      );
+  const LBoxDimension.belowXL(double value, [double d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = d;
 
-  factory LBoxDimension.belowMD(double value) => LBoxDimension(
-        xs: value,
-        sm: value,
-      );
+  const LBoxDimension.belowLG(double value, [double d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = d,
+        xl = d;
+
+  const LBoxDimension.belowMD(double value, [double d])
+      : xs = value,
+        sm = value,
+        md = d,
+        lg = d,
+        xl = d;
+
+  LBoxDimension copyWith({
+    double xs,
+    double sm,
+    double md,
+    double lg,
+    double xl,
+  }) {
+    return LBoxDimension(
+      xs: xs ?? this.xs,
+      sm: sm ?? this.sm,
+      md: md ?? this.md,
+      lg: lg ?? this.lg,
+      xl: xl ?? this.xl,
+    );
+  }
 }
 
 class LBoxEdgeInsets {
@@ -80,48 +102,70 @@ class LBoxEdgeInsets {
     this.xl,
   });
 
-  factory LBoxEdgeInsets.all(EdgeInsetsGeometry value) => LBoxEdgeInsets(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxEdgeInsets.all(EdgeInsetsGeometry value, [EdgeInsetsGeometry d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxEdgeInsets.aboveXS(EdgeInsetsGeometry value) => LBoxEdgeInsets(
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxEdgeInsets.aboveXS(EdgeInsetsGeometry value, [EdgeInsetsGeometry d])
+      : xs = d,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxEdgeInsets.aboveSM(EdgeInsetsGeometry value) => LBoxEdgeInsets(
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxEdgeInsets.aboveSM(EdgeInsetsGeometry value, [EdgeInsetsGeometry d])
+      : xs = d,
+        sm = d,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxEdgeInsets.aboveMD(EdgeInsetsGeometry value) => LBoxEdgeInsets(
-        lg: value,
-        xl: value,
-      );
+  const LBoxEdgeInsets.aboveMD(EdgeInsetsGeometry value, [EdgeInsetsGeometry d])
+      : xs = d,
+        sm = d,
+        md = d,
+        lg = value,
+        xl = value;
 
-  factory LBoxEdgeInsets.belowXL(EdgeInsetsGeometry value) => LBoxEdgeInsets(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-      );
-  factory LBoxEdgeInsets.belowLG(EdgeInsetsGeometry value) => LBoxEdgeInsets(
-        xs: value,
-        sm: value,
-        md: value,
-      );
+  const LBoxEdgeInsets.belowXL(EdgeInsetsGeometry value, [EdgeInsetsGeometry d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = d;
 
-  factory LBoxEdgeInsets.belowMD(EdgeInsetsGeometry value) => LBoxEdgeInsets(
-        xs: value,
-        sm: value,
-      );
+  const LBoxEdgeInsets.belowLG(EdgeInsetsGeometry value, [EdgeInsetsGeometry d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = d,
+        xl = d;
+
+  const LBoxEdgeInsets.belowMD(EdgeInsetsGeometry value, [EdgeInsetsGeometry d])
+      : xs = value,
+        sm = value,
+        md = d,
+        lg = d,
+        xl = d;
+
+  LBoxEdgeInsets copyWith({
+    EdgeInsetsGeometry xs,
+    EdgeInsetsGeometry sm,
+    EdgeInsetsGeometry md,
+    EdgeInsetsGeometry lg,
+    EdgeInsetsGeometry xl,
+  }) {
+    return LBoxEdgeInsets(
+      xs: xs ?? this.xs,
+      sm: sm ?? this.sm,
+      md: md ?? this.md,
+      lg: lg ?? this.lg,
+      xl: xl ?? this.xl,
+    );
+  }
 }
 
 class LBoxAlignment {
@@ -141,48 +185,70 @@ class LBoxAlignment {
     this.xl,
   });
 
-  factory LBoxAlignment.all(AlignmentGeometry value) => LBoxAlignment(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxAlignment.all(AlignmentGeometry value, [AlignmentGeometry d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxAlignment.aboveXS(AlignmentGeometry value) => LBoxAlignment(
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxAlignment.aboveXS(AlignmentGeometry value, [AlignmentGeometry d])
+      : xs = d,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxAlignment.aboveSM(AlignmentGeometry value) => LBoxAlignment(
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxAlignment.aboveSM(AlignmentGeometry value, [AlignmentGeometry d])
+      : xs = d,
+        sm = d,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxAlignment.aboveMD(AlignmentGeometry value) => LBoxAlignment(
-        lg: value,
-        xl: value,
-      );
+  const LBoxAlignment.aboveMD(AlignmentGeometry value, [AlignmentGeometry d])
+      : xs = d,
+        sm = d,
+        md = d,
+        lg = value,
+        xl = value;
 
-  factory LBoxAlignment.belowXL(AlignmentGeometry value) => LBoxAlignment(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-      );
-  factory LBoxAlignment.belowLG(AlignmentGeometry value) => LBoxAlignment(
-        xs: value,
-        sm: value,
-        md: value,
-      );
+  const LBoxAlignment.belowXL(AlignmentGeometry value, [AlignmentGeometry d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = d;
 
-  factory LBoxAlignment.belowMD(AlignmentGeometry value) => LBoxAlignment(
-        xs: value,
-        sm: value,
-      );
+  const LBoxAlignment.belowLG(AlignmentGeometry value, [AlignmentGeometry d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = d,
+        xl = d;
+
+  const LBoxAlignment.belowMD(AlignmentGeometry value, [AlignmentGeometry d])
+      : xs = value,
+        sm = value,
+        md = d,
+        lg = d,
+        xl = d;
+
+  LBoxAlignment copyWith({
+    AlignmentGeometry xs,
+    AlignmentGeometry sm,
+    AlignmentGeometry md,
+    AlignmentGeometry lg,
+    AlignmentGeometry xl,
+  }) {
+    return LBoxAlignment(
+      xs: xs ?? this.xs,
+      sm: sm ?? this.sm,
+      md: md ?? this.md,
+      lg: lg ?? this.lg,
+      xl: xl ?? this.xl,
+    );
+  }
 }
 
 class LBoxDecoration {
@@ -202,48 +268,70 @@ class LBoxDecoration {
     this.xl,
   });
 
-  factory LBoxDecoration.all(Decoration value) => LBoxDecoration(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxDecoration.all(Decoration value)
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxDecoration.aboveXS(Decoration value) => LBoxDecoration(
-        sm: value,
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxDecoration.aboveXS(Decoration value, [Decoration d])
+      : xs = d,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxDecoration.aboveSM(Decoration value) => LBoxDecoration(
-        md: value,
-        lg: value,
-        xl: value,
-      );
+  const LBoxDecoration.aboveSM(Decoration value, [Decoration d])
+      : xs = d,
+        sm = d,
+        md = value,
+        lg = value,
+        xl = value;
 
-  factory LBoxDecoration.aboveMD(Decoration value) => LBoxDecoration(
-        lg: value,
-        xl: value,
-      );
+  const LBoxDecoration.aboveMD(Decoration value, [Decoration d])
+      : xs = d,
+        sm = d,
+        md = d,
+        lg = value,
+        xl = value;
 
-  factory LBoxDecoration.belowXL(Decoration value) => LBoxDecoration(
-        xs: value,
-        sm: value,
-        md: value,
-        lg: value,
-      );
-  factory LBoxDecoration.belowLG(Decoration value) => LBoxDecoration(
-        xs: value,
-        sm: value,
-        md: value,
-      );
+  const LBoxDecoration.belowXL(Decoration value, [Decoration d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = value,
+        xl = d;
 
-  factory LBoxDecoration.belowMD(Decoration value) => LBoxDecoration(
-        xs: value,
-        sm: value,
-      );
+  const LBoxDecoration.belowLG(Decoration value, [Decoration d])
+      : xs = value,
+        sm = value,
+        md = value,
+        lg = d,
+        xl = d;
+
+  const LBoxDecoration.belowMD(Decoration value, [Decoration d])
+      : xs = value,
+        sm = value,
+        md = d,
+        lg = d,
+        xl = d;
+
+  LBoxDecoration copyWith({
+    Decoration xs,
+    Decoration sm,
+    Decoration md,
+    Decoration lg,
+    Decoration xl,
+  }) {
+    return LBoxDecoration(
+      xs: xs ?? this.xs,
+      sm: sm ?? this.sm,
+      md: md ?? this.md,
+      lg: lg ?? this.lg,
+      xl: xl ?? this.xl,
+    );
+  }
 }
 
 class LBox extends StatelessWidget {

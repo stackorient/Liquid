@@ -34,7 +34,7 @@ class _FormPageState extends State<FormPage> {
         child: Column(
           children: [
             LText(
-              "Helo \l.h1.capitalize.trim{jai hind with ${4 + 32}} and hello \l.color(hex=#f10435){raju}",
+              "Helo \l.h1.capitalize.bold{jai hind with ${4 + 32}} and hello \l.color(hex=#f10435){raju}",
             ),
             LForm(
               key: _formKey,
