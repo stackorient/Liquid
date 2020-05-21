@@ -42,9 +42,10 @@ class LScrollSpyController extends ScrollController {
         assert(curve != null),
         assert(activeCheckOffset != null),
         super(
-            initialScrollOffset: initialScrollOffset,
-            keepScrollOffset: keepScrollOffset,
-            debugLabel: debugLabel);
+          initialScrollOffset: initialScrollOffset,
+          keepScrollOffset: keepScrollOffset,
+          debugLabel: debugLabel,
+        );
 
   void _generateHeightList() {
     double _offset = 0;
