@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 /// A Controller for [LScrollSpy] which is necessary to handle scroll
 /// position or scrolling to a particular child id
-class ScrollSpyController extends ScrollController {
+class LScrollSpyController extends ScrollController {
   /// Duration in which [ScrollSpy] move from one child to another
   final Duration duration;
 
@@ -20,23 +20,32 @@ class ScrollSpyController extends ScrollController {
 
   String _activeId;
 
+  /// The minimum distance from the next
+  /// child for which `activeID` should be updated
+  ///
+  /// default: `20.0`
+  final double activeCheckOffset;
+
   /// Currently active [ScrollSpy]'s child id
   String get activeID => _activeId;
 
-  ScrollSpyController({
+  LScrollSpyController({
     this.duration = const Duration(milliseconds: 350),
     this.curve = Curves.fastLinearToSlowEaseIn,
     double initialScrollOffset = 0.0,
     bool keepScrollOffset = true,
     String debugLabel,
+    this.activeCheckOffset = 20.0,
   })  : assert(initialScrollOffset != null),
         assert(keepScrollOffset != null),
         assert(duration != null),
         assert(curve != null),
+        assert(activeCheckOffset != null),
         super(
-            initialScrollOffset: initialScrollOffset,
-            keepScrollOffset: keepScrollOffset,
-            debugLabel: debugLabel);
+          initialScrollOffset: initialScrollOffset,
+          keepScrollOffset: keepScrollOffset,
+          debugLabel: debugLabel,
+        );
 
   void _generateHeightList() {
     double _offset = 0;
@@ -54,7 +63,7 @@ class ScrollSpyController extends ScrollController {
   }
 
   bool _onScroll(ScrollNotification notification) {
-    final _offset = notification.metrics.pixels + 20.0;
+    final _offset = notification.metrics.pixels + activeCheckOffset;
 
     for (int i = 0; i < _heightList.length; i++) {
       final _firstOffset = _heightList[i];
@@ -71,6 +80,8 @@ class ScrollSpyController extends ScrollController {
   }
 }
 
+typedef ItemExtentBuilder = double Function(int, String);
+
 /// [LScrollSpy] can help in tracking certain elements and
 /// which element the user's screen is currently centered on.
 ///
@@ -79,20 +90,117 @@ class ScrollSpyController extends ScrollController {
 ///  certain element comes in view
 ///
 /// ```dart
+///  ScrollSpyController _controller;
+///  List<String> ids = ["0", "1", "2", "3", "4", "5"];
+///  String activeId;
 ///
+///  initState() {
+///     _controller = ScrollSpyController()
+///        ..addListener(() {
+///          setState(() {
+///            activeId = _controller.activeID;
+///          });
+///        },
+///     );
+///
+///     activeId = _controller.activeID ?? ids.first;
+///  }
+///
+///...
+///
+///child: LCard(
+///  width: 450.0,
+///  body: LCardBody(
+///    child: LRow(
+///      useMediaQuery: false,
+///      axis: LRowAxis(xs: Axis.horizontal),
+///      columns: [
+///        LColumn(
+///          xs: 3,
+///          children: [
+///            for (final id in ids)
+///              LFlatButton.text(
+///                text: (int.parse(id) + 1).toString(),
+///                type: activeId == id
+///                    ? LElementType.warning
+///                    : LElementType.primary,
+///                onPressed: () => _controller.scrollTo(id),
+///              )
+///          ],
+///        ),
+///        LColumn(
+///          children: [
+///            Container(
+///              height: 270.0,
+///              child: LScrollSpy(
+///                 controller: _controller,
+///                 uniqueIdList: ids,
+///                 itemBuilder: (context, index) => Container(
+///                       color: Colors.blue[(index + 2) * 100],
+///                       alignment: Alignment.center,
+///                       child: LText(" \l.h1{ ${index + 1} }"),
+///                     ),
+///                 itemLengthBuilder: (index, id) => 270.0,
+///                 itemCount: ids.length),
+///            ),
+///          ],
+///        ),
+///      ],
+///    ),
+///  ),
+///),
+///
+///...
 /// ```
+///
+/// See Also:
+/// * [LScrollSpyController], A Controller for [LScrollSpy] which is necessary
+///  to handle scroll position or scrolling to a particular child id
 class LScrollSpy extends StatelessWidget {
-  final ScrollSpyController controller;
+  /// [LScrollSpyController] will handle the state of
+  /// [LScrollSpy], listen to this to get `activeID` (child's id)
+  ///
+  /// * use `scrollTo` method to scroll to a particular child
+  final LScrollSpyController controller;
+
+  /// Each child in [LScrollSpy] is uniquely determined by these `id`
+  ///
+  /// Note: if duplicate ids found in list it can cause errors
   final List<String> uniqueIdList;
+
+  /// Default item height for all the children
+  ///
+  /// **NOTE** set `itemExtentBuilder` = null when `itemExtent` is not null
   final double itemExtent;
-  final double Function(int, String) itemLengthBuilder;
+
+  /// Different height of child based on their `uniqueId` or `index`
+  ///
+  /// **NOTE** don't provide `itemExtent` when using `itemExtentBuilder`
+  final ItemExtentBuilder itemExtentBuilder;
+
+  double _defaultExtentBuilder(_, __) => itemExtent;
+
+  /// Creates a ScrollSpy, linear array of widgets that are created on demand.
   final Widget Function(BuildContext, int) itemBuilder;
+
+  /// Providing a non-null itemCount which should match the length of `uniqueIdList`.
   final int itemCount;
+
+  /// The addAutomaticKeepAlives argument corresponds to
+  /// the [SliverChildBuilderDelegate.addAutomaticKeepAlives] property.
   final bool addAutomaticKeepAlives;
+
+  ///The addRepaintBoundaries argument corresponds to
+  ///the [SliverChildBuilderDelegate.addRepaintBoundaries] property.
   final bool addRepaintBoundaries;
+
+  ///The addSemanticIndexes argument corresponds to the
+  ///[SliverChildBuilderDelegate.addSemanticIndexes] property.
   final bool addSemanticIndexes;
+
   final double cacheExtent;
   final int semanticChildCount;
+
   final Axis scrollDirection;
   final bool reverse;
   final bool primary;
@@ -115,7 +223,7 @@ class LScrollSpy extends StatelessWidget {
     @required this.uniqueIdList,
     this.itemExtent,
     @required this.itemBuilder,
-    @required this.itemLengthBuilder,
+    @required this.itemExtentBuilder,
     @required this.itemCount,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
@@ -126,11 +234,16 @@ class LScrollSpy extends StatelessWidget {
         assert(itemCount != null),
         assert(uniqueIdList.length == itemCount),
         assert(controller != null),
-        assert(itemLengthBuilder != null),
+        assert(
+          itemExtentBuilder != null ||
+              itemExtent == null && itemExtentBuilder == null ||
+              itemExtent != null,
+          "Provide either itemExtent or itemExtentBuilder",
+        ),
         super(key: key);
 
   Widget _builder(BuildContext context, int index) {
-    final _length = itemLengthBuilder(index, uniqueIdList[index]);
+    final _length = itemExtent ?? itemExtentBuilder(index, uniqueIdList[index]);
 
     return Container(
       height: scrollDirection == Axis.vertical ? _length : null,
@@ -141,7 +254,8 @@ class LScrollSpy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller._lengthHandler = itemLengthBuilder;
+    controller._lengthHandler =
+        itemExtent != null ? _defaultExtentBuilder : itemExtentBuilder;
     controller._uniqueIdList = uniqueIdList;
     controller._generateHeightList();
 

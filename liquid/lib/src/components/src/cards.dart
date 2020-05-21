@@ -97,7 +97,7 @@ class LCard extends StatelessWidget {
       this.header,
       this.footer,
       this.height,
-      this.width,
+      this.width = 288.0,
       this.color,
       this.radius,
       this.border,
@@ -105,28 +105,32 @@ class LCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: elevation ?? 0.0,
-      borderRadius: BorderRadius.circular(radius ?? 5.0),
-      child: ClipRRect(
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: height ?? double.infinity,
+        maxWidth: width ?? double.infinity,
+      ),
+      child: Material(
+        elevation: elevation ?? 0.0,
         borderRadius: BorderRadius.circular(radius ?? 5.0),
-        child: Container(
-          height: height,
-          width: width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(radius ?? 5.0),
-            border: border,
-            color: color,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              header ?? Container(),
-              image ?? Container(),
-              body ?? Container(),
-              footer ?? Container(),
-            ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(radius ?? 5.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(radius ?? 5.0),
+              border: border,
+              color: color,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                header ?? Container(),
+                image ?? Container(),
+                body ?? Container(),
+                footer ?? Container(),
+              ],
+            ),
           ),
         ),
       ),
