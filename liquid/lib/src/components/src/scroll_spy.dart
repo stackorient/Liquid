@@ -29,6 +29,8 @@ class LScrollSpyController extends ScrollController {
   /// Currently active [ScrollSpy]'s child id
   String get activeID => _activeId;
 
+  /// A Controller for [LScrollSpy] which is necessary to handle scroll
+  /// position or scrolling to a particular child id
   LScrollSpyController({
     this.duration = const Duration(milliseconds: 350),
     this.curve = Curves.fastLinearToSlowEaseIn,
@@ -56,6 +58,7 @@ class LScrollSpyController extends ScrollController {
     }
   }
 
+  /// scroll to the child which has the provided id
   void scrollTo(String id) {
     final _stopIndex = _uniqueIdList.indexOf(id);
     final _offset = _heightList[_stopIndex];
@@ -95,7 +98,7 @@ typedef ItemExtentBuilder = double Function(int, String);
 ///  String activeId;
 ///
 ///  initState() {
-///     _controller = ScrollSpyController()
+///     _controller = ScrollSpyController(activeCheckOffset: 150.0)
 ///        ..addListener(() {
 ///          setState(() {
 ///            activeId = _controller.activeID;

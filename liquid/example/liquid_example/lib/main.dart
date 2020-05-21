@@ -259,6 +259,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       background: Colors.red.withOpacity(0.5),
                     ),
                   ),
+                  Container(
+                    width: 320.0,
+                    child: LExpansionPanel(
+                      caption: LBadge.icon(
+                        icon: Icon(Icons.warning),
+                        label: Text("Latest"),
+                        type: LElementType.warning,
+                        size: LElementSize.small,
+                      ),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.black45,
+                      ),
+                      title: Text("Liquid for flutter"),
+                      subtitle: Text("Get the latest information"),
+                      collapseChild: Center(
+                        child: LFlatButton.text(text: "This was collapsed."),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 7.0),
                     child: LBreadCrumbs(
@@ -694,12 +713,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       key: _collapse,
                       // duration: Duration(seconds: 10),
                       child: Center(
-                        child: LFlatButton.text(
-                          text: "Close",
-                          onPressed: () => _collapse.currentState.close(),
-                        ),
+                        child:
+                            LText("Hey I am \l.uppercase.bold{visible} now..."),
                       ),
-                      background: Colors.black,
+                      background: Colors.green[300],
                     ),
                   ],
                 ),

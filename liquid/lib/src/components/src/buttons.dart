@@ -31,8 +31,8 @@ class LButton extends StatefulWidget {
   final void Function(PointerEnterEvent) onMouseEnter;
   final void Function(PointerExitEvent) onMouseExit;
   final void Function(PointerHoverEvent) onMouseHover;
-  final void Function() onPressed;
-  final void Function() onLongPress;
+  final VoidCallback onPressed;
+  final VoidCallback onLongPress;
   final void Function(bool) onHighlightChanged;
 
   /// Styles Button text [LButton.text]
