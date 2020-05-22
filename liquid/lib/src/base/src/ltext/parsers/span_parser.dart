@@ -14,23 +14,32 @@ class SpanParser extends Parser {
   SpanParser(String subject) : super(subject, _spanRegex);
 
   /// private getter for getting parsed matches
-  Iterable<RegExpMatch> get _parsed => _spanRegex.allMatches(subject);
+  Iterable<RegExpMatch> get _matchList => _spanRegex.allMatches(subject);
 
   /// Tokenization of the spans
   Iterable<LTextSpanBuilder> getSpans() sync* {
-    int _lastI = 0;
-    for (final _ in _parsed) {
-      if (_.start != _lastI) {
-        final String str = subject.substring(_lastI, _.start);
-        _lastI = _.end;
+    // tracks last char index for which tokenization is done
+    int _lastIndex = 0;
+
+    // iterate over matchlist
+    // on each iteration first check if match has a normal string
+    // then parse the remaining string which has styleClass applied
+    // then update the lastIndex
+    for (final match in _matchList) {
+      if (match.start != _lastIndex) {
+        final String str = subject.substring(_lastIndex, match.start);
         yield LTextSpanBuilder(null, str);
       }
-      final String str = _.group(2);
-      yield LTextSpanBuilder(ClassParser(_.group(1)).getClasses(), str);
+      final String str = match.group(2);
+      yield LTextSpanBuilder(ClassParser(match.group(1)).getClasses(), str);
+      _lastIndex = match.end;
     }
 
-    if (_lastI != subject.length - 1) {
-      final String str = subject.substring(_lastI);
+    // if lastIndex wasn't at the end of string mean
+    // there are unstyled string at the end of complete string
+    // parse them too if they arn't
+    if (_lastIndex != subject.length) {
+      final String str = subject.substring(_lastIndex);
       yield LTextSpanBuilder(null, str);
     }
   }

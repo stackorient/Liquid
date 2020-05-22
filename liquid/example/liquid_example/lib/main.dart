@@ -115,7 +115,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 LColumn(
                   sm: 4,
                   children: <Widget>[
-                    Container(height: 50.0, color: Colors.amber[800]),
+                    Container(
+                        height: 50.0,
+                        color: Colors.amber[800],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            LText("\l.bullet2.bold{This is a list item}\n"
+                                "\l.bullet1.bold{this is second item sdfasd}"),
+                          ],
+                        )),
                   ],
                 ),
                 LColumn(
