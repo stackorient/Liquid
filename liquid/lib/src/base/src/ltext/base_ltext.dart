@@ -275,7 +275,7 @@ class LText extends StatelessWidget {
     List<GestureRecognizer> _recs;
 
     for (final styledText in parser.getSpans()) {
-      final _spanWrapper = styledText.toTextSpanWrap(styleMap);
+      final _spanWrapper = styledText.toTextSpanWrap(styleMap, baseStyle);
       _spans.add(_spanWrapper.span);
 
       if (_recs != null && _spanWrapper.recognizer != null)

@@ -317,8 +317,9 @@ class LTextSpanBuilder {
   /// In above example, [LText] will be in blue color and will have a fontWeight of 700
   ///
   _LTextSpanRecognizerWrapper toTextSpanWrap(
-      Map<String, LStyleBlock> styleMap) {
-    LSpanStyle effectiveStyle;
+      Map<String, LStyleBlock> styleMap, TextStyle baseStyle) {
+    LSpanStyle effectiveStyle =
+        baseStyle != null ? LSpanStyle(style: baseStyle) : null;
     Map<String, String> args;
     String effectiveText = text;
 
