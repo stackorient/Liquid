@@ -88,8 +88,7 @@ class LiquidApp extends StatelessWidget {
   ///* `display4`
   ///* `lead`
   ///* `blockquote`
-  ///* `bullet1` i.e. `○`
-  ///* `bullet2` i.e. `⚫`
+  ///* `bullet` i.e. `○`
   /// **Example:** Hello, World with `World` in `bold` and `dodgerblue color`
   /// ```dart
   ///  LText("Hello, \l.bold.color(hex=#0980ff){Liquid}")

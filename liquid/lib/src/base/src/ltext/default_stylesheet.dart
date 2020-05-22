@@ -21,8 +21,7 @@ import 'transformer.dart';
 ///* `trim-right`
 ///* `color(hex=hex_color)`
 ///* `highlight(hex=hex_color)`
-///* `bullet1` i.e. `○`
-///* `bullet2` i.e. `⚫`
+///* `bullet` i.e. `○`
 final Map<String, LStyleBlock> kLiquidDefaultStyleSheet = {
   "bold": LStyleBlock(
     lazyStyle: (_) => LSpanStyle(
@@ -105,11 +104,8 @@ final Map<String, LStyleBlock> kLiquidDefaultStyleSheet = {
       );
     },
   ),
-  "bullet1": LStyleBlock(
+  "bullet": LStyleBlock(
     style: LSpanStyle(textTransformers: [(_) => "○ $_"]),
-  ),
-  "bullet2": LStyleBlock(
-    style: LSpanStyle(textTransformers: [(_) => "⚫ $_"]),
   ),
 };
 
