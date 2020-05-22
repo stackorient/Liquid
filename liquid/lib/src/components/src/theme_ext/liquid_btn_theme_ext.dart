@@ -86,21 +86,20 @@ extension LButtonThemeExtension on LiquidButtonTheme {
     return RoundedRectangleBorder(borderRadius: radius);
   }
 
-  TextStyle getTextStyle(
-      LButton button, TextStyle style, Color color, bool _hover) {
+  TextStyle getTextStyle(LButton button, Color color, bool _hover) {
     if (button.enabled) {
       if (button.type == LElementType.light ||
           button.type == LElementType.warning)
-        return style.withColor(color.darken(0.3));
+        return TextStyle(color: color.darken(0.3));
 
       if (button is LOutlineButton) {
         if (button.fillMode == FillMode.solid && _hover)
-          return style.withColor(Colors.white);
-        return style.withColor(color);
+          return TextStyle(color: Colors.white);
+        return TextStyle(color: color);
       }
-      return style.withColor(Colors.white);
+      return TextStyle(color: Colors.white);
     }
 
-    return style.withColor(Colors.black38);
+    return TextStyle(color: Colors.black38);
   }
 }
