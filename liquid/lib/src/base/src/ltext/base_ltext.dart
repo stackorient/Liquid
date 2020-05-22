@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 import 'ltext_style_provider.dart';
 import 'parsers/parsers.dart';
@@ -229,11 +229,7 @@ class LText extends StatelessWidget {
     this.strutStyle,
     this.textWidthBasis,
     this.textHeightBehavior,
-    this.baseStyle = const TextStyle(
-      color: const Color(0xFF000000),
-      height: 1.5,
-      fontSize: 14.0,
-    ),
+    this.baseStyle,
     this.baseRecognizer,
     this.baseSemanticsLabel,
     this.inlineStyleSheet,
@@ -252,7 +248,8 @@ class LText extends StatelessWidget {
     final RichText child = RichText(
       text: TextSpan(
         children: _spanWrappers.first,
-        style: baseStyle,
+        style: baseStyle ??
+            Theme.of(context).textTheme.bodyText1.copyWith(height: 1.5),
         recognizer: baseRecognizer,
         semanticsLabel: baseSemanticsLabel,
       ),
