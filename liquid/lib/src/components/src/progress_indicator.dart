@@ -126,7 +126,7 @@ class LCircularProgressIndicator extends StatelessWidget {
   final StrokeCap cap;
   final Widget child;
 
-  ///Documentation and example for using Liquid custom progress bars
+  ///Documentation and example for using Liquid custom circular progress bars
   ///featuring support for stacked bars, animated backgrounds, and text labels.
   ///
   ///Displays Circular progress indicator [LCircularProgressIndicator].
