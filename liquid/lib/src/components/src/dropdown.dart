@@ -49,10 +49,12 @@ class _LDropdownItemRaw extends StatelessWidget {
       return AbsorbPointer(
         child: Material(
           color: background ?? Colors.transparent,
-          textStyle: textStyle ?? theme.headerTextStyle,
-          child: Padding(
-            padding: padding ?? theme.headerPadding,
-            child: child,
+          child: DefaultTextStyle.merge(
+            style: textStyle ?? theme.headerTextStyle,
+            child: Padding(
+              padding: padding ?? theme.headerPadding,
+              child: child,
+            ),
           ),
         ),
       );
@@ -68,12 +70,14 @@ class _LDropdownItemRaw extends StatelessWidget {
       onLongPress: onLongPress,
       child: Material(
         color: background ?? Colors.transparent,
-        textStyle: (onTap != null || onLongPress != null)
-            ? textStyle ?? theme.textStyle
-            : disabledTextStyle ?? theme.disabledTextStyle,
-        child: Padding(
-          padding: padding ?? theme.padding,
-          child: child,
+        child: DefaultTextStyle.merge(
+          style: (onTap != null || onLongPress != null)
+              ? textStyle ?? theme.textStyle
+              : disabledTextStyle ?? theme.disabledTextStyle,
+          child: Padding(
+            padding: padding ?? theme.padding,
+            child: child,
+          ),
         ),
       ),
     );

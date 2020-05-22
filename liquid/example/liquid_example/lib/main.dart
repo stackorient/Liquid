@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid/liquid.dart';
 import 'scrollspy_page.dart';
 import 'form_page.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.quicksandTextTheme(),
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -95,7 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
             LBox(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('StackOrient Library'),
+                child: Text(
+                  'StackOrient Library',
+                  style: LiquidTheme.of(context).typographyTheme.h4,
+                ),
               ),
               visibility: LBoxVisibility(
                 xs: false,
@@ -121,8 +126,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            LText("\l.bullet2.bold{This is a list item}\n"
-                                "\l.bullet1.bold{this is second item sdfasd}"),
+                            LText(
+                                "Theelo \l.bullet.h3.bold{This is a list item}\n"
+                                "\l.bullet.bold{this is second item sdfasd}"),
                           ],
                         )),
                   ],

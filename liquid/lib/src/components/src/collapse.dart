@@ -173,13 +173,11 @@ class _LExpansionPanelState extends State<LExpansionPanel>
                     ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: widget.leading,
-                      title: AnimatedDefaultTextStyle(
-                        duration: widget.duration,
+                      title: DefaultTextStyle.merge(
                         style: widget.titleStyle ?? collapseTheme.titleStyle,
                         child: widget.title,
                       ),
-                      subtitle: AnimatedDefaultTextStyle(
-                        duration: widget.duration,
+                      subtitle: DefaultTextStyle.merge(
                         style:
                             widget.subTitleStyle ?? collapseTheme.subtitleStyle,
                         child: widget.subtitle,

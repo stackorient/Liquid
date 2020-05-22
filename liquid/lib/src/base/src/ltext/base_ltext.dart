@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../liquid_theme.dart';
 import 'ltext_style_provider.dart';
 import 'parsers/parsers.dart';
 
@@ -243,13 +244,14 @@ class LText extends StatelessWidget {
     if (inlineStyleSheet != null) {
       _styleMap.addAll(inlineStyleSheet);
     }
-    final _spanWrappers = _getSpans(_styleMap);
+    final _baseStyle =
+        baseStyle ?? DefaultTextStyle.of(context).style.copyWith(height: 1.5);
+    final _spanWrappers = _getSpans(_styleMap, _baseStyle);
 
     final RichText child = RichText(
       text: TextSpan(
         children: _spanWrappers.first,
-        style: baseStyle ??
-            Theme.of(context).textTheme.bodyText1.copyWith(height: 1.5),
+        style: _baseStyle,
         recognizer: baseRecognizer,
         semanticsLabel: baseSemanticsLabel,
       ),
@@ -270,12 +272,13 @@ class LText extends StatelessWidget {
     return child;
   }
 
-  List<dynamic> _getSpans(Map<String, LStyleBlock> styleMap) {
+  List<dynamic> _getSpans(
+      Map<String, LStyleBlock> styleMap, TextStyle baseTextStyle) {
     List<TextSpan> _spans = [];
     List<GestureRecognizer> _recs;
 
     for (final styledText in parser.getSpans()) {
-      final _spanWrapper = styledText.toTextSpanWrap(styleMap, baseStyle);
+      final _spanWrapper = styledText.toTextSpanWrap(styleMap, baseTextStyle);
       _spans.add(_spanWrapper.span);
 
       if (_recs != null && _spanWrapper.recognizer != null)

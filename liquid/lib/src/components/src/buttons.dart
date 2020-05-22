@@ -288,7 +288,6 @@ class _LButtonState extends State<LButton> {
   @override
   Widget build(BuildContext context) {
     final LiquidThemeData _theme = LiquidTheme.of(context);
-    final TextStyle _btn = Theme.of(context).textTheme.button;
     final LiquidButtonTheme buttonTheme = _theme.buttonTheme;
     final _color = _theme.getTypeColor(widget.type);
     final _sizeFactor = _theme.getElementSizeFactor(widget.size);
@@ -303,8 +302,9 @@ class _LButtonState extends State<LButton> {
       widthfactor: _sizeFactor,
     );
 
+    final _defaultStyle = DefaultTextStyle.of(context).style;
     final _textStyle = buttonTheme
-        .getTextStyle(widget, _btn, _color, _hover)
+        .getTextStyle(widget, _defaultStyle, _color, _hover)
         .weight(FontWeight.w500);
     return MouseRegion(
       onEnter: _onMouseEnter,

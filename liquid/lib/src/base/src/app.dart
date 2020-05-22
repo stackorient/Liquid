@@ -424,49 +424,51 @@ class LiquidApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiquidStateManager(
-      child: LiquidTheme(
-        theme: liquidTheme,
-        child: LTextStyleProvider(
-          styleMap: {
-            ...kLiquidDefaultStyleSheet,
-            ...buildTypographyStyleBlocks(liquidTheme.typographyTheme),
-            ...styleSheet,
-          },
-          child: MaterialApp(
-            navigatorKey: navigatorKey,
-            home: home,
-            routes: routes,
-            initialRoute: initialRoute,
-            onGenerateRoute: onGenerateRoute,
-            onGenerateInitialRoutes: onGenerateInitialRoutes,
-            onUnknownRoute: onUnknownRoute,
-            navigatorObservers: navigatorObservers,
-            builder: builder,
-            title: title,
-            onGenerateTitle: onGenerateTitle,
-            color: color,
-            theme: (theme ?? Theme.of(context)).copyWith(
-              splashFactory: LSmoothSplashFactory(),
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        home: home,
+        routes: routes,
+        initialRoute: initialRoute,
+        onGenerateRoute: onGenerateRoute,
+        onGenerateInitialRoutes: onGenerateInitialRoutes,
+        onUnknownRoute: onUnknownRoute,
+        navigatorObservers: navigatorObservers,
+        builder: (context, _) {
+          return LTextStyleProvider(
+            styleMap: {
+              ...kLiquidDefaultStyleSheet,
+              ...buildTypographyStyleBlocks(liquidTheme.typographyTheme),
+              ...styleSheet,
+            },
+            child: LiquidTheme(
+              theme: liquidTheme,
+              child: builder != null ? builder(context, _) : _,
             ),
-            darkTheme: (darkTheme ?? Theme.of(context)).copyWith(
-              splashFactory: LSmoothSplashFactory(),
-            ),
-            themeMode: themeMode,
-            locale: locale,
-            localizationsDelegates: localizationsDelegates,
-            localeListResolutionCallback: localeListResolutionCallback,
-            localeResolutionCallback: localeResolutionCallback,
-            supportedLocales: supportedLocales,
-            debugShowMaterialGrid: debugShowMaterialGrid,
-            showPerformanceOverlay: showPerformanceOverlay,
-            checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-            checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-            showSemanticsDebugger: showSemanticsDebugger,
-            debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-            shortcuts: shortcuts,
-            actions: actions,
-          ),
+          );
+        },
+        title: title,
+        onGenerateTitle: onGenerateTitle,
+        color: color,
+        theme: (theme ?? Theme.of(context)).copyWith(
+          splashFactory: LSmoothSplashFactory(),
         ),
+        darkTheme: (darkTheme ?? Theme.of(context)).copyWith(
+          splashFactory: LSmoothSplashFactory(),
+        ),
+        themeMode: themeMode,
+        locale: locale,
+        localizationsDelegates: localizationsDelegates,
+        localeListResolutionCallback: localeListResolutionCallback,
+        localeResolutionCallback: localeResolutionCallback,
+        supportedLocales: supportedLocales,
+        debugShowMaterialGrid: debugShowMaterialGrid,
+        showPerformanceOverlay: showPerformanceOverlay,
+        checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+        checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+        showSemanticsDebugger: showSemanticsDebugger,
+        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+        shortcuts: shortcuts,
+        actions: actions,
       ),
     );
   }

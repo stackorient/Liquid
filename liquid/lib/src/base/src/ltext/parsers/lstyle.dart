@@ -89,39 +89,7 @@ class LSpanStyle {
         other.recognizerHandler != null
             ? other.recognizerHandler
             : recognizerHandler;
-
-    final TextStyle _style = other.style != null
-        ? style?.copyWith(
-              inherit: other.style.inherit ?? style.inherit,
-              color: other.style.color ?? style.color,
-              backgroundColor:
-                  other.style.backgroundColor ?? style.backgroundColor,
-              fontFamily: other.style.fontFamily ?? style.fontFamily,
-              fontFamilyFallback:
-                  other.style.fontFamilyFallback ?? style.fontFamilyFallback,
-              fontSize: other.style.fontSize ?? style.fontSize,
-              fontWeight: other.style.fontWeight ?? style.fontWeight,
-              fontStyle: other.style.fontStyle ?? style.fontStyle,
-              letterSpacing: other.style.letterSpacing ?? style.letterSpacing,
-              wordSpacing: other.style.wordSpacing ?? style.wordSpacing,
-              textBaseline: other.style.textBaseline ?? style.textBaseline,
-              height: other.style.height ?? style.height,
-              locale: other.style.locale ?? style.locale,
-              foreground: other.style.foreground ?? style.foreground,
-              background: other.style.background ?? style.background,
-              shadows: other.style.shadows ?? style.shadows,
-              fontFeatures: other.style.fontFeatures ?? style.fontFeatures,
-              decoration: other.style.decoration ?? style.decoration,
-              decorationColor:
-                  other.style.decorationColor ?? style.decorationColor,
-              decorationStyle:
-                  other.style.decorationStyle ?? style.decorationStyle,
-              decorationThickness:
-                  other.style.decorationThickness ?? style.decorationThickness,
-              debugLabel: other.style.debugLabel ?? style.debugLabel,
-            ) ??
-            other.style
-        : style;
+    final TextStyle _style = style?.merge(other?.style);
 
     final _semanticsLabel = other.semanticsLabel ?? semanticsLabel;
 
@@ -320,6 +288,7 @@ class LTextSpanBuilder {
       Map<String, LStyleBlock> styleMap, TextStyle baseStyle) {
     LSpanStyle effectiveStyle =
         baseStyle != null ? LSpanStyle(style: baseStyle) : null;
+
     Map<String, String> args;
     String effectiveText = text;
 
