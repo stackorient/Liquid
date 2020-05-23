@@ -170,7 +170,7 @@ class LAlert extends StatelessWidget {
 
     final _child = Container(
       padding: contentPadding ?? theme.alertTheme.padding * _sizeFactor,
-      child: DefaultTextStyle(
+      child: DefaultTextStyle.merge(
         style: style ??
             _textStyle.copyWith(
               fontSize: _textStyle.fontSize * _sizeFactor,

@@ -32,11 +32,13 @@ class LiquidBadgeTheme {
   final EdgeInsets padding;
   final EdgeInsets margin;
   final double defaultRadius;
+  final TextStyle textStyle;
 
   const LiquidBadgeTheme({
     this.padding = const EdgeInsets.symmetric(horizontal: 9.0, vertical: 5.0),
     this.margin = EdgeInsets.zero,
     this.defaultRadius = 4.0,
+    this.textStyle,
   });
 
   Color getContentColor(LElementType type) {
@@ -148,79 +150,65 @@ class LiquidTypography {
       fontSize: 40.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.h2 = const TextStyle(
       fontSize: 32.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.h3 = const TextStyle(
       fontSize: 28.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.h4 = const TextStyle(
       fontSize: 24.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.h5 = const TextStyle(
       fontSize: 20.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.h6 = const TextStyle(
       fontSize: 16.0,
       fontWeight: FontWeight.w500,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.p = const TextStyle(
       fontSize: 14.0,
-      color: Color(0xFF000000),
     ),
     this.small = const TextStyle(
       fontSize: 12.8,
-      color: Color(0xFF000000),
     ),
     this.display1 = const TextStyle(
       fontSize: 96.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.display2 = const TextStyle(
       fontSize: 88.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.display3 = const TextStyle(
       fontSize: 72.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.display4 = const TextStyle(
       fontSize: 56.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.lead = const TextStyle(
       fontSize: 20.0,
       fontWeight: FontWeight.w300,
       height: 1.2,
-      color: Color(0xFF000000),
     ),
     this.quote = const TextStyle(
       fontSize: 20.0,
-      color: Color(0xFF000000),
     ),
   });
 }

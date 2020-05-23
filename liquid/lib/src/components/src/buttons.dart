@@ -302,8 +302,9 @@ class _LButtonState extends State<LButton> {
       widthfactor: _sizeFactor,
     );
 
+    final _defaultStyle = DefaultTextStyle.of(context).style;
     final _textStyle = buttonTheme
-        .getTextStyle(widget, _theme.typographyTheme.p, _color, _hover)
+        .getTextStyle(widget, _defaultStyle, _color, _hover)
         .weight(FontWeight.w500);
     return MouseRegion(
       onEnter: _onMouseEnter,
@@ -319,10 +320,11 @@ class _LButtonState extends State<LButton> {
             onPressed: widget.onPressed,
             onLongPress: widget.onLongPress,
             onHighlightChanged: _onHighlightChanged,
-            textStyle:
-                (widget.enabled ? widget.textStyle : widget.disabledColor) ??
-                    _textStyle.copyWith(
-                        fontSize: _textStyle.fontSize * _sizeFactor),
+            textStyle: (widget.enabled
+                    ? widget.textStyle
+                    : widget.disabledTextStyle) ??
+                _textStyle.copyWith(
+                    fontSize: _textStyle.fontSize * _sizeFactor),
             fillColor:
                 (widget.enabled ? widget.fillColor : widget.disabledColor) ??
                     _fillColor,

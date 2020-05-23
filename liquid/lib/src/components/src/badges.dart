@@ -178,10 +178,11 @@ class LBadge extends StatelessWidget {
     final LiquidThemeData theme = LiquidTheme.of(context);
     final badgeTheme = theme.badgeTheme;
     final _contentColor = badgeTheme.getContentColor(type);
-    final _textStyle = theme.typographyTheme.small.withColor(_contentColor);
+    final _textStyle = badgeTheme.textStyle ??
+        theme.typographyTheme.small.withColor(_contentColor);
     final _sizeFactor = LiquidThemeData().getElementSizeFactor(size);
 
-    return DefaultTextStyle(
+    return DefaultTextStyle.merge(
       style: textStyle ?? _textStyle.size(_textStyle.fontSize * _sizeFactor),
       child: IconTheme(
         data: IconThemeData(
