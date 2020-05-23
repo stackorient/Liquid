@@ -231,8 +231,6 @@ class LListGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _theme = LiquidTheme.of(context).colors;
-
     return Material(
       type: MaterialType.transparency,
       shape: RoundedRectangleBorder(

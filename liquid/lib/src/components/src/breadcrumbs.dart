@@ -60,9 +60,9 @@ class LBreadCrumbItem extends StatelessWidget {
   }
 
   Widget _buildChild(LiquidThemeData theme, TextStyle style) {
-    final _text = LText(
+    final _text = Text(
       text,
-      baseStyle: (active
+      style: (active
           ? style.withColor(color ?? theme.colors.secondary)
           : style.withColor(activeColor ?? theme.colors.primary)),
     );

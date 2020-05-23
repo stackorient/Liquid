@@ -41,6 +41,7 @@ class LSmoothSplashFactory extends InteractiveInkFeatureFactory {
 class _CustomSplash extends InteractiveInkFeature {
   /// Used to specify this type of ink splash for an [InkWell], [InkResponse]
   /// or material [Theme].
+  // ignore: unused_field
   static const InteractiveInkFeatureFactory splashFactory =
       const LSmoothSplashFactory();
 

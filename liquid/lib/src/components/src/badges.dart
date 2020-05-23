@@ -120,7 +120,7 @@ class LBadge extends StatelessWidget {
     this.size = LElementSize.normal,
     this.radius,
   })  : assert(text != null),
-        child = LText(text),
+        child = Text(text),
         super(key: key);
 
   /// defines icon instead of widget [child] in LBadge
