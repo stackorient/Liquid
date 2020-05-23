@@ -185,7 +185,7 @@ class LModelHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text(title, style: theme.h5),
+          LText(title, baseStyle: theme.h5),
           LIconButton(
             fillColor: closeButtonColor,
             icon: Icon(Icons.close),

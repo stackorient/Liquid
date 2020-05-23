@@ -129,7 +129,7 @@ class LDropdownItem extends _LDropdownItemRaw {
     Color background,
   }) : super(
           key: key,
-          child: Text(text),
+          child: LText(text),
           textStyle: style,
           disabledTextStyle: disabledStyle,
           onTap: onTap,

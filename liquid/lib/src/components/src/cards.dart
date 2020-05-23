@@ -138,7 +138,7 @@ class LCard extends StatelessWidget {
   }
 }
 
-/// [LCard]'s header
+/// [LCard]'s Footer
 class LCardFooter extends StatelessWidget {
   /// List of widget
   final List<Widget> actions;
@@ -219,7 +219,7 @@ class LCardHeader extends StatelessWidget {
               : BorderSide.none,
         ),
       ),
-      child: Text(title, style: theme.h5),
+      child: LText(title, baseStyle: theme.h5),
     );
   }
 }
@@ -309,18 +309,18 @@ class LCardBody extends StatelessWidget {
           title != null
               ? Padding(
                   padding: titleMargin ?? const EdgeInsets.only(bottom: 6.0),
-                  child: Text(
+                  child: LText(
                     title,
-                    style: titleStyle ?? theme.typographyTheme.h5,
+                    baseStyle: titleStyle ?? theme.typographyTheme.h5,
                   ),
                 )
               : Container(),
           subTitle != null
               ? Padding(
                   padding: titleMargin ?? const EdgeInsets.only(bottom: 6.0),
-                  child: Text(
+                  child: LText(
                     subTitle,
-                    style: titleStyle ?? theme.typographyTheme.p,
+                    baseStyle: titleStyle ?? theme.typographyTheme.p,
                   ),
                 )
               : Container(),

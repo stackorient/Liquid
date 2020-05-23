@@ -29,9 +29,9 @@ class LAlertHeading extends StatelessWidget {
         .weight(FontWeight.w700)
         .withColor(Colors.white);
 
-    final _text = Text(
+    final _text = LText(
       text,
-      style: style ??
+      baseStyle: style ??
           _textStyle.copyWith(fontSize: _textStyle.fontSize * _sizeFactor),
     );
 
@@ -175,7 +175,7 @@ class LAlert extends StatelessWidget {
             _textStyle.copyWith(
               fontSize: _textStyle.fontSize * _sizeFactor,
             ),
-        child: child ?? Text(text),
+        child: child ?? LText(text),
       ),
     );
 
