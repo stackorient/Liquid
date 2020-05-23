@@ -209,7 +209,7 @@ class LCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context).typographyTheme;
-
+    final _baseStyle = DefaultTextStyle.of(context).style;
     return Container(
       padding: padding,
       decoration: BoxDecoration(
@@ -219,7 +219,7 @@ class LCardHeader extends StatelessWidget {
               : BorderSide.none,
         ),
       ),
-      child: LText(title, baseStyle: theme.h5),
+      child: LText(title, baseStyle: _baseStyle.merge(theme.h5)),
     );
   }
 }
@@ -299,6 +299,7 @@ class LCardBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
+    final _baseStyle = DefaultTextStyle.of(context).style;
     return Container(
       padding: padding ?? EdgeInsets.all(20.0),
       child: Column(
@@ -311,7 +312,8 @@ class LCardBody extends StatelessWidget {
                   padding: titleMargin ?? const EdgeInsets.only(bottom: 6.0),
                   child: LText(
                     title,
-                    baseStyle: titleStyle ?? theme.typographyTheme.h5,
+                    baseStyle: _baseStyle
+                        .merge(titleStyle ?? theme.typographyTheme.h5),
                   ),
                 )
               : Container(),
@@ -320,7 +322,8 @@ class LCardBody extends StatelessWidget {
                   padding: titleMargin ?? const EdgeInsets.only(bottom: 6.0),
                   child: LText(
                     subTitle,
-                    baseStyle: titleStyle ?? theme.typographyTheme.p,
+                    baseStyle:
+                        _baseStyle.merge(titleStyle ?? theme.typographyTheme.p),
                   ),
                 )
               : Container(),
