@@ -210,7 +210,7 @@ class LButton extends StatefulWidget {
     this.onPressed,
     this.materialTapTargetSize,
     this.buttonShape,
-    this.size = LElementSize.normal,
+    LElementSize size,
   })  : assert(animationDuration != null),
         assert(clipBehavior != null),
         assert(autofocus != null),
@@ -220,7 +220,7 @@ class LButton extends StatefulWidget {
               (shape != LElementShape.pill),
           "buttonShape is not allowed in Pill Buttons",
         ),
-        assert(size != null),
+        size = size ?? LElementSize.normal,
         super(
           key: key,
         );
