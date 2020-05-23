@@ -80,16 +80,16 @@ class LCarouselCaption extends StatelessWidget {
           title ?? Container(),
           subTitle ?? Container(),
           titleText != null
-              ? Text(
+              ? LText(
                   titleText,
-                  style: this.titleTextStyle ??
+                  baseStyle: this.titleTextStyle ??
                       theme.typographyTheme.h4.withColor(Colors.white),
                 )
               : Container(),
           subTitleText != null
-              ? Text(
+              ? LText(
                   subTitleText,
-                  style: this.subTitleTextStyle ??
+                  baseStyle: this.subTitleTextStyle ??
                       theme.typographyTheme.p.withColor(Colors.white),
                 )
               : Container(),
