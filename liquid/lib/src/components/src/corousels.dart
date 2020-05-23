@@ -71,7 +71,7 @@ class LCarouselCaption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
-
+    final _baseStyle = DefaultTextStyle.of(context).style;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
       child: Column(
@@ -80,17 +80,17 @@ class LCarouselCaption extends StatelessWidget {
           title ?? Container(),
           subTitle ?? Container(),
           titleText != null
-              ? Text(
+              ? LText(
                   titleText,
-                  style: this.titleTextStyle ??
-                      theme.typographyTheme.h4.withColor(Colors.white),
+                  baseStyle: _baseStyle.merge(this.titleTextStyle ??
+                      theme.typographyTheme.h4.withColor(Colors.white)),
                 )
               : Container(),
           subTitleText != null
-              ? Text(
+              ? LText(
                   subTitleText,
-                  style: this.subTitleTextStyle ??
-                      theme.typographyTheme.p.withColor(Colors.white),
+                  baseStyle: _baseStyle.merge(this.subTitleTextStyle ??
+                      theme.typographyTheme.p.withColor(Colors.white)),
                 )
               : Container(),
           Row(

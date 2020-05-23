@@ -52,18 +52,19 @@ class LBreadCrumbItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
+    final _baseStyle = DefaultTextStyle.of(context).style;
     return GestureDetector(
       onTap: active ? null : onTap,
-      child: _buildChild(theme),
+      child: _buildChild(theme, _baseStyle),
     );
   }
 
-  Widget _buildChild(LiquidThemeData theme) {
+  Widget _buildChild(LiquidThemeData theme, TextStyle style) {
     final _text = LText(
       text,
-      baseStyle: active
-          ? TextStyle().withColor(color ?? theme.colors.secondary)
-          : TextStyle().withColor(activeColor ?? theme.colors.primary),
+      baseStyle: (active
+          ? style.withColor(color ?? theme.colors.secondary)
+          : style.withColor(activeColor ?? theme.colors.primary)),
     );
 
     if (leading != null) {

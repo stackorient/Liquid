@@ -24,6 +24,7 @@ class LAlertHeading extends StatelessWidget {
     final alert = LAlert.of(context);
     final _sizeFactor =
         theme.getElementSizeFactor(alert.size ?? LElementSize.normal);
+    final _baseStyle = DefaultTextStyle.of(context).style;
 
     final _textStyle = theme.typographyTheme.h6
         .weight(FontWeight.w700)
@@ -31,8 +32,8 @@ class LAlertHeading extends StatelessWidget {
 
     final _text = LText(
       text,
-      baseStyle: style ??
-          _textStyle.copyWith(fontSize: _textStyle.fontSize * _sizeFactor),
+      baseStyle: _baseStyle.merge(style ??
+          _textStyle.copyWith(fontSize: _textStyle.fontSize * _sizeFactor)),
     );
 
     return Container(

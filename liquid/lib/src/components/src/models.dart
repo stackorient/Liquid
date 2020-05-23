@@ -170,7 +170,7 @@ class LModelHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context).typographyTheme;
-
+    final _baseStyle = DefaultTextStyle.of(context).style;
     return Container(
       padding: padding,
       decoration: BoxDecoration(
@@ -185,7 +185,7 @@ class LModelHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          LText(title, baseStyle: theme.h5),
+          LText(title, baseStyle: _baseStyle.merge(theme.h5)),
           LIconButton(
             fillColor: closeButtonColor,
             icon: Icon(Icons.close),
