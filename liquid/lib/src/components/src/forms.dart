@@ -37,7 +37,7 @@ class LForm extends StatefulWidget {
   /// ![](https://flutter.github.io/assets-for-api-docs/assets/widgets/form.png)
   ///
   /// ```dart
-  /// final _manager = FormManager(); // An effecient replacement of GlobalKey<LFormState>
+  /// final _manager = LFormManager(); // An effecient replacement of GlobalKey<LFormState>
   ///
   /// @override
   /// Widget build(BuildContext context) {
