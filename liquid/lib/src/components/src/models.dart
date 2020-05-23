@@ -502,8 +502,9 @@ void showLModel(
   @required LModel Function(BuildContext context) builder,
   Tween<Offset> positionTween,
   Color backdropColor,
-  bool barrierDismissable,
+  bool barrierDismissable = true,
 }) {
+  assert(barrierDismissable != null);
   final overlay = Overlay.of(context);
   final GlobalKey<_LAnimatedModelState> key = GlobalKey<_LAnimatedModelState>();
   final model = OverlayEntry(

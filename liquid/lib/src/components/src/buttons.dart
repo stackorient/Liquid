@@ -220,6 +220,7 @@ class LButton extends StatefulWidget {
               (shape != LElementShape.pill),
           "buttonShape is not allowed in Pill Buttons",
         ),
+        assert(size != null),
         super(
           key: key,
         );
@@ -304,7 +305,8 @@ class _LButtonState extends State<LButton> {
 
     final _defaultStyle = DefaultTextStyle.of(context).style;
     final _textStyle = buttonTheme
-        .getTextStyle(widget, _defaultStyle, _color, _hover)
+        .getTextStyle(widget, _defaultStyle.merge(_theme.typographyTheme.p),
+            _color, _hover)
         .weight(FontWeight.w500);
     return MouseRegion(
       onEnter: _onMouseEnter,
