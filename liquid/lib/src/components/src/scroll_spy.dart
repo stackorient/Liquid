@@ -89,7 +89,7 @@ typedef ItemExtentBuilder = double Function(int, String);
 /// which element the user's screen is currently centered on.
 ///
 /// ### Example
-/// In this example we are will update the button color when a
+/// In this example we will update the button color when a
 ///  certain element comes in view
 ///
 /// ```dart
