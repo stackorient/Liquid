@@ -71,7 +71,7 @@ class LCarouselCaption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
-
+    final _baseStyle = DefaultTextStyle.of(context).style;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
       child: Column(
@@ -80,17 +80,17 @@ class LCarouselCaption extends StatelessWidget {
           title ?? Container(),
           subTitle ?? Container(),
           titleText != null
-              ? Text(
+              ? LText(
                   titleText,
-                  style: this.titleTextStyle ??
-                      theme.typographyTheme.h4.withColor(Colors.white),
+                  baseStyle: _baseStyle.merge(this.titleTextStyle ??
+                      theme.typographyTheme.h4.withColor(Colors.white)),
                 )
               : Container(),
           subTitleText != null
-              ? Text(
+              ? LText(
                   subTitleText,
-                  style: this.subTitleTextStyle ??
-                      theme.typographyTheme.p.withColor(Colors.white),
+                  baseStyle: _baseStyle.merge(this.subTitleTextStyle ??
+                      theme.typographyTheme.p.withColor(Colors.white)),
                 )
               : Container(),
           Row(
@@ -174,76 +174,6 @@ class LCarouselItem extends StatelessWidget {
 
 const _maxPreviousPages = 1200000;
 
-// class LCarouselController extends PageController {
-//   int _currentIndex = 0;
-//   int _totalItems = 0;
-//   final int _initalPage;
-
-//   LCarouselController({
-//     int initialPage = 0,
-//     bool keepPage = true,
-//     double viewportFraction = 1.0,
-//   })  : assert(initialPage != null),
-//         assert(keepPage != null),
-//         assert(viewportFraction != null),
-//         assert(viewportFraction > 0.0),
-//         _initalPage = initialPage,
-//         super(
-//           initialPage: _maxPreviousPages,
-//           keepPage: keepPage,
-//           viewportFraction: viewportFraction,
-//         );
-
-//   void _setIndex({int index}) =>
-//       _currentIndex = (index ?? page.floor()) % _totalItems;
-
-//   int get currentIndex => _currentIndex;
-
-//   @override
-//   Future<void> animateTo(double offset,
-//       {Duration duration, Curve curve}) async {
-//     await super.animateTo(offset, duration: duration, curve: curve);
-//     _setIndex();
-//   }
-
-//   @override
-//   void jumpTo(double value) {
-//     throw Exception("jump to an offset not allowed in LCaurosel");
-//   }
-
-//   @override
-//   void jumpToPage(int page) {
-//     final _truePageOffset = page - _currentIndex;
-//     final _truePage = (this.page + _truePageOffset).floor();
-//     super.jumpToPage(_truePage);
-//     _setIndex();
-//   }
-
-//   @override
-//   Future<void> nextPage({Duration duration, Curve curve}) async {
-//     _setIndex();
-//     await super.nextPage(duration: duration, curve: curve);
-//   }
-
-//   @override
-//   Future<void> previousPage({Duration duration, Curve curve}) async {
-//     await super.previousPage(duration: duration, curve: curve);
-//     _setIndex();
-//   }
-
-//   @override
-//   Future<void> animateToPage(int page, {Duration duration, Curve curve}) async {
-//     int _truePage;
-//     if (page < _totalItems) {
-//       final _truePageOffset = page - _currentIndex;
-//       _truePage = (this.page + _truePageOffset).floor();
-//     }
-//     await super
-//         .animateToPage(_truePage ?? page, duration: duration, curve: curve);
-//     _setIndex();
-//   }
-// }
-
 /// A slideshow component for cycling through elements—images
 /// or slides of text—like a carousel.
 ///
@@ -264,6 +194,9 @@ class LCarousel extends StatefulWidget {
   final Duration duration;
   final Curve curve;
   final Widget Function(BuildContext context, int activeIndex) indicatorBuilder;
+
+  final Color controlIconColor;
+  final Color controlColor;
 
   ///
   ///A slideshow component for cycling through elements—images
@@ -335,6 +268,8 @@ class LCarousel extends StatefulWidget {
     this.withCaption = false,
     this.items = const <LCarouselItem>[],
     this.indicatorBuilder,
+    this.controlIconColor,
+    this.controlColor,
   }) : super(key: key);
 
   @override
@@ -448,7 +383,8 @@ class _LCarouselState extends State<LCarousel> {
                       icon: Icon(Icons.chevron_left),
                       onPressed: _previousPage,
                       iconSize: 26.0,
-                      color: Colors.white,
+                      color: widget.controlIconColor ?? Colors.white,
+                      fillColor: widget.controlColor,
                     ),
                   ),
                 )
@@ -464,7 +400,8 @@ class _LCarouselState extends State<LCarousel> {
                       icon: Icon(Icons.chevron_right),
                       onPressed: _nextPage,
                       iconSize: 26.0,
-                      color: Colors.white,
+                      color: widget.controlIconColor ?? Colors.white,
+                      fillColor: widget.controlColor,
                     ),
                   ),
                 )

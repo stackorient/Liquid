@@ -66,7 +66,6 @@ extension LButtonThemeExtension on LiquidButtonTheme {
       if (button.type == LElementType.light) return color;
       return color.withOpacity(0.1);
     }
-    ;
     return color.darken(0.05);
   }
 

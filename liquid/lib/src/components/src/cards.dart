@@ -138,7 +138,7 @@ class LCard extends StatelessWidget {
   }
 }
 
-/// [LCard]'s header
+/// [LCard]'s Footer
 class LCardFooter extends StatelessWidget {
   /// List of widget
   final List<Widget> actions;
@@ -209,7 +209,7 @@ class LCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context).typographyTheme;
-
+    final _baseStyle = DefaultTextStyle.of(context).style;
     return Container(
       padding: padding,
       decoration: BoxDecoration(
@@ -219,7 +219,7 @@ class LCardHeader extends StatelessWidget {
               : BorderSide.none,
         ),
       ),
-      child: Text(title, style: theme.h5),
+      child: LText(title, baseStyle: _baseStyle.merge(theme.h5)),
     );
   }
 }
@@ -299,6 +299,7 @@ class LCardBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LiquidTheme.of(context);
+    final _baseStyle = DefaultTextStyle.of(context).style;
     return Container(
       padding: padding ?? EdgeInsets.all(20.0),
       child: Column(
@@ -309,18 +310,20 @@ class LCardBody extends StatelessWidget {
           title != null
               ? Padding(
                   padding: titleMargin ?? const EdgeInsets.only(bottom: 6.0),
-                  child: Text(
+                  child: LText(
                     title,
-                    style: titleStyle ?? theme.typographyTheme.h5,
+                    baseStyle: _baseStyle
+                        .merge(titleStyle ?? theme.typographyTheme.h5),
                   ),
                 )
               : Container(),
           subTitle != null
               ? Padding(
                   padding: titleMargin ?? const EdgeInsets.only(bottom: 6.0),
-                  child: Text(
+                  child: LText(
                     subTitle,
-                    style: titleStyle ?? theme.typographyTheme.p,
+                    baseStyle:
+                        _baseStyle.merge(titleStyle ?? theme.typographyTheme.p),
                   ),
                 )
               : Container(),
