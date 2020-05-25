@@ -91,6 +91,8 @@ class LAlert extends StatelessWidget {
 
   final LElementSize size;
 
+  final BoxConstraints constraints;
+
   /// Create an alert box
   ///
   /// example:
@@ -118,7 +120,6 @@ class LAlert extends StatelessWidget {
   ///     * `dark`
   ///
   ///
-
   const LAlert({
     Key key,
     this.text,
@@ -131,6 +132,7 @@ class LAlert extends StatelessWidget {
     this.radius,
     this.size = LElementSize.normal,
     this.contentPadding,
+    this.constraints,
   })  : assert(
           (text != null && child == null) || (text == null && child != null),
           "either text or child is required",
@@ -152,6 +154,7 @@ class LAlert extends StatelessWidget {
       borderRadius: radius ??
           BorderRadius.circular(5.0) * theme.getElementSizeFactor(size),
       child: Container(
+        constraints: constraints,
         decoration: BoxDecoration(
           color: _color.withOpacity(0.1),
           border: Border(
@@ -176,7 +179,7 @@ class LAlert extends StatelessWidget {
             _textStyle.copyWith(
               fontSize: _textStyle.fontSize * _sizeFactor,
             ),
-        child: child ?? LText(text),
+        child: child ?? Text(text),
       ),
     );
 
