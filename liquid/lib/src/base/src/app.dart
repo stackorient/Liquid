@@ -23,7 +23,7 @@ class LiquidApp extends StatelessWidget {
     this.theme,
     this.darkTheme,
     this.liquidTheme = const LiquidThemeData(),
-    this.liquidDarkTheme = const LiquidThemeData(),
+    this.liquidDarkTheme,
     this.themeMode = ThemeMode.system,
     this.locale,
     this.localizationsDelegates,
@@ -49,6 +49,7 @@ class LiquidApp extends StatelessWidget {
         assert(showSemanticsDebugger != null),
         assert(debugShowCheckedModeBanner != null),
         assert(styleSheet != null),
+        assert(liquidTheme != null),
         super(key: key);
 
   final GlobalKey<NavigatorState> navigatorKey;
@@ -421,8 +422,25 @@ class LiquidApp extends StatelessWidget {
   ///  * <https://material.io/design/layout/spacing-methods.html>
   final bool debugShowMaterialGrid;
 
+  bool _isDarkThemeEnabled(BuildContext context) {
+    ThemeMode mode = themeMode;
+
+    if (mode == ThemeMode.system) {
+      mode = MediaQuery.of(context).platformBrightness == Brightness.dark
+          ? ThemeMode.dark
+          : ThemeMode.light;
+    }
+
+    if (mode == ThemeMode.dark) return true;
+    if (mode == ThemeMode.light) return false;
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final darkMode = _isDarkThemeEnabled(context);
+    final _theme = darkMode ? (liquidDarkTheme ?? liquidTheme) : liquidTheme;
+
     return LiquidStateManager(
       child: MaterialApp(
         navigatorKey: navigatorKey,
@@ -437,11 +455,11 @@ class LiquidApp extends StatelessWidget {
           return LTextStyleProvider(
             styleMap: {
               ...kLiquidDefaultStyleSheet,
-              ...buildTypographyStyleBlocks(liquidTheme.typographyTheme),
+              ...buildTypographyStyleBlocks(_theme.typographyTheme),
               ...styleSheet,
             },
             child: LiquidTheme(
-              theme: liquidTheme,
+              theme: _theme,
               child: builder != null ? builder(context, _) : _,
             ),
           );
