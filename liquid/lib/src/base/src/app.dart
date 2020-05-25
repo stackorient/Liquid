@@ -23,7 +23,6 @@ class LiquidApp extends StatelessWidget {
     this.theme,
     this.darkTheme,
     this.liquidTheme = const LiquidThemeData(),
-    this.liquidDarkTheme,
     this.themeMode = ThemeMode.system,
     this.locale,
     this.localizationsDelegates,
@@ -54,8 +53,11 @@ class LiquidApp extends StatelessWidget {
 
   final GlobalKey<NavigatorState> navigatorKey;
 
+  /// change look and feel of your app
+  /// from changing `colors` to individual components style
+  ///
+  /// NOTE: Liquid doesn't come with a dark theme you have to manage it manually.
   final LiquidThemeData liquidTheme;
-  final LiquidThemeData liquidDarkTheme;
 
   /// App wide StyleSheet for [LText]
   ///
@@ -422,25 +424,8 @@ class LiquidApp extends StatelessWidget {
   ///  * <https://material.io/design/layout/spacing-methods.html>
   final bool debugShowMaterialGrid;
 
-  bool _isDarkThemeEnabled(BuildContext context) {
-    ThemeMode mode = themeMode;
-
-    if (mode == ThemeMode.system) {
-      mode = MediaQuery.of(context).platformBrightness == Brightness.dark
-          ? ThemeMode.dark
-          : ThemeMode.light;
-    }
-
-    if (mode == ThemeMode.dark) return true;
-    if (mode == ThemeMode.light) return false;
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final darkMode = _isDarkThemeEnabled(context);
-    final _theme = darkMode ? (liquidDarkTheme ?? liquidTheme) : liquidTheme;
-
     return LiquidStateManager(
       child: MaterialApp(
         navigatorKey: navigatorKey,
@@ -455,11 +440,11 @@ class LiquidApp extends StatelessWidget {
           return LTextStyleProvider(
             styleMap: {
               ...kLiquidDefaultStyleSheet,
-              ...buildTypographyStyleBlocks(_theme.typographyTheme),
+              ...buildTypographyStyleBlocks(liquidTheme.typographyTheme),
               ...styleSheet,
             },
             child: LiquidTheme(
-              theme: _theme,
+              theme: liquidTheme,
               child: builder != null ? builder(context, _) : _,
             ),
           );
