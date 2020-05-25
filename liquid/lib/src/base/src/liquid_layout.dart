@@ -862,7 +862,7 @@ class LRow extends StatelessWidget {
       if (val != -1)
         _calBps.add(val);
       else
-        _calBps.add(colFlex.round());
+        _calBps.add(colFlex.ceil());
     }
 
     int _colSum = _calBps.reduce((value, element) => value + element).round();
