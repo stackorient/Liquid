@@ -1,6 +1,6 @@
 # Liquid
 
-<img src="assets/logo_big.png" height="150">
+<img src="../assets/logo_big.png" height="150">
 
 ## Build fast, responsive, cross platform apps with Liquid.
 
@@ -51,11 +51,11 @@ class MyApp extends StatelessWidget {
 Step 3: Visit Liquid Expo for demo and tutorials.
 
 ## Note
-Liquid is build to support flutter web and since Flutter web is in **BETA**. to use liquid switch to beta.
+This liquid build may be unstable to use in production prefer using **beta** or **stable** branch.
 
-*if you want to use the Liquid with **STABLE** channel liquids stable version.*
+Web Support: **beta** branch
+Stable Support **stable** branch
 
 ## Authors
 - [Raj Singh](https://www.linkedin.com/in/raj457036/)
 - [Pulkit Nanda](https://www.linkedin.com/in/pulkit-nanda/)
-
