@@ -19,8 +19,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  liquid: <latest-version>   # for beta channel
-  liquid: <latest-version>-stable # for stable channel   
+  liquid: <latest-version>-beta   # for beta channel
+  liquid: <latest-version> # for stable channel   
 
 ```
 
