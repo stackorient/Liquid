@@ -99,7 +99,7 @@ class LExpansionPanel extends StatefulWidget {
     this.padding,
     this.caption,
     this.leading,
-    this.title,
+    @required this.title,
     this.titleStyle,
     this.subtitle,
     this.subTitleStyle,
@@ -111,6 +111,7 @@ class LExpansionPanel extends StatefulWidget {
     this.initiallyCollapsed,
     this.borderSide,
   })  : assert(collapseChild != null),
+        assert(title != null),
         super(key: key);
 
   @override
@@ -180,7 +181,7 @@ class _LExpansionPanelState extends State<LExpansionPanel>
                       subtitle: DefaultTextStyle.merge(
                         style:
                             widget.subTitleStyle ?? collapseTheme.subtitleStyle,
-                        child: widget.subtitle,
+                        child: widget.subtitle ?? Container(),
                       ),
                       trailing: RotationTransition(
                         turns: Tween(begin: 0.0, end: 0.5).animate(
