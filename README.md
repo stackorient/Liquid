@@ -18,8 +18,8 @@ Step 1: Add liquid to **pubspec.yaml**
 dependencies:
   flutter:
     sdk: flutter
-    liquid_ui: <latest-version>
-
+    
+  liquid_ui: <latest-version>
 ```
 
 Step 2: Wrap Your **MaterialApp** widget with **LiquidApp**
