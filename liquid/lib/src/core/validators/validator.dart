@@ -1,3 +1,7 @@
+// Copyright (c) 2020, the Liquid project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 part of 'validators.dart';
 
 /// Validators expect the candidate is Already sanatized
@@ -53,6 +57,8 @@ enum LCombinedValidateType {
   atMostOneFalse,
 }
 
+/// A Combined Validator that combines multiple validator
+/// and based on [LCombinedValidateType] verifiy its candidate
 class LCombinedValidator<T> extends LValidator<T> {
   final List<LValidator<T>> validators;
   final LCombinedValidateType validateType;

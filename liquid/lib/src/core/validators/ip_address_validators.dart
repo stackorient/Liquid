@@ -1,5 +1,12 @@
+// Copyright (c) 2020, the Liquid project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 part of 'validators.dart';
 
+/// An IPv4 Address Validator
+///
+/// generally used in [LFormField]
 class LIPv4Validator extends LRegexValidator {
   LIPv4Validator({String invalidMessage = "Invalid IP version 4 address"})
       : super(
@@ -9,6 +16,9 @@ class LIPv4Validator extends LRegexValidator {
         );
 }
 
+/// An IPv6 Address Validator
+///
+/// generally used in [LFormField]
 class LIPv6Validator extends LRegexValidator {
   LIPv6Validator({String invalidMessage = "Invalid IP version 6 address"})
       : super(

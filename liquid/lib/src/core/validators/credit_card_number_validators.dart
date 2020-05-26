@@ -1,5 +1,12 @@
+// Copyright (c) 2020, the Liquid project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 part of 'validators.dart';
 
+/// A Visa Card Validator
+///
+/// generally used in [LFormField]
 class LVisaCardValidator extends LRegexValidator {
   LVisaCardValidator({String invalidMessage = "Invalid Visa Card Number"})
       : super(
@@ -8,6 +15,9 @@ class LVisaCardValidator extends LRegexValidator {
         );
 }
 
+/// A Master Card validator
+///
+/// generally used in [LFromField]
 class LMasterCardValidator extends LRegexValidator {
   LMasterCardValidator({String invalidMessage = "Invalid Master Card Number"})
       : super(
@@ -17,6 +27,9 @@ class LMasterCardValidator extends LRegexValidator {
         );
 }
 
+/// An AmericanExpress Card Validator
+///
+/// generally used in [LFormField]
 class LAmericanExpressCardValidator extends LRegexValidator {
   LAmericanExpressCardValidator(
       {String invalidMessage = "Invalid American Express Card Number"})
@@ -26,6 +39,9 @@ class LAmericanExpressCardValidator extends LRegexValidator {
         );
 }
 
+/// A DinersClub Validator
+///
+/// generally used in [LFormField]
 class LDinersClubValidator extends LRegexValidator {
   LDinersClubValidator(
       {String invalidMessage = "Invalid Diners Club Card Number"})
@@ -35,6 +51,9 @@ class LDinersClubValidator extends LRegexValidator {
         );
 }
 
+/// A DiscoverClub Validator
+///
+/// generally used in [LFormField]
 class LDiscoverCardValidator extends LRegexValidator {
   LDiscoverCardValidator(
       {String invalidMessage = "Invalid Discover Card Number"})
@@ -44,6 +63,9 @@ class LDiscoverCardValidator extends LRegexValidator {
         );
 }
 
+/// A JCBCardValidator Validator
+///
+/// generally used in [LFormField]
 class LJCBCardValidator extends LRegexValidator {
   LJCBCardValidator({String invalidMessage = "Invalid JCB Card Number"})
       : super(
