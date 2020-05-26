@@ -1,14 +1,13 @@
 name: liquid_ui
 description: Liquid is an open source UI toolkit for developing cross platform apps using Flutter.
 
-version: 1.0.0-beta+1
+version: 1.0.0-beta+4
 
 repository: https://github.com/stackorient/Liquid
 homepage: https://github.com/stackorient/Liquid
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
-  flutter: ">=1.18.0 <2.0.0"
 
 dependencies:
   flutter:

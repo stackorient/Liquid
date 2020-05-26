@@ -1,6 +1,6 @@
 # Liquid
 
-<img src="../assets/logo_big.png" height="150">
+<img src="assets/logo_big.png" height="150">
 
 ## Build fast, responsive, cross platform apps with Liquid.
 
@@ -18,16 +18,14 @@ Step 1: Add liquid to **pubspec.yaml**
 dependencies:
   flutter:
     sdk: flutter
-    
-  liquid: <latest-version>-beta   # for beta channel
-  liquid: <latest-version> # for stable channel   
+    liquid_ui: <latest-version>
 
 ```
 
-Step 2: Wrap Your toppest widget with **LiquidApp**
+Step 2: Wrap Your **MaterialApp** widget with **LiquidApp**
 
 ```dart
-import 'package:liquid/liquid.dart';
+import 'package:liquid_ui/liquid_ui.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,8 +39,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LiquidApp(
-      title: 'My New Liquid App',
-      home: MyHomePage(),
+      materialApp: MaterialApp(...) // MaterialApp
     );
   }
 } 
@@ -51,8 +48,7 @@ class MyApp extends StatelessWidget {
 Step 3: Visit Liquid Expo for demo and tutorials.
 
 ## Note
-Web Support: **beta** branch
-Stable Support **stable** branch
+Liquid is compatible with **MaterialApp** for now. **LiquidCupertinoApp** will be available in next major update.
 
 ## Authors
 - [Raj Singh](https://www.linkedin.com/in/raj457036/)
