@@ -1,6 +1,6 @@
 # Liquid
 
-<img src="assets/logo_big.png" height="150">
+<img src="../assets/logo_big.png" height="150">
 
 ## Build fast, responsive, cross platform apps with Liquid.
 
@@ -58,4 +58,3 @@ Liquid is build to support flutter web and since Flutter web is in **BETA**. to 
 ## Authors
 - [Raj Singh](https://www.linkedin.com/in/raj457036/)
 - [Pulkit Nanda](https://www.linkedin.com/in/pulkit-nanda/)
-
