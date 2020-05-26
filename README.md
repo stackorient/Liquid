@@ -1,6 +1,6 @@
 # Liquid
 
-<img src="../assets/logo_big.png" height="150">
+<img src="assets/logo_big.png" height="150">
 
 ## Build fast, responsive, cross platform apps with Liquid.
 
