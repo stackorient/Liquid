@@ -19,8 +19,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  liquid: <latest-version>   # for beta channel
-  liquid: <latest-version>-stable # for stable channel   
+  liquid: <latest-version>-beta   # for beta channel
+  liquid: <latest-version> # for stable channel   
 
 ```
 
@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
 Step 3: Visit Liquid Expo for demo and tutorials.
 
 ## Note
-Liquid is build to support flutter web and since Flutter web is in **BETA**, to use liquid on web switch to beta.
+Web Support: **beta** branch
+Stable Support **stable** branch
 
 ## Authors
 - [Raj Singh](https://www.linkedin.com/in/raj457036/)

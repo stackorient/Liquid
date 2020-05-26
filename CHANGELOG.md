@@ -1,3 +1,3 @@
-## [0.0.1] - TODO: Add release date.
+## 1.0.0-beta.1
 
-* TODO: Describe initial release.
+Liquid first version ready for production on all platforms including **WEB**
