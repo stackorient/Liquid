@@ -51,9 +51,7 @@ class MyApp extends StatelessWidget {
 Step 3: Visit Liquid Expo for demo and tutorials.
 
 ## Note
-Liquid is build to support flutter web and since Flutter web is in **BETA**. to use liquid switch to beta.
-
-*if you want to use the Liquid with **STABLE** channel liquids stable version.*
+Liquid is build to support flutter web and since Flutter web is in **BETA**, to use liquid on web switch to beta.
 
 ## Authors
 - [Raj Singh](https://www.linkedin.com/in/raj457036/)
