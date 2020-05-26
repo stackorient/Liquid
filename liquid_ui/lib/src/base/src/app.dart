@@ -3,11 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:liquid/src/base/src/ltext/ltext.dart';
+import 'ltext/ltext.dart';
 
 import 'liquid_splash_factory.dart';
-import 'liquid_theme.dart';
 import 'liquid_state_manager.dart';
+import 'liquid_theme.dart';
 
 class LiquidApp extends StatelessWidget {
   const LiquidApp({
