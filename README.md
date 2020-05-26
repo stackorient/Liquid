@@ -4,18 +4,18 @@
 
 ## Build fast, responsive, cross platform apps with Liquid.
 
-Liquid is an open source UI toolkit for developing cross platform apps using **[Flutter](https://flutter.dev/docs)**. Quickly create a apps for Andorid, IOS, Web or Desktop with our powerful grid system, powerful text processor, extensive prebuilt components and a lot utilities.
+Liquid is an open source UI toolkit for developing cross platform apps using **[Flutter](https://flutter.dev/docs)**. Quickly create apps for Andorid, IOS, Web or Desktop with our powerful grid system, text processor, extensive prebuilt components and utilities.
 
 ## Visit [Liquid Expo and Documentation](http://liquid.stackorient.com/)
-Made with Liquid #MadeWithLiquid
+#MadeWithLiquid
 
 ## Salient Features
-- Powerful grid system that support 12 column
+- Powerful grid system that support upto 12 column
 - Extensive array of UI Elements ( With more than 1000+ configuration )
-- A powerful Text Processor to use CSS like text styling in flutter
-- Powerful form features (support all html form features)
-- Responive Utilities to use with non liquid components
-- Stable and Optmized for Web
+- A powerful **text processor** to use CSS like text styling in flutter
+- Liquid Form (support all html form features)
+- Responive utilities to use with non-liquid components
+- Stable and optmized for Web
 - And More to explore 😁
 
 ## Getting Started
