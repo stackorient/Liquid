@@ -880,13 +880,15 @@ class LRow extends StatelessWidget {
 
     if (lShowLogs && kDebugMode) {
       if (bps.length > columnCount) {
-        print("Warning: More than $_kColumnCount colums not suitable for LRow");
+        print(
+            "Info: More than $_kColumnCount colums not suitable for LRow. To turn this off set lShowLogs = false");
       }
 
       if (_colSum > columnCount && mode == LGridMode.fixedSize) {
-        print("Info: Changing LRow mode to LGridMode.ratio.");
-        print(
-            "Because LColums breakpoint sum is greater than $_kColumnCount!.");
+        print("Info: Changing LRow mode to LGridMode.ratio."
+            " To turn this off set lShowLogs = false");
+        print("Because LColums breakpoint sum is greater than $_kColumnCount!."
+            " To turn this off set lShowLogs = false");
       }
     }
 
