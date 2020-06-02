@@ -28,15 +28,14 @@ class LForm extends StatefulWidget {
   ///
   /// Each individual form field should be wrapped in a [LFormField] widget, with
   /// the [LForm] widget as a common ancestor of all of those. Call methods on
-  /// [LFormState] to save, reset, or validate each [LFormField] that is a
+  /// [LFormState] to save, reset, access form/field state, serialize or validate each [LFormField] that is a
   /// descendant of this [LForm]. To obtain the [LFormState], you may use [LForm.of]
-  /// with a context whose ancestor is the [LForm], or pass a [GlobalKey] to the
-  /// [LForm] constructor and call [GlobalKey.currentState].
+  /// with a context whose ancestor is the [LForm], or pass a [LFormManager] to the
+  /// [LForm] constructor and call [LFormManager.formState].
   ///
-  /// {@tool dartpad --template=stateful_widget_scaffold}
   /// This example shows a [LForm] with one [TextFormField] to enter an email
-  /// address and a [RaisedButton] to submit the form. A [GlobalKey] is used here
-  /// to identify the [LForm] and validate input.
+  /// address and a [LRaisedButton] to submit the form. A [LFormManager] is used here
+  /// to identify the [LForm], access [LFormField], their state, validate input and get serialize data.
   ///
   /// ![](https://flutter.github.io/assets-for-api-docs/assets/widgets/form.png)
   ///
@@ -382,13 +381,11 @@ class LFormField<T> extends StatefulWidget {
   /// manipulate the form data as a whole. For example, calling [LFormState.save]
   /// will invoke each [LFormField]'s [onSaved] callback in turn.
   ///
-  /// Use a [GlobalKey] with [LFormField] if you want to retrieve its current
+  /// Use a [LFormManager]'s fields, if you want to retrieve field's current
   /// state, for example if you want one form field to depend on another.
   ///
-  /// A [LForm] ancestor is not required. The [LForm] simply makes it easier to
-  /// save, reset, or validate multiple fields at once. To use without a [LForm],
-  /// pass a [GlobalKey] to the constructor and use [GlobalKey.currentState] to
-  /// save or reset the form field.
+  /// A [LForm] ancestor is required if you want to save, submit, reset, get form state,
+  /// access individual field, serialize form, or validate single field or even get field state.
   ///
   /// See also:
   ///

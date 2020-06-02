@@ -1,3 +1,6 @@
+## 1.0.0+7
+Fixed docs and bugs
+
 ## 1.0.0+6
 Production build ready.
 
