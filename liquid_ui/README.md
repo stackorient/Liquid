@@ -64,7 +64,7 @@ Liquid is compatible with **MaterialApp** for now. **LiquidCupertinoApp** will b
 ---
 
 # 1. Introduction
-Liquid is divied into 3 sub-libraries
+Liquid is divided into 3 sub-libraries
  - Liquid Base - holds layout, theme, extensions, text processor, etc.
  - Liquid Components - holds components like buttons, scrollspy, dropdown, form, etc.
  - Liquid Core - holds validators for LForm.
