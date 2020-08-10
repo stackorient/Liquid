@@ -6,7 +6,7 @@
 
 Liquid is an open source UI toolkit for developing cross platform apps in **[Flutter](https://flutter.dev/docs)**. Quickly create apps for Android, IOS, Web or Desktop with our powerful grid system, text processor, forms, extensive prebuilt components and dozens of utilities.
 
-## Visit [Liquid Expo and Documentation](http://liquid.stackorient.com/)
+## Visit [Liquid Expo and Documentation](https://liquid.stackorient.com/)
 #MadeWithLiquid
 
 ## Salient Features
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
 } 
 ```
 
-Step 3: Visit [Liquid Expo](http://liquid.stackorient.com/) for demo and tutorials.
+Step 3: Visit [Liquid Expo](https://liquid.stackorient.com/) for demo and tutorials.
 
 ## Note
 Liquid is compatible with **MaterialApp** for now. **LiquidCupertinoApp** will be available in next major update

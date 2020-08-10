@@ -1,3 +1,6 @@
+## 1.0.0+9
+Bug Fixes
+
 ## 1.0.0+8
 Fixed docs and bugs
 
