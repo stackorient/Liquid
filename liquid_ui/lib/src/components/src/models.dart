@@ -305,6 +305,8 @@ class LModel extends StatelessWidget {
 
 /// A wrapper around [LModel] for showing `entry` and `exit` animation
 class LAnimatedModel extends StatefulWidget {
+  final Duration duration;
+
   final LModel model;
 
   /// Tween Position for showing and hiding [LModel]
@@ -324,6 +326,7 @@ class LAnimatedModel extends StatefulWidget {
     this.positionTween,
     this.barrierDismissable,
     this.backdropColor,
+    this.duration = const Duration(milliseconds: 250),
   })  : assert(model != null),
         super(key: key);
 
@@ -347,7 +350,7 @@ class _LAnimatedModelState extends State<LAnimatedModel>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 250),
+      duration: widget.duration ?? Duration(milliseconds: 250),
     );
   }
 
@@ -507,6 +510,7 @@ void showLModel(
   Tween<Offset> positionTween,
   Color backdropColor,
   bool barrierDismissable = true,
+  Duration animationDuration,
 }) {
   assert(barrierDismissable != null);
   final overlay = Overlay.of(context);
@@ -518,6 +522,7 @@ void showLModel(
       positionTween: positionTween,
       barrierDismissable: barrierDismissable,
       backdropColor: backdropColor,
+      duration: animationDuration,
     ),
   );
   overlay.insert(model);
@@ -526,4 +531,33 @@ void showLModel(
     key,
   );
   LiquidStateManager.of(context).pushModel(_manager);
+}
+
+void showSingletonLModel(
+  BuildContext context, {
+  @required LModel Function(BuildContext context) builder,
+  Tween<Offset> positionTween,
+  Color backdropColor,
+  bool barrierDismissable = true,
+  Duration animationDuration,
+}) {
+  assert(barrierDismissable != null);
+  final overlay = Overlay.of(context);
+  final GlobalKey<_LAnimatedModelState> key = GlobalKey<_LAnimatedModelState>();
+  final model = OverlayEntry(
+    builder: (context) => LAnimatedModel(
+      key: key,
+      model: builder(context),
+      positionTween: positionTween,
+      barrierDismissable: barrierDismissable,
+      backdropColor: backdropColor,
+      duration: animationDuration,
+    ),
+  );
+  overlay.insert(model);
+  final _manager = ModelHandler(
+    model,
+    key,
+  );
+  LiquidStateManager.of(context).setSingletonModel(_manager);
 }

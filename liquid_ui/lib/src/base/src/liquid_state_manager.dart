@@ -18,6 +18,7 @@ abstract class LOverlayManager<T extends State<StatefulWidget>> {
 }
 
 class LiquidStates {
+  LOverlayManager _singleton;
   final List<LOverlayManager> _modelManagers = [];
 
   void pushModel(LOverlayManager manager) {
@@ -36,6 +37,18 @@ class LiquidStates {
   Future<T> popModel<T>([T result]) async {
     final _ = _modelManagers.length > 0 ? _modelManagers.removeLast() : null;
     await _?.close();
+    return result;
+  }
+
+  Future<void> setSingletonModel(LOverlayManager manager) async {
+    await _singleton?.close();
+    _singleton?.entry?.remove();
+    _singleton = manager;
+  }
+
+  Future<T> removeSingletonModel<T>([T result]) async {
+    await _singleton?.close();
+    _singleton?.entry?.remove();
     return result;
   }
 }
