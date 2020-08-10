@@ -24,6 +24,15 @@ class LiquidStates {
     _modelManagers.add(manager);
   }
 
+  int get length => _modelManagers.length;
+
+  Future<void> popAll() async {
+    while (_modelManagers.length > 0) {
+      final _ = _modelManagers.removeLast();
+      await _?.close();
+    }
+  }
+
   Future<T> popModel<T>([T result]) async {
     final _ = _modelManagers.length > 0 ? _modelManagers.removeLast() : null;
     await _?.close();

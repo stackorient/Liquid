@@ -417,7 +417,7 @@ class ModelHandler extends LOverlayManager {
 
   @override
   Future<void> close() async {
-    await (key as GlobalKey<_LAnimatedModelState>).currentState.close();
+    await (key as GlobalKey<_LAnimatedModelState>).currentState?.close();
     entry.remove();
   }
 }
